@@ -1,0 +1,25 @@
+#/bin/bash 
+###############################################################################
+# Subject    : configuration file for secure-linux.sh script                  #
+# Author     : Arnaud Crampet                                                 #
+# Created on : 31/01/2018                                                     #
+# Mail       : arnaud.crampet@sogeti.com / arnaud@crampet.net                 #
+###############################################################################
+# Extract from CAST framwork property of Arnaud Crampet 
+###############################################################################
+
+Base_Dir_Scripts="/srv/admin/scripts"  
+Base_Dir_Scripts_BCK="${Base_Dir_Scripts}/backup" 
+Base_Dir_Scripts_Tmp="${Base_Dir_Scripts}/tmp" 
+Base_Dir_Scripts_Log="${Base_Dir_Scripts}/logs"    
+USE_DATE="$(date +%Y_%m_%d-%HH_%MM)"
+MSG_SPLITER="............................................................"
+#|# screen delimiter for auto menu
+Base_screen_Menu_Limit="28"
+Base_sreen_Size_limit="$( tput cols )"
+
+#|# generic mais addresse
+PCD_MAIL_ADDR="arnaud@crampet.net       "
+
+#|# Generic system vars 
+NetConsoleConfig="/etc/sysconfig/netconsole"
