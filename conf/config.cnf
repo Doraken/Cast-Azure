@@ -23,3 +23,95 @@ PCD_MAIL_ADDR="arnaud@crampet.net       "
 
 #|# Generic system vars 
 NetConsoleConfig="/etc/sysconfig/netconsole"
+
+
+###############################################################################
+####
+# Base function for soucing libs
+
+function SRC_AUTO
+{
+#|# Var to set  : None
+#|#
+#|# Base usage  : SRC_AUTO
+#|#
+#|# Description : Base function user to source all libs and conf
+#|#
+#|# Send Back   : Data / functions
+############ STACK_TRACE_BUILDER #####################
+Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+######################################################
+
+. ${Base_Dir_Scripts_Lib}/system_base/log.lib
+Debug_INIT
+MSG_DISPLAY "Info" "Sourcing librairy : [ START ] "
+for Libs_to_SRC in ${Lib_to_SRC}
+    do
+       MSG_DISPLAY "StMessage"  "Sourcing librairy : ${Libs_to_SRC} " "1"
+      . ${Libs_to_SRC} 1>> ${Base_Dir_Scripts_LOG}/soucing.log 2>&1 
+       generic_control_sourcing "${Libs_to_SRC}"
+done
+
+MSG_DISPLAY "Info" "Sourcing librairy : [ End ] "
+
+if [ -z "${Conf_Specifics}" ]
+   then
+		MSG_DISPLAY "Info" "Specifics configuration file  : [ ERROR : NULL VALUE ] "
+   else
+       if [ "${Conf_Specifics}" = "dummy" ]
+          then
+              MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+          else
+              MSG_DISPLAY "Info" "Specifics configuration file : [ ${Conf_Specifics} ] "
+              File_Ctrl_Exist "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}" "Dont_Create_File" "2"
+              . ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}
+              generic_control_sourcing "${Conf_Specifics}"
+       fi
+fi
+SANITY_CHECK_Check_Language
+SANITY_CHECK_Base_env_directory_check
+SANITY_CHECK_Check_TMP_Directory
+SANITY_CHECK_tools
+
+############### Stack_TRACE_BUILDER ################
+Function_PATH="$( dirname ${Function_PATH} )"
+####################################################
+}
+
+function generic_control_sourcing
+{
+#|# Var to set  : None
+#|# GCS_BASE_SOURCED_FILE : Use this var to set file name of the control sourcing
+#|# ${1}              : Use this var to set BASE_SOURCED_FILE
+#|# Base usage  : generic_control_sourcing "GCS_BASE_SOURCED_FILE"
+#|#
+#|# Description : Base function user to source all libs and conf
+#|#
+#|# Send Back   : Controle
+############ STACK_TRACE_BUILDER #####################
+Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+######################################################
+
+# this function provide base error controle on sourcing files
+# BASE_SOURCED_FILE  : use this var to set name of the last sourced file
+# ${1}               : use this var to set ${BASE_SOURCED_FILE}
+# Base usage :
+#             generic_control_sourcing "my file souced"
+GCS_BASE_SOURCED_FILE="${1}"
+if [ "${Sourced_OK}" = "1" ]
+   then
+       MSG_DISPLAY "EdSMessage" "" "1"
+   else
+       MSG_DISPLAY "EdEMessage" "" "1"
+       exit 1
+fi
+Sourced_OK="0"
+############### Stack_TRACE_BUILDER ################
+Function_PATH="$( dirname ${Function_PATH} )"
+####################################################
+}
+
+
+
+
+CNF_SRC="1"

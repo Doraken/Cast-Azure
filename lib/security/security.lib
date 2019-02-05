@@ -1,4 +1,17 @@
 ###############################################################################
+# Security.lib                                          Version : 1.0         #
+#                                                                             #
+# Creation Date : 05/02/2019                                                  #
+# Team          : Arnaud Crampet                                              #
+# Support mail  : arnaud@crampet.net                                          #
+# Author        : Arnaud Crampet                                              #
+#                                                                             #
+# Subject : This library provide base element to apply generic hardening model#
+#           this lib is based on C.A.S.T. framwork created by ARNAUD CRAMPET  #
+###############################################################################
+####
+# INFO 
+#      this lib is for RED-HAD based system
 
 function 0.0.0_template ()
 {
@@ -46,8 +59,6 @@ function 0.0.0_template ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
-
 
 function 1.3.3_Disable_the_rhnsd_Daemon 
 {
@@ -1208,6 +1219,128 @@ function 3.1_Set_Daemon_umask ()
 }
 
 
+function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
+{
+	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	## TEST
+	crontab -u root -l | grep aide | grep check >> /dev/null 
+	if [ ${?} = "0" ]
+		then 
+			_result="0"
+		else 
+			_result="1"
+	fi 
+		## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ ${mode} = "apply" ] 
+				then 
+					## APPLY
+					{ crontab -u root -l; echo "0 5 * * * /usr/sbin/aide --check"; } | crontab -u root -
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
+function 1.6.1_Set_User_Group_Owner_and permissions_on__etc__grub2.conf ()
+{
+	#|# Description :  1.6.1 Set User/Group Owner and permissions on /etc/grub2.conf
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	## TEST
+	_GRBcnf_OWN="$( ls -al /etc/grub2.cfg | awk '{ print $3 "_" $4 }' )"
+	_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al /etc/grub.d | awk '{ print $3 "_" $4 }' )"
+	for grub_sun in $( find /etc/grub.d/ -type f ) 
+		do 	
+			_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al ${grub_sun} | awk '{ print $3 "_" $4 }' )"
+	done 
+	for _Grubown in ${_GRBcnf_OWN} 
+		do 
+			if [ ${_Grubown} != "root_root" ] 
+				then 
+					_result="1"
+			fi 
+	done 
+	
+	
+			
+	if [ ${?} = "0" ]
+		then 
+			_result="0"
+		else 
+			_result="1"
+	fi 
+		## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ ${mode} = "apply" ] 
+				then 
+					## APPLY
+					chown root:root /etc/grub2.conf
+					chmod og-rwx /etc/grub2.conf
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function update_grubconf_rights
+{
+MSG_DISPLAY "Info" "Rule : 1.6.1     Set User/Group Owner and permissions on /etc/grub2.conf"
+
+
+}
+
+
+
+
 function Report_result ()
 {
 	#|# Description :  this function will repport application of the rulle on success 
@@ -1231,3 +1364,5 @@ function Report_result ()
 	####################################################
 }
 
+
+Sourced_OK="1"
