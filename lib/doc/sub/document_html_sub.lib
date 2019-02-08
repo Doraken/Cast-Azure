@@ -1,0 +1,56 @@
+###############################################################################
+# document_html_sub.lib                                 Version : 1.0         #
+#                                                                             #
+# Creation Date : 26/04/2008                                                  #
+# Team          : **************************************                      #
+# Support mail  : arnaud@crampet.net                                           #
+# Author        : Arnaud Crampet                                              #
+#                                                                             #
+# Subject : This sub library provide base function to create html document    #
+#           from C.A.S.T framwork                                             #
+###############################################################################
+####
+# INFO
+
+function Document_Print_function_man_page
+{
+#|# Var to set  : None
+#|#
+#|# Base usage  : Document_Print_function_man_page
+#|#
+#|# Description : This function is used whithout parameter and can only be called by
+#|#
+#|#
+#|# Send Back   : html flow
+############ STACK_TRACE_BUILDER #####################
+Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+######################################################
+MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+
+MSG_DISPLAY "Debug6" " Value of Base_Catalog_function : [ ${Base_Catalog_function} ]"
+MSG_DISPLAY "Debug6" " Value of New_Lib_Name          : [ ${New_Lib_Name} ]"
+for New_Lib_Name in $(for Tvar in $( cat ../data/catalogue/function.cat | awk -F ";" '{ echo $2 }') ; do  basename ${Tvar} ; done | sort -u)
+    do
+      for function_geted in $( cat ${Base_Catalog_function} | grep ${New_Lib_Name} | awk -F ";" '{ echo $4 }' )
+          do
+             DPFMP_Base_File_name="$( echo ${function_geted} | awk -F "." '{ echo $1 }' )"
+             Document_doc_man="${Base_Dir_Scripts_Data_doc_man_html}/${DPFMP_Base_File_name}.html"
+             echo "<HTML>"                                                                                   >> ${Document_doc_man}
+             echo "    <BODY>"                                                                               >> ${Document_doc_man}
+             echo "       <PRE><!-- Manpage converted by pcd autodoc by Arnaud Crampet  --></PRE>"           >> ${Document_doc_man}
+             echo "         <PRE><H2>SYNOPSIS</H2></PRE>"                                                    >> ${Document_doc_man}
+             echo " <B>                                 "                                                    >> ${Document_doc_man}
+             cat ${Base_Catalog_function_docs} | grep "\;${function_geted}\;" |  awk -F ";" '{ echo "    " $6}' >> ${Document_doc_man}
+             echo "</B>"                                                                                     >> ${Document_doc_man}
+             echo "<ADDRESS>contact PCD at : ${PCD_MAIL_ADDR} <ADDRESS>"                                     >> ${Document_doc_man}                                                                                 >> ${Document_doc_xml}
+             echo "     </BODY> "                                                                            >> ${Document_doc_man}
+             echo "</HTML>"                                                                                  >> ${Document_doc_man}
+       done
+done
+############### Stack_TRACE_BUILDER ################
+Function_PATH="$( dirname ${Function_PATH} )"
+####################################################
+}
+
+
+Sourced_OK="1"

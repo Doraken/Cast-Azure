@@ -26,12 +26,14 @@ function CTRL_Result_func ()
 #|#                 CRF_Result_ERR_Level          : Use this var to set the level of test severity on fail  ( Mandatory )
 #|#                 CRF_Action_ONFAIL             : Use this var to set and action to do after CTRL fail    (  OPTIONAL )
 #|#                 CRF_Action_ONOK               : Use this var to set and action to do after CTRL is OK   (  OPTIONAL )
+#|#                 CRF_Action_NoMsg              : Use this var to set inhibition of message on control    (  OPTIONAL )
 #|#                 ${1}                          : Use this var to set [ CRF_Result_Action ]
 #|#                 ${2}                          : Use this var to set [ CRF_Generic_Base_MSG ]
 #|#                 ${3}                          : Use this var to set [ CRF_Generic_Base_MSG_ERR ]
 #|#                 ${4}                          : Use this var to set [ CRF_Result_ERR_Level ]
 #|#                 ${5}                          : Use this var to set [ CRF_Action_ONFAIL ]
 #|#                 ${6}                          : Use this var to set [ CRF_Action_ONOK ]
+#|#                 ${7}                          : Use this var to set [ CRF_Action_NoMsg ]
 #|#
 #|# Base usage  : CTRL_Result_func "${?}" "Generic_Base_Param_MSG" "Generic_Base_Param_MSG_ERR" "Result_ERR_Level" "On fail action" "on success action"
 #|#
@@ -41,17 +43,20 @@ Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
 MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
-CRF_Result_Action=${1}
-CRF_Generic_Base_MSG=${2}
-CRF_Generic_Base_MSG_ERR=${3}
-CRF_Result_ERR_Level=${4}
-CRF_Action_ONFAIL=${5}
-CRF_Action_ONOK=${6}
-
+CRF_Result_Action="${1}"
+CRF_Generic_Base_MSG="${2}"
+CRF_Generic_Base_MSG_ERR="${3}"
+CRF_Result_ERR_Level="${4}"
+CRF_Action_ONFAIL="${5}"
+CRF_Action_ONOK="${6}"
+CRF_Action_NoMsg="${7}"
 
 if [ "${CRF_Result_Action}" = "0" ]
    then
-        MSG_DISPLAY "Info" "${CRF_Generic_Base_MSG}  [ OK  ] "
+		if [ "${CRF_Action_NoMsg}" != "nomsg" ] 
+			then 
+				MSG_DISPLAY "Info" "${CRF_Generic_Base_MSG}  [ OK  ] "
+		fi 
         if ! [ -z "${CRF_Action_ONOK}" ]
               then
                   _Ido="${CRF_Action_ONOK}"
@@ -59,7 +64,10 @@ if [ "${CRF_Result_Action}" = "0" ]
                   ${_Ido}
         fi
    else
-        MSG_DISPLAY "ErrorN" "${CRF_Generic_Base_MSG} ${CRF_Generic_Base_MSG_ERR} [ ERROR  ] " "${CRF_Result_ERR_Level}"
+		if [ "${CRF_Action_NoMsg}" != "nomsg" ] 
+			then 
+				MSG_DISPLAY "ErrorN" "${CRF_Generic_Base_MSG} ${CRF_Generic_Base_MSG_ERR} [ ERROR  ] " "${CRF_Result_ERR_Level}"
+		fi
         if ! [ -z "${CRF_Action_ONFAIL}" ]
               then
                      _Ido="${CRF_Action_ONFAIL}"
@@ -178,53 +186,75 @@ MD_Msg_To_Display="${2}"
 declare -i MD_Level_Code="${3}"
 Set_spliter_line_MSG
 Dtim=$(date +%Y\/%m\/%d\ %H\:%M)
-case ${MD_Type_Msg} in
-                        Info) _SMessage_VAR="${Dtim} Information : "
-                             _EMessage_VAR="[ ${MD_Msg_To_Display} ]"
-                             printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[96m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                             ;;
-                    Message) _SMessage_VAR="${Dtim} Message : "
-                             _EMessage_VAR="[ ${MD_Msg_To_Display} ]"
-                             printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[0m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                             ;;
-                  StMessage) _SMessage_VAR="${Dtim} Action : ${MD_Msg_To_Display}"
-                             ;;
-                             
-                 EdSMessage) _EMessage_VAR="[  SUCCESS ${MD_Msg_To_Display}]"
-                             printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[92m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                             ;;
-                 EdEMessage) _EMessage_VAR="[  ! ERROR ! ${MD_Msg_To_Display}]"
-                             printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[91m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                             ;;
-                      Debug) Sub_MSGDebug "${MD_Type_Msg}"
-                             ;;
-                     Debug*) Sub_MSGDebug "${MD_Type_Msg}"
-                             ;;
-                    ErrorN) if [  "${MD_Level_Code}" = "0" ]
-                                         then
-                                                _SMessage_VAR="${Dtim} Warning ON ${Function_Name} :"
-                                                _EMessage_VAR="[ ${MD_Msg_To_Display} ]"
-                                                printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[93m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                                          else
-                                                Function_Name="$(echo ${Function_PATH} | awk -F'[/]' '{ print $NF }' )"
-                                                _SMessage_VAR="${Dtim} ERROR ON ${Function_Name} :"
-                                                _EMessage_VAR="[ CODE=${MD_Level_Code} [ ${MD_Msg_To_Display} ]"
-                                                printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[91m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
-                                                exit ${MD_Level_Code}
-                                      fi
 
-                                      ;;
-                            *) printf "\\e[91m" " FATAL ERROR ON MGS FUNCTION USE "
-                               printf "\\e[91m" " FUNCTION     = [ ${Function_PATH} ] "
-                               printf "\\e[91m" " SUB FUNCTION = [ ${SUB_Function_Name} ]"
-                               printf "\\e[91m" " Debug type   = [ ${MD_Type_Msg}  ]"
-                               printf "\\e[91m" " have a nice day .... :-p "
-                               printf "\\e[0m"
-                               exit 2
-                               ;;
+case ${MD_Type_Msg} in 
+						StMessage)	_SMessage_VAR="${Dtim} Action : ${MD_Msg_To_Display}"
+									Set_spliter_line_MSG
+									PR_Base_sreen_Size_limit="${Base_sreen_Size_limit}"
+									;;
+						EdSMessage) _EMessage_VAR="[  SUCCESS ${MD_Msg_To_Display}]"
+									Base_sreen_Size_limit="${PR_Base_sreen_Size_limit}"
+									printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[92m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
+									;;
+						EdEMessage)	_EMessage_VAR="[  ! ERROR ! ${MD_Msg_To_Display}]"
+									Base_sreen_Size_limit="${PR_Base_sreen_Size_limit}"
+									printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[91m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
+									;;
+							Debug)	Sub_MSGDebug "${MD_Type_Msg}"
+									;;
+							Debug*) Sub_MSGDebug "${MD_Type_Msg}"
+									;;
+								 *)case ${MD_Type_Msg} in
+															 Info)	_SMessage_VAR="${Dtim} Information : "
+																	;;
+														   Message)	_SMessage_VAR="${Dtim} Message : "
+																	;;
+															ErrorN)  Sub_MSG_ERRORN
+																	;;
+																*)	printf "\\e[91m" " FATAL ERROR ON MGS FUNCTION USE "
+																	printf "\\e[91m" " FUNCTION     = [ ${Function_PATH} ] "
+																	printf "\\e[91m" " SUB FUNCTION = [ ${SUB_Function_Name} ]"
+																	printf "\\e[91m" " Debug type   = [ ${MD_Type_Msg}  ]"
+																	printf "\\e[91m" " have a nice day .... :-p "
+																	printf "\\e[0m"
+																	exit 2
+																   ;;
+									esac
+									_EMessage_VAR="[ ${MD_Msg_To_Display} ]"
+									Set_spliter_line_MSG
+									printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[0m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
+									;;
 esac
 
+
+
 Emptying_MSGS_vars
+}
+
+
+function Sub_MSG_ERRORN ()
+{
+#|# Description : This function is used to print Error messages
+#|#
+#|# Var to set  :  None
+#|#
+#|# Base usage  : Sub_MSGDebug
+#|#
+#|# Send Back   : debug messages and exit code if needed
+if [  "${MD_Level_Code}" = "0" ]
+	then
+		_SMessage_VAR="${Dtim} Warning ON ${Function_Name} :"
+		_EMessage_VAR="[ ${MD_Msg_To_Display} ]"
+		Set_spliter_line_MSG
+		printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[93m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
+	else
+		Function_Name="$(echo ${Function_PATH} | awk -F'[/]' '{ print $NF }' )"
+		_SMessage_VAR="${Dtim} ERROR ON ${Function_Name} :"
+		_EMessage_VAR="[ CODE=${MD_Level_Code} [ ${MD_Msg_To_Display} ]"
+		Set_spliter_line_MSG
+		printf "\\e[0m(%d)  ${_SMessage_VAR}  %.${Base_sreen_Size_limit}s \\e[91m ${_EMessage_VAR} \\e[0m  %s\n" "$(( ++cnt ))" " ${MSG_SPLITER}"
+		exit ${MD_Level_Code}
+fi
 }
 
 function Sub_MSGDebug
@@ -252,9 +282,13 @@ function Set_spliter_line_MSG
 #|#
 #|# Send Back   : update of Base_sreen_Size_limit
     Base_sreen_Size_limit="$( tput cols )"
-    Base_sreen_Size_limit="$(expr ${Base_sreen_Size_limit} / 2 )"
+    Base_sreen_Size_limit="$(expr ${Base_sreen_Size_limit} - ${#_SMessage_VAR} )"
     Base_sreen_Size_limit="$(expr ${Base_sreen_Size_limit} - 16 )"
 }
+
+
+
+
 
 function Interleave_MSG
 {
@@ -319,6 +353,27 @@ Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
 }
 
+function Report_result ()
+{
+	#|# Description :  this function will repport application of the rulle on success 
+	#|#
+	#|# Var to set  : None
+	#|#
+	#|# Base usage  : Report_result "${_element_report_num}" "_element_report_txt" "_element_state"
+	#|#
+	#|# Send Back   :  report Line
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	_element_report_num="${1}"
+	_element_report_txt="${2}"
+	_element_state="${3}"
+	MSG_DISPLAY "Info" "Apply of : ${_element_report_num}  ${_element_report_txt} ${_element_state}" "0"
+	 echo "<tr><td>${_element_report_num}</td><td>${_element_report_txt}</td><td>${_element_state}</td></tr>"  >> /tmp/report
 
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
 
 Sourced_OK="1"

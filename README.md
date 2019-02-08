@@ -8,5 +8,10 @@ activated in the sonfiguration file .
 
 This script will générate a complience report. 
 
+And all non spécific part issued from CAST are only property of the owner ARNAUD CRAMPET
+
 
 Arnaud Crampet / Doraken
+
+
+Mail : arnaud@crampet.net 

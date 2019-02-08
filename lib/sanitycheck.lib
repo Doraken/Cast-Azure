@@ -31,12 +31,10 @@ if [ "${SANITY_CHECK_Base_env_directory_check_exec}" = "1" ]
    then
    	   MSG_DISPLAY "Debug7" "Sanity check for generic tmp already done"
    else
-       for Dirs in $( cat ${Conf_Generics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
+       for Dirs in $( cat ${Conf_Generics} | grep "DIR_To_CHECK" | awk -F\= '{ print $2 }' | awk '{ print $1 }' )
           do
           	Dirs=$( eval echo ${Dirs} )
-          	Dirs=$( eval echo ${Dirs} )
-   	        MSG_DISPLAY "Info" "checking base directory  : [ ${Dirs} ] "
-    	        Directory_CRT   "${Dirs}"
+			Directory_CRT   "${Dirs}"
         done
 fi
 
@@ -62,15 +60,11 @@ Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 if [ -z "${Conf_Specifics}" ]
-   then
-       MSG_DISPLAY "Info" "Specifics configuration file  : [ ERROR : NULL VALUE ] "
-   else
-       if [ "${Conf_Specifics}" = "dummy" ]
-          then
-              MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
-          else
-              echo "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} ---"
-         cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 
+    then
+		MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+		else
+			echo "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} ---"
+			cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 
               for Dirs in $( cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
                   do     Dirs=$( eval echo ${Dirs} )
                          MSG_DISPLAY "Info" "checking base directory  : [ ${Dirs} ] "
@@ -79,7 +73,6 @@ if [ -z "${Conf_Specifics}" ]
                          pause
                    done
         fi
-fi
 MSG_DISPLAY "Info" "Directory Sanity check [ END ] "
 
 SANITY_CHECK_Base_env_directory_check_exec="1"
@@ -167,23 +160,18 @@ if [ "${SANITY_CHECK_Check_TMP_Directory_exec}" = "1" ]
 fi
 if [ -z "${Conf_Specifics}" ]
    then
-       MSG_DISPLAY "Info" "Specifics configuration file  : [ ERROR : NULL VALUE ] "
-   else
-       if [ "${Conf_Specifics}" = "dummy" ]
-          then
-              MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+       MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
           else
-              for Dirs in $( cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK_TMP" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
-                  do Dirs=$( eval echo ${Dirs} )
-                     echo   "${Dirs}" | grep tmp  > /dev/null
+				for Dirs in $( cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK_TMP" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
+					do Dirs=$( eval echo ${Dirs} )
+					echo   "${Dirs}" | grep tmp  > /dev/null
                     if  [ "${?}" = "0" ]
-                      then
-        	              IS_Writable "${Dirs}" "1"
-                      else
-   	                      MSG_DISPLAY "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
-                    fi
+						then
+							IS_Writable "${Dirs}" "1"
+						else
+							MSG_DISPLAY "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
+					fi
                 done
-       fi
 fi
 SANITY_CHECK_Check_TMP_Directory_exec="1"
 Spacer_MSG

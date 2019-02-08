@@ -12,8 +12,8 @@
 ####
 # INFO 
 #      this lib is for RED-HAD based system
-
-function 0.0.0_template ()
+Report_result="/tmp/report"
+function _template ()
 {
 	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
 	#|#
@@ -34,14 +34,14 @@ function 0.0.0_template ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	## TEST 
 	echo "ma commande" 
 	## end test
 	if [ ${?} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					My apply commande
@@ -60,9 +60,343 @@ function 0.0.0_template ()
 	####################################################
 }
 
-function 1.3.3_Disable_the_rhnsd_Daemon 
+function 1.1.6_Set_Sticky_Bit_on_All_World_Writable_Directories ()
 {
-	#|# Description :  this function will remove  rhnsd Daemon
+	#|# Description :  1.1.6 Set Sticky Bit on All World-Writable Directories
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	testmnt="/tmp /var /var/log /home"
+	_result="0" 
+	for mntpoint in ${testmnt} 
+		do 
+			cat /etc/fstab | grep "${mntpoint} " 
+			if [ "${?}" != "0" ]
+				then
+					_result="1"
+			fi
+	done 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					# warning this cant be ussed to apply in this version
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.1.1_Separate_Filesystems ()
+{
+	#|# Description :  1.1.1 Separate Filesystems
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_result="0"
+	_count="$(find / -type d -perm -0002  ! -perm -1000 2>/dev/null | wc -l )"
+	if [ ${_count} -ge "1" ]
+		then
+			_result="1"
+		else
+			_result="0"
+	fi
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					for elements in $( find / -type d -perm -0002  ! -perm -1000 2>/dev/null  ) 
+						do 
+							chmod a+t ${elements}
+					done 
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.1.2_tmp_mount_options ()
+{
+	#|# Description :  1.1.2 /tmp mount options
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_result="0"
+	grep /tmp /etc/fstab > /dev/null 2>1
+	if [ ${?} != "0" ] 
+		then 
+			${_result} = "1"
+			_mode=""
+		else 
+			grep /tmp /etc/fstab |  egrep 'nodev|nosuid|noexec'
+			if [ ${?} != "0" ] 
+				then 
+				${_result} = "1"
+			fi 
+	fi
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/fstab"
+					_OriginalLine="$(cat /etc/fstab | grep "/tmp " |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_oldVal="$(cat /etc/fstab | grep "/tmp " | awk '{ print $4 }' )"
+					_NewLine="$(cat /etc/fstab | grep "/tmp " | sed -e "s/${_oldVal}/nodev,nosuid,noexec/g" |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/fstab 
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.1.3_home_mount_options ()
+{
+	#|# Description :  1.1.3 home mount options
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_result="0"
+	grep /home /etc/fstab > /dev/null 2>1
+	if [ ${?} != "0" ] 
+		then 
+			${_result} = "1"
+			_mode=""
+		else 
+			grep /home /etc/fstab |  egrep 'nodev'
+			if [ ${?} != "0" ] 
+				then 
+				${_result} = "1"
+			fi 
+	fi
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/fstab"
+					_OriginalLine="$(cat /etc/fstab | grep "/home " |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_oldVal="$(cat /etc/fstab | grep "/home " | awk '{ print $4 }' )"
+					_NewLine="$(cat /etc/fstab | grep "/home " | sed -e "s/${_oldVal}/default,nodev/g" |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/fstab 
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.1.4_dev_shm_mount_options
+{	
+	#|# Description :  1.1.4 /dev/shm mount options
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "  
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_result="0"
+	grep "/dev/shm" /etc/fstab > /dev/null 2>1
+	if [ ${?} != "0" ] 
+		then 
+			${_result} = "1"
+			echo "tmpfs /dev/shm tmpfs rw,seclabel,noexec,nosuid,nodev 0 0"
+		else 
+			grep "/dev/shm" /etc/fstab |  egrep 'rw,seclabel,noexec,nosuid,nodev'
+			if [ ${?} != "0" ] 
+				then 
+				${_result} = "1"
+			fi 
+	fi
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/fstab"
+					_OriginalLine="$(cat /etc/fstab | grep "/dev/shm " |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_oldVal="$(cat /etc/fstab | grep "/dev/shm " | awk '{ print $4 }' )"
+					_NewLine="$(cat /etc/fstab | grep "/dev/shm " | sed -e "s/${_oldVal}/rw,seclabel,noexec,nosuid,nodev/g" |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/fstab 
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp ()
+{
+	#|# Description :  1.1.5 Bind Mount the /var/tmp directory to /tmp
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_result="0"
+	grep /var/tmp /etc/fstab > /dev/null 2>1
+	if [ ${?} != "0" ] 
+		then 
+			${_result} = "1"
+			echo "/tmp /var/tmp none bind 0 0" >> /etc/fstab
+		else 
+			grep /var/tmp /etc/fstab | grep "/tmp" | grep  "/var/tmp" | grep "none"  | grep "bind"
+			if [ ${?} != "0" ] 
+				then 
+				${_result} = "1"
+			fi 
+	fi
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/fstab"
+					_OriginalLine="$(cat /etc/fstab | grep "/var/tmp " |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_NewLine="$(echo "/tmp /var/tmp none bind 0 0" |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/fstab 
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 1.2_Use_the_Latest_OS_Release  
+{
+	#|# Description :  1.2	Use the Latest OS Release 
 	#|#
 	#|# Var to set  : 
 	#|# 				_mode                       : use this var to set the action mode between evaluate/correct 
@@ -81,13 +415,63 @@ function 1.3.3_Disable_the_rhnsd_Daemon
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	
+	## TEST 
+	_result="1" && cat /etc/redhat-release | grep 7.6 > /dev/null 2>&1 && _result="0"
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	
+	
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
+function 1.3.3_Disable_the_rhnsd_Daemon 
+{
+	#|# Description :  this functionc will remove  rhnsd Daemon
+	#|#
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between evaluate/correct 
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|#
+	#|# Base usage  :   " "
+	#|#
+	#|# Send Back   :  
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
 	chkconfig  2>>  /dev/null |grep rhnsd | grep on  >> /dev/null
 	## end test
 	if [ ${?} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then
 					## APPLY
 					systemctl stop rhnsd > /dev/null 
@@ -104,8 +488,6 @@ function 1.3.3_Disable_the_rhnsd_Daemon
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
-###############################################################################
 
 function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 {
@@ -128,12 +510,12 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	crontab -u root -l | grep aide | grep check >> /dev/null 
 	if [ ${?} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					{ crontab -u root -l; echo "0 5 * * * /usr/sbin/aide --check"; } | crontab -u root -
 					${_callback} "report"
@@ -149,7 +531,6 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 1.5.3_Remove_SETroubleshoot ()
 {
@@ -172,14 +553,14 @@ function 1.5.3_Remove_SETroubleshoot ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	## TEST 
-	_result="0" && rpm -qa | grep  SETroubleshoot  && _result="1"
+	_result="0" && yum list installed SETroubleshoot -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "SETroubleshoot"
@@ -197,7 +578,6 @@ function 1.5.3_Remove_SETroubleshoot ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 1.5.4_Remove_MCS_Translation_Service ()
 {
@@ -220,14 +600,14 @@ function 1.5.4_Remove_MCS_Translation_Service ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	## TEST 
-	_result="0" &&  rpm -qa | grep  mcstrans  && _result=1
+	_result="0" && yum list installed mcstrans -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "mcstrans"
@@ -245,6 +625,71 @@ function 1.5.4_Remove_MCS_Translation_Service ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
+
+
+function 1.6.1_Set_User_Group_Owner_and_permissions_on_etc_grub_conf ()
+{
+	#|# Description :  1.6.1 Set User/Group Owner and permissions on /etc/grub2.conf
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST
+	_GRBcnf_OWN="$( ls -al /etc/grub2.cfg | awk '{ print $3 "_" $4 }' )"
+	_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al /etc/grub.d | awk '{ print $3 "_" $4 }' )"
+	for grub_sun in $( find /etc/grub.d/ -type f ) 
+		do 	
+			_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al ${grub_sun} | awk '{ print $3 "_" $4 }' )"
+	done 
+	for _Grubown in ${_GRBcnf_OWN} 
+		do 
+			if [ ${_Grubown} != "root_root" ] 
+				then 
+					_result="1"
+			fi 
+	done 
+	
+	
+			
+	if [ ${?} = "0" ]
+		then 
+			_result="0"
+		else 
+			_result="1"
+	fi 
+		## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					chown root:root /etc/grub2.conf
+					chmod og-rwx /etc/grub2.conf
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
 
 
 function 2.1.1_Remove_telnet_server_and_clients ()
@@ -268,15 +713,15 @@ function 2.1.1_Remove_telnet_server_and_clients ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	## TEST 
-	_result="0" && rpm -qa | grep telnet-servere && _result=1
-	rpm -qa | grep  telnet-  && _result=1
+	_result="0" && yum list installed telnet-server -q > /dev/null 2>&1 && _result="1"
+	yum list installed telnet -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "telnet-server"
@@ -295,7 +740,6 @@ function 2.1.1_Remove_telnet_server_and_clients ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 2.1.2_Remove_rsh ()
 {
@@ -318,15 +762,16 @@ function 2.1.2_Remove_rsh ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	## TEST 
-	_result="0" && rpm -qa | grep rsh-server && _result=1
-	rpm -qa | grep rsh && _result=1
+	_result="0" && yum list installed rsh-server -q > /dev/null 2>&1 && _result="1"
+	yum list installed rsh -q > /dev/null 2>&1 && _result="1"
+
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					MSG_DISPLAY "Info" ""
@@ -346,7 +791,6 @@ function 2.1.2_Remove_rsh ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 2.1.3_Remove_NIS ()
 {
@@ -369,15 +813,15 @@ function 2.1.3_Remove_NIS ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep ypserv && _result=1
-	rpm -qa | grep ypbind && _result=1
+	_result="0" && yum list installed ypserv -q > /dev/null 2>&1 && _result="1"
+	yum list installed ypbind -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "ypserv"
@@ -396,8 +840,6 @@ function 2.1.3_Remove_NIS ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
-
 
 function 2.1.4_Remove_tftp ()
 {
@@ -420,15 +862,15 @@ function 2.1.4_Remove_tftp ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep tftp-server && _result=1
-	rpm -qa | grep tftp && _result=1
+	_result="0" && yum list installed tftp-server -q > /dev/null 2>&1 && _result="1"
+	 yum list installed tftp -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "tftp-server"
@@ -469,16 +911,16 @@ function 2.1.5_Remove_talk ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 
 	## TEST 
-	_result="0" && rpm -qa | grep talk-server && _result=1
-	rpm -qa | grep talk && _result=1
+	_result="0" && yum list installed talk-server -q > /dev/null 2>&1 && _result="1"
+	yum list installed talk -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "talk-server"
@@ -497,7 +939,6 @@ function 2.1.5_Remove_talk ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 2.1.6_Remove_xinetd ()
 {
@@ -520,14 +961,14 @@ function 2.1.6_Remove_xinetd ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep xinetd && _result=1
+	_result="0" && yum list installed xinetd -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "xinetd"
@@ -541,6 +982,54 @@ function 2.1.6_Remove_xinetd ()
 	fi
 		
 	
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 3.1_Set_Daemon_umask ()
+{
+	#|# Description :  3.1 Set Daemon umask
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST
+	_umask_state="$(cat /etc/init.d/functions | grep ^umask | awk '{print $2}')"
+	if [ ${_umask_state} = "027" ]
+		then 
+			_result="0"
+		else 
+			_result="1"
+	fi 
+		## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/init.d/functions"
+					sed -i "s/umask\ ${_umask_state}/umask\ 027/g" /etc/init.d/functions
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
 	############### Stack_TRACE_BUILDER ################
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
@@ -566,14 +1055,14 @@ function 3.2_Disable_Avahi_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep avahi && _result=1
+	_result="0" && yum list installed avahi -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "avahi"
@@ -608,14 +1097,14 @@ function 3.2.1_Disable_Print_Server_CUPS ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep cups && _result=1
+	_result="0" && yum list installed cups -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "cups"
@@ -650,14 +1139,14 @@ function 3.3_Remove_DHCP_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST 
-	_result="0" && rpm -qa | grep dhcp && _result=1
+	_result="0" && yum list dhcp -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "dhcp"
@@ -692,14 +1181,14 @@ function 3.4_Remove_LDAP ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep openldap-servers && _result=1
-	rpm -qa | grep openldap-clients && _result=1
+	_result="0" && yum list installed openldap-servers -q > /dev/null 2>&1 && _result="1"
+	yum list installed openldap-clients -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "openldap-servers"
@@ -735,18 +1224,18 @@ function 3.5_Disable_NFS_and_RPC ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep cifs-utils && _result=1
-	rpm -qa | grep gssproxy && _result=1
-	rpm -qa | grep nfs-utils && _result=1
-	rpm -qa | grep nfs4-acl-tools && _result=1
-	rpm -qa | grep target-cli && _result=1
-	rpm -qa | grep targetd && _result=1
+	_result="0" && yum list installed cifs-utils -q > /dev/null 2>&1 && _result="1"
+	yum list installed gssproxy -q > /dev/null 2>&1 && _result="1"
+	yum list installed nfs-utils -q > /dev/null 2>&1 && _result="1"
+	yum list installed nfs4-acl-tools -q > /dev/null 2>&1 && _result="1"
+	yum list installed target-cli -q > /dev/null 2>&1 && _result="1"
+	yum list installed targetd -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "cifs-utils"
@@ -755,57 +1244,6 @@ function 3.5_Disable_NFS_and_RPC ()
 					yum_UnInstall_Package "nfs4-acl-tools"
 					yum_UnInstall_Package "target-cli"
 					yum_UnInstall_Package "targetd"
-					## END apply
-					${_callback} "report"
-				else
-					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
-			fi 
-		else
-			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
-	fi
-	############### Stack_TRACE_BUILDER ################
-	Function_PATH="$( dirname ${Function_PATH} )"
-	####################################################
-}
-
-function 1.1.6_Set_Sticky_Bit_on_All_World_Writable_Directories ()
-{
-	#|# Description :  1.1.6 Set Sticky Bit on All World-Writable Directories
-	#|# Var to set  : 
-	#|# 				_mode                       : use this var to set the action mode between report/apply
-	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
-	#|# Base usage  :  Function_Name "apply or repport"
-	#|# Send Back   :  Repport or repport and securing actions
-	############ STACK_TRACE_BUILDER #####################
-	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
-	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
-	
-	_mode="${1}" 
-	_callback="${FUNCNAME[0]}"
-		
-	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
-	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	## TEST 
-	${_result} = "0"
-	_count="$(find / -type d -perm -0002  ! -perm -1000 2>/dev/null | wc -l )"
-	if [ ${_count} -ge "1" ]
-		then
-			${_result} = "1"
-		else
-			${_result} = "0"
-	fi
-	## end test
-	if [ ${_result} = "1" ] 
-		then 
-			if [ ${mode} = "apply" ] 
-				then 
-					## APPLY
-					for elements in $( find / -type d -perm -0002  ! -perm -1000 2>/dev/null  ) 
-						do 
-							chmod a+t ${elements}
-					done 
 					## END apply
 					${_callback} "report"
 				else
@@ -837,13 +1275,13 @@ function 3.6_Remove_DNS_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep bind && _result=1
+	_result="0" && yum list installed bind -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "bind"
@@ -859,7 +1297,6 @@ function 3.6_Remove_DNS_Server ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
-
 
 function 3.7_Remove_FTP_Server ()
 {
@@ -879,13 +1316,13 @@ function 3.7_Remove_FTP_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep bind && _result=1
+	_result="0" && yum list installed vsftpd -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "vsftpd"
@@ -920,13 +1357,13 @@ function 3.6_Remove_HTTP_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep httpd && _result=1
+	_result="0" && yum list installed httpd -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "httpd"
@@ -962,13 +1399,13 @@ function 3.8_Remove_Dovecot_IMAP_and_POP3_services ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep dovecot && _result=1
+	_result="0" && yum list installed dovecot -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "dovecot"
@@ -1003,13 +1440,13 @@ function 3.9_Remove_Samba ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep samba && _result=1
+	_result="0" && yum list installed samba -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "samba"
@@ -1025,6 +1462,7 @@ function 3.9_Remove_Samba ()
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
+
 
 function 3.10_Remove_HTTP_Proxy_Server ()
 {
@@ -1044,13 +1482,13 @@ function 3.10_Remove_HTTP_Proxy_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
-	_result="0" && rpm -qa | grep squid && _result=1
+	_result="0" && yum list installed squid -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "squid"
@@ -1085,13 +1523,13 @@ function 3.11_Remove_SNMP_Server ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST
-	_result="0" && rpm -qa | grep net-snmp && _result=1
+	_result="0" && yum list installed net-snmp -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "net-snmp"
@@ -1126,22 +1564,22 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	
 	## TEST
 	_result="0"
 	_state_ntp=$(systemctl | grep ntpd | awk '{ print $2 "_" $3 "_" $4  }') 
-	if [ ${_state_ntp} = "loaded_active_running" ]
+	if [ "${_state_ntp}" = "loaded_active_running" ]
 		then 
 			_result="0"
 		else 
 			_result="1"
 	fi	
-	rpm -qa | grep chrony && _result=1
+	yum list installed chrony -q > /dev/null 2>&1 && _result="1"
 	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					yum_UnInstall_Package "chrony"
@@ -1170,9 +1608,11 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 	####################################################
 }
 
-function 3.1_Set_Daemon_umask ()
+
+
+function 4.4_Enable_Firewalld ()
 {
-	#|# Description :  3.1 Set Daemon umask
+	#|# Description :  4.4_Enable_Firewalld
 	#|# Var to set  : 
 	#|# 				_mode                       : use this var to set the action mode between report/apply
 	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
@@ -1188,23 +1628,18 @@ function 3.1_Set_Daemon_umask ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST
-	_umask_state="$(cat /etc/init.d/functions | grep ^umask | awk '{print $2}')"
-	if [ ${_umask_state} = "027" ]
-		then 
-			_result="0"
-		else 
-			_result="1"
-	fi 
-		## end test
+	_result="0" && systemctl list-units --type=service | grep firewalld | awk '{ print $2 "_" $3 "_" $4 }' | grep "loaded_active_running"  > /dev/null 2>&1   && _result="1"
+	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
-					File_Backup "/etc/init.d/functions"
-					sed -i "s/umask\ ${_umask_state}/umask\ 027/g" /etc/init.d/functions
+					systemctl enable firewalld
+					systemctl start firewalld 
+					iptables –F
 					## END apply
 					${_callback} "Report"
 				else
@@ -1218,10 +1653,9 @@ function 3.1_Set_Daemon_umask ()
 	####################################################
 }
 
-
-function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
+function 4.5_Uncommon_Network_Protocols ()
 {
-	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
+	#|# Description :  4.4_Enable_Firewalld
 	#|# Var to set  : 
 	#|# 				_mode                       : use this var to set the action mode between report/apply
 	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
@@ -1237,22 +1671,24 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST
-	crontab -u root -l | grep aide | grep check >> /dev/null 
-	if [ ${?} = "0" ]
-		then 
-			_result="0"
-		else 
-			_result="1"
-	fi 
-		## end test
+	_result="1" && grep -r dccp /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true" > /dev/null 2>&1   && _result="0"
+	 grep -r "sctp"  /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"  > /dev/null 2>&1   && _result="0"
+	 grep -r "rds"   /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"   > /dev/null 2>&1   && _result="0"
+	 grep -r "tipc"  /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"   > /dev/null 2>&1   && _result="0"
+	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
-					{ crontab -u root -l; echo "0 5 * * * /usr/sbin/aide --check"; } | crontab -u root -
+					touch
+					File_Backup "/etc/sysctl.conf"
+					echo "install dccp /bin/true" >> /etc/modprobe.d/UNP.conf
+					echo "install sctp /bin/true" >> /etc/modprobe.d/UNP.conf
+					echo "install rds /bin/true"  >> /etc/modprobe.d/UNP.conf
+					echo "install tipc /bin/true" >> /etc/modprobe.d/UNP.conf
 					## END apply
 					${_callback} "Report"
 				else
@@ -1266,11 +1702,9 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 	####################################################
 }
 
-
-
-function 1.6.1_Set_User_Group_Owner_and permissions_on__etc__grub2.conf ()
+function 4.5_Uncommon_Network_Protocols ()
 {
-	#|# Description :  1.6.1 Set User/Group Owner and permissions on /etc/grub2.conf
+	#|# Description :  4.4_Enable_Firewalld
 	#|# Var to set  : 
 	#|# 				_mode                       : use this var to set the action mode between report/apply
 	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
@@ -1286,38 +1720,24 @@ function 1.6.1_Set_User_Group_Owner_and permissions_on__etc__grub2.conf ()
 		
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST
-	_GRBcnf_OWN="$( ls -al /etc/grub2.cfg | awk '{ print $3 "_" $4 }' )"
-	_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al /etc/grub.d | awk '{ print $3 "_" $4 }' )"
-	for grub_sun in $( find /etc/grub.d/ -type f ) 
-		do 	
-			_GRBcnf_OWN="${_GRBcnf_OWN} $( ls -al ${grub_sun} | awk '{ print $3 "_" $4 }' )"
-	done 
-	for _Grubown in ${_GRBcnf_OWN} 
-		do 
-			if [ ${_Grubown} != "root_root" ] 
-				then 
-					_result="1"
-			fi 
-	done 
-	
-	
-			
-	if [ ${?} = "0" ]
-		then 
-			_result="0"
-		else 
-			_result="1"
-	fi 
-		## end test
+	_result="1" && grep -r dccp /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true" > /dev/null 2>&1   && _result="0"
+	 grep -r "sctp"  /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"  > /dev/null 2>&1   && _result="0"
+	 grep -r "rds"   /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"   > /dev/null 2>&1   && _result="0"
+	 grep -r "tipc"  /etc/modprobe.conf /etc/modprobe.d | egrep -v "blacklist" | egrep -v "/bin/true"   > /dev/null 2>&1   && _result="0"
+	## end test
 	if [ ${_result} = "1" ] 
 		then 
-			if [ ${mode} = "apply" ] 
+			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
-					chown root:root /etc/grub2.conf
-					chmod og-rwx /etc/grub2.conf
+					touch
+					File_Backup "/etc/sysctl.conf"
+					echo "install dccp /bin/true" >> /etc/modprobe.d/UNP.conf
+					echo "install sctp /bin/true" >> /etc/modprobe.d/UNP.conf
+					echo "install rds /bin/true"  >> /etc/modprobe.d/UNP.conf
+					echo "install tipc /bin/true" >> /etc/modprobe.d/UNP.conf
 					## END apply
 					${_callback} "Report"
 				else
@@ -1331,38 +1751,130 @@ function 1.6.1_Set_User_Group_Owner_and permissions_on__etc__grub2.conf ()
 	####################################################
 }
 
-function update_grubconf_rights
+
+
+
+
+function 5.1.1_Install_the_rsyslog_package ()
 {
-MSG_DISPLAY "Info" "Rule : 1.6.1     Set User/Group Owner and permissions on /etc/grub2.conf"
+	#|# Description :  5.1.1 Install the rsyslog package
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST
+	MSG_DISPLAY "Info" "Rule : "
 
-
+	_result="1" && yum list installed rsyslog -q > /dev/null 2>&1 && _result="0"
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					yum_Install_Package "rsyslog"
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
 }
 
 
 
 
-function Report_result ()
+function 5.1.2_Activate_the_rsyslog_service ()
 {
-	#|# Description :  this function will repport application of the rulle on success 
+	#|# Description :  5.1.1 Install the rsyslog package
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST
+	_result="1" && systemctl list-units --type=service | grep rsyslog | awk '{ print $2 "_" $3 "_" $4 }' | grep "loaded_active_running"  > /dev/null 2>&1   && _result="0"
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					systemctl enable rsyslog
+systemctl start rsyslog
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
+function SysctlSearch () 
+{
+	#|# Description :  this function will search in all sysctl file for spécific parameters 
 	#|#
-	#|# Var to set  : None
+	#|# Var to set  : 
+	#|#					_element     : defilte what element to search 
+	#|#                 _element_val : define the needed value 
 	#|#
-	#|# Base usage  : Report_result "${_element_report_num}" "_element_report_txt" "_element_state"
+	#|# Base usage  : SysctlSearch "${_element}" "_element_val" 
 	#|#
 	#|# Send Back   :  report Line
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	_element_report_num="${1}"
-	_element_report_txt="${2}"
-	_element_state="${3}"
+	_element="${1}"
+	_element_val="${2}"
 	
-	echo "<tr><td>${_element_report_num}</td><td>${_element_report_txt}</td><td>${_element_state}</td></tr>"  >> ${lnxsec_repport}
-
+	tot="for _files in  find /etc/"
+	
+	
+	
+	
 	############### Stack_TRACE_BUILDER ################
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
 }
+
+
+
+
 
 
 Sourced_OK="1"

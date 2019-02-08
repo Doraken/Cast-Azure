@@ -37,8 +37,8 @@ Empty_Var_Control "${YumPackageToInstall}" "YumPackageToInstall" "ErrorN" "2" "p
 yum_check_Package ${YumPackageToInstall}
 if [ "${YumPackageStatus}" = "NOT INSTALLED" ] 
 then 
-    yum install ${YumPackageToInstall} -y
-    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "4" "" ""
+    yum install ${YumPackageToInstall} -y> /dev/null 2>&1 
+    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "4" "" "" "nomsg"
 else
     MSG_DISPLAY "Debug" "Package ${YumPackageStatus} : [ INSTALLED ] "
 fi
@@ -68,12 +68,12 @@ YumPackageToUnInstall=${1}
 yum_check_Package ${YumPackageToUnInstall}
 if [ "${YumPackageStatus}" = "INSTALLED" ] 
 then 
-    yum erase  ${YumPackageToUnInstall} -y
-    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToUnInstall}] " "Can t uninstall" "4" "" ""
+    yum erase  ${YumPackageToUnInstall} -y -q> /dev/null 2>&1
+    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToUnInstall}] " "Can t uninstall" "4" "" "" "nomsg"
 else
     MSG_DISPLAY "Debug" "Package ${YumPackageStatus} : [ NOT INSTALLED ] "
 fi
-yum update -y 2> /dev/null 1> /dev/null 
+yum update -y> /dev/null 2>&1 1> /dev/null 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
@@ -97,8 +97,8 @@ YumPackageToCheck=${1}
 
 
 Empty_Var_Control "${YumPackageToCheck}" "YumPackageToCheck" "ErrorN" "2" "package name is a mandatory parameter "
-yum list installed ${YumPackageToCheck} -q 2> /dev/null
-CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "0"  "yum_check_Package_sub_u" "yum_check_Package_sub_i" 
+yum list installed ${YumPackageToCheck} -q> /dev/null 2>&1
+CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "0" "yum_check_Package_sub_u" "yum_check_Package_sub_i" "nomsg"
 
 
 ############### Stack_TRACE_BUILDER ################

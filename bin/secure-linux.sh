@@ -8,7 +8,13 @@
 # Extract from CAST framwork property of Arnaud Crampet 
 ###############################################################################
 Function_PATH="/$0"
-. ./conf/config.cnf 
+Conf_Generics="../conf/config.cnf"
+Conf_Specifics=""
+Return_Path="$(pwd)" 
+Debug_state="9"
+
+
+
 function Internet_Http_Get
 {
 #|# Description : This function is used with CTRL_Result_func as success or error result
@@ -221,7 +227,6 @@ Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
 }
 
-
 function FS-check () 
 {
 #|# Description         : This function is used to build to kill IPV6
@@ -269,24 +274,7 @@ _HOME_FS_OPT="nodev,nosuid"
 
 }
 
-
-function fs_secure_all_TPMFS ()
-{
-
-
-grep tmpfs /etc/fstab | grep "nodev"
-grep tmpfs /etc/fstab | grep "nosuid"
-grep tmpfs /etc/fstab | grep "noexec"
-
-
-}
-
-
-
-
-
-
-function Network config
+function Network_config ()
 {
 
 echo "net.ipv4.conf.all.send_redirects = 0" 
@@ -298,7 +286,7 @@ echo "net.ipv4.conf.default.send_redirects = 0"
 
 
 
-function set default start target () 
+function set_default_start_target () 
 {
 MSG_DISPLAY "Info" "Rule : 3.1.1     Remove X Windows"
 systemctl set-default multi-user.target
@@ -330,7 +318,7 @@ MSG_DISPLAY "Info" "Rule : 1.7.2     Enable Randomized Virtual Memory Region Pla
 File_Backup "/etc/security/limits.conf"
 File_Backup "/etc/sysctl.conf"
 
-echo "* hard core 0"                                    >> /etc/security/limits.conf
+echo "* hard core 0"                                  >> /etc/security/limits.conf
 echo "fs.suid_dumpable = 0"                           >> /etc/sysctl.conf
 echo "kernel.randomize_va_space = 2"                  >> /etc/sysctl.conf
 MSG_DISPLAY "Info" "Rule : 4.1.1     Disable IP Forwarding "
@@ -359,10 +347,7 @@ echo "net.ipv4.conf.all.rp_filter = 1"                >> /etc/sysctl.conf
 echo "net.ipv4.conf.default.rp_filter = 1"            >> /etc/sysctl.conf
 MSG_DISPLAY "Info" "Rule : 4.2.11    Enable TCP SYN Cookies"
 echo "net.ipv4.tcp_syncookies = 1"                    >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.4           Enable Firewalld refused"
-systemctl stop firewalld 
-systemctl disable firewalld
-iptables –F
+
 MSG_DISPLAY "Info" "Rule : 4.5       Uncommon Network Protocols"
 echo "install dccp /bin/true" >> /etc/modprobe.d/UNP.conf
 echo "install sctp /bin/true" >> /etc/modprobe.d/UNP.conf
@@ -375,17 +360,6 @@ echo "install tipc /bin/true" >> /etc/modprobe.d/UNP.conf
 
 }
 
-
-function manage_system_log () 
-{
-MSG_DISPLAY "Info" "Rule : 5.1.1     Install the rsyslog package"
-yum_UnInstall_Package "rsyslog"
-MSG_DISPLAY "Info" "Rule : 5.1.2     Activate the rsyslog service"
-systemctl enable rsyslog
-systemctl start rsyslog
-
-
-}
 
 
  
@@ -473,24 +447,29 @@ function main ()
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
-logfile="/tmp/logAction.log"
-MSG_DISPLAY "Message" "upgrading all base backage " 
-yum upgrade -y
-CTRL_Result_func "${?}" "upgradding system packages" "Failled" "8" "" ""
-MSG_DISPLAY "Message" "Building base environment " 
-Directory_CRT "${Base_Dir_Scripts}"
-Directory_CRT "${Base_Dir_Scripts_BCK}"
-Directory_CRT "${Base_Dir_Scripts_Log}"
-logfile="${Base_Dir_Scripts_Log}/logAction.log"
-MSG_DISPLAY "Message" "Building system configuration " 
-Set_IPV6off
-Set_sshdconfig
-MSG_DISPLAY "Message" "Deploying system packages"
-pkg_inst_sys_default
+### Sourcing Specifics Configurations Files
+echo "" ; echo "" ; echo "" ; echo ""
+
+echo [ Info   :  script  INIT ]
+
+CNF_SRC="0"
+. ${Conf_Generics}
+if [ "${CNF_SRC}" = "1" ]
+   then
+       echo " Sourcing base configuration File : [ OK ] "
+   else
+       echo " Sourcing  base configuration File  : [ ERROR ]"
+       exit 1
+fi
+SRC_AUTO
+
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
 
 
-install_pythonpip
-Set_sshdconfig
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 

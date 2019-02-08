@@ -8,10 +8,59 @@
 # Extract from CAST framwork property of Arnaud Crampet 
 ###############################################################################
 
-Base_Dir_Scripts="/srv/admin/scripts"  
-Base_Dir_Scripts_BCK="${Base_Dir_Scripts}/backup" 
-Base_Dir_Scripts_Tmp="${Base_Dir_Scripts}/tmp" 
-Base_Dir_Scripts_Log="${Base_Dir_Scripts}/logs"    
+Function_PATH="/main"
+Base_Script_Language="en_GB"
+
+#|# directory used for code
+Base_Dir_Scripts="/srv/admin/scripts"                                                    
+Base_Dir_Scripts_Bin="${Base_Dir_Scripts}/bin"                                           # DIR_To_CHECK
+Base_Dir_Scripts_Lib="${Base_Dir_Scripts}/lib"                                           # DIR_To_CHECK
+Base_Dir_Scripts_Lib_Expect_Uploads="${Base_Dir_Scripts_Lib_Expect}/uploaded_scripts"    # DIR_To_CHECK
+Base_Dir_Scripts_Lib_Expects_cmd="${Base_Dir_Scripts_Lib_Expect}/cmd"                    # DIR_To_CHECK
+Base_Dir_Scripts_CNF="${Base_Dir_Scripts}/conf"                                          # DIR_To_CHECK
+Base_Dir_Scripts_CNF_spec="${Base_Dir_Scripts_CNF}/special_conf"                         # DIR_To_CHECK
+Base_Dir_Scripts_CNF_Subs="${Base_Dir_Scripts_CNF_spec}/SubConf"                         # DIR_To_CHECK
+Base_Dir_Scripts_SQL="${Base_Dir_Scripts}/sql"                                           # DIR_To_CHECK
+
+#|# directory used for output
+Base_Dir_Scripts_LOG="${Base_Dir_Scripts}/logs"                                          # DIR_To_CHECK_TMP
+
+#|# directory used for tem data
+Base_Dir_Scripts_Tmp="${Base_Dir_Scripts}/tmp"                                           # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Tmp_Auto_Lib="${Base_Dir_Scripts_Tmp}/auto_lib"                         # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Fifo="${Base_Dir_Scripts_Tmp}/fifo"                                     # DIR_To_CHECK_TMP
+Base_Dir_Conf_Rec="${Base_Dir_Scripts_Tmp}/conf_file_rec"                                # DIR_To_CHECK_TMP
+Base_Dir_Conf_Gen="${Base_Dir_Scripts_Tmp}/conf_file_gen"                                # DIR_To_CHECK_TMP
+
+#|# directory used for all backups
+Base_Dir_Scripts_BCK="${Base_Dir_Scripts}/backup"                                        # DIR_To_CHECK_TMP
+#|# directory used to store all data 
+Base_Dir_Scripts_Data="${Base_Dir_Scripts}/data"                                         # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Def="${Base_Dir_Scripts_Data}/def"                                 # DIR_To_CHECK
+Base_Dir_Scripts_Data_Def_pf="${Base_Dir_Scripts_Data_Def}/pf"                           # DIR_To_CHECK
+Base_Dir_Scripts_Data_Templates="${Base_Dir_Scripts_Data}/templates"                     # DIR_To_CHECK
+Base_Dir_Scripts_Data_Templates_sql="${Base_Dir_Scripts_Data_Templates}/sql"             # DIR_To_CHECK
+Base_Dir_Scripts_Data_Templates_xml="${Base_Dir_Scripts_Data_Templates}/xml"             # DIR_To_CHECK
+Base_Dir_Scripts_Data_Templates_html="${Base_Dir_Scripts_Data_Templates}/html"           # DIR_To_CHECK
+Base_Dir_Scripts_Data_Templates_mail="${Base_Dir_Scripts_Data_Templates}/mail"           # DIR_To_CHECK
+Base_Dir_Scripts_Data_Catalogs="${Base_Dir_Scripts_Data}/catalogue"                      # DIR_To_CHECK
+Base_Dir_Scripts_Data_Packages="${Base_Dir_Scripts_Data}/pakages"                        # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Packages_inits="${Base_Dir_Scripts_Data_Packages}/inits"           # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Xml="${Base_Dir_Scripts_Data}/xml"                                 # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Xml_DEF="${Base_Dir_Scripts_Data_Xml}/xml_def"                     # DIR_To_CHECK
+Base_Dir_Scripts_Data_Doc="${Base_Dir_Scripts_Data}/doc"                                 # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_doc_xml="${Base_Dir_Scripts_Data_Doc}/xml"                         # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_doc_txt="${Base_Dir_Scripts_Data_Doc}/txt"                         # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_doc_man_html="${Base_Dir_Scripts_Data_Doc}/man-html"               # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Reports="${Base_Dir_Scripts_Data}/reports"                         # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Reports_txt="${Base_Dir_Scripts_Data_Reports}/txt"                 # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Reports_html="${Base_Dir_Scripts_Data_Reports}/html"               # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Get_From_PF="${Base_Dir_Scripts_Data}/pull"                        # DIR_To_CHECK_TMP
+Base_Dir_Scripts_Data_Html="${Base_Dir_Scripts_Data_Reports}/html"                       # DIR_To_CHECK_TMP
+
+
+
+ 
 USE_DATE="$(date +%Y_%m_%d-%HH_%MM)"
 MSG_SPLITER="............................................................"
 #|# screen delimiter for auto menu
@@ -24,6 +73,8 @@ PCD_MAIL_ADDR="arnaud@crampet.net       "
 #|# Generic system vars 
 NetConsoleConfig="/etc/sysconfig/netconsole"
 
+#|# Define list of all ksh libs
+Lib_to_SRC="$(find ${Base_Dir_Scripts_Lib} -type f| grep "\.lib$" )"
 
 ###############################################################################
 ####
@@ -41,9 +92,7 @@ function SRC_AUTO
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-
-. ${Base_Dir_Scripts_Lib}/system_base/log.lib
-Debug_INIT
+. ${Base_Dir_Scripts_Lib}/common.lib
 MSG_DISPLAY "Info" "Sourcing librairy : [ START ] "
 for Libs_to_SRC in ${Lib_to_SRC}
     do
@@ -55,23 +104,19 @@ done
 MSG_DISPLAY "Info" "Sourcing librairy : [ End ] "
 
 if [ -z "${Conf_Specifics}" ]
-   then
-		MSG_DISPLAY "Info" "Specifics configuration file  : [ ERROR : NULL VALUE ] "
-   else
-       if [ "${Conf_Specifics}" = "dummy" ]
-          then
-              MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
-          else
-              MSG_DISPLAY "Info" "Specifics configuration file : [ ${Conf_Specifics} ] "
-              File_Ctrl_Exist "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}" "Dont_Create_File" "2"
-              . ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}
-              generic_control_sourcing "${Conf_Specifics}"
-       fi
+	then
+		MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+	else
+		MSG_DISPLAY "Info" "Specifics configuration file : [ ${Conf_Specifics} ] "
+		File_Ctrl_Exist "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}" "Dont_Create_File" "2"
+		. ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}
+		generic_control_sourcing "${Conf_Specifics}"
 fi
+
 SANITY_CHECK_Check_Language
 SANITY_CHECK_Base_env_directory_check
 SANITY_CHECK_Check_TMP_Directory
-SANITY_CHECK_tools
+
 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
