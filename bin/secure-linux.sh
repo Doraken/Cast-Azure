@@ -391,7 +391,7 @@ CRF_Generic_Base_MSG="GPG checking for yum"
 CRF_Generic_Base_MSG_ERR="configuration failled"
 _GPGCHECKSTATUS="$(grep gpgcheck /etc/yum.conf)"
 
-grep gpgcheck /etc/yum.conf > /dev/null 
+grep gpgcheck=1 /etc/yum.conf > /dev/null 
 
 
 if [ "${?}" = "1" ]
@@ -462,7 +462,7 @@ if [ "${CNF_SRC}" = "1" ]
        exit 1
 fi
 SRC_AUTO
-
+touch /etc/modprobe.conf
 for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
 	do 
 		

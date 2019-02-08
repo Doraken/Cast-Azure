@@ -305,7 +305,7 @@ esac
 
 File_Ctrl_Exist "${Base_File_To_move_or_copy}" "Dont_Create_File" "2"
 MSG_DISPLAY "Debug9" "CMD : [ ${ACTION_CPVM} ${Base_Action_Params} ${Base_File_To_move_or_copy}  ${Internal_CPMV_dest} ]"
-MSG_DISPLAY "Info" "Bakuping file ${Base_File_To_move_or_copy} to ${Internal_CPMV_dest} ]"
+MSG_DISPLAY "Debug9" "Bakuping file ${Base_File_To_move_or_copy} to ${Internal_CPMV_dest} ]"
 ${ACTION_CPVM} ${Base_Action_Params} ${Base_File_To_move_or_copy}  ${Internal_CPMV_dest}
 File_Ctrl_Exist "${Internal_CPMV_dest}" "Dont_Create_File" "2"
 
