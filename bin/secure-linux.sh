@@ -289,7 +289,7 @@ echo "net.ipv4.conf.default.send_redirects = 0"
 function set_default_start_target () 
 {
 MSG_DISPLAY "Info" "Rule : 3.1.1     Remove X Windows"
-systemctl set-default multi-user.target
+
 MSG_DISPLAY "Info" "Rule : 3.2       Disable Avahi Server"
 systemctl stop avahi-daemon
 systemctl disable avahi-daemon 
@@ -298,7 +298,7 @@ systemctl disable avahi-daemon
 }
 
 
-fucntion Set_Boot_Loader_Password
+function Set_Boot_Loader_Password
 {
 MSG_DISPLAY "Info" "Rule : 1.6.2     Set Boot Loader Password"
 File_Backup "/boot/grub2/user.cfg"
@@ -380,31 +380,6 @@ echo "install hfsplus /bin/true"  >> ${_inibit_file}
 echo "install squashfs /bin/true" >> ${_inibit_file} 
 echo "install udf /bin/true"      >> ${_inibit_file}
 MSG_DISPLAY "Info" "disabing FS [ cramfs,freevxfs,jffs2,hfs,hfsplus,squashfs,udf ] :   [ end ] "
-
-}
-
-
-function Redhat_secure_yum_key_check
-{
-# refer to 1.3.2    Verify that gpgcheck is Globally Activated 
-CRF_Generic_Base_MSG="GPG checking for yum"
-CRF_Generic_Base_MSG_ERR="configuration failled"
-_GPGCHECKSTATUS="$(grep gpgcheck /etc/yum.conf)"
-
-grep gpgcheck=1 /etc/yum.conf > /dev/null 
-
-
-if [ "${?}" = "1" ]
-   then
-        MSG_DISPLAY "ErrorN" "${CRF_Generic_Base_MSG} ${CRF_Generic_Base_MSG_ERR} [ ERROR  ] " "0"
-        File_Backup "/etc/ssh/sshd_config"
-        echo "gpgcheck=1" >> /etc/yum.conf
-        Redhat_secure_yum_key_check_sub
-   else
-       Redhat_secure_yum_key_check_sub
-fi
-
-rpm --import /etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
 
 }
 

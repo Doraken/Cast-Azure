@@ -13,52 +13,6 @@
 # INFO 
 #      this lib is for RED-HAD based system
 Report_result="/tmp/report"
-function _template ()
-{
-	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
-	#|#
-	#|# Var to set  : 
-	#|# 				_mode                       : use this var to set the action mode between evaluate/correct 
-	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
-	#|#
-	#|# Base usage  :   " "
-	#|#
-	#|# Send Back   :  
-	############ STACK_TRACE_BUILDER #####################
-	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
-	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
-	
-	_mode="${1}" 
-	_callback="${FUNCNAME[0]}"
-		
-	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
-	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
-	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
-
-	## TEST 
-	echo "ma commande" 
-	## end test
-	if [ ${?} = "1" ] 
-		then 
-			if [ "${_mode}" = "apply" ] 
-				then 
-					## APPLY
-					My apply commande
-					## END apply
-					${_callback} "report"
-				else
-					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
-			fi 
-		else
-			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
-	fi
-		
-	
-	############### Stack_TRACE_BUILDER ################
-	Function_PATH="$( dirname ${Function_PATH} )"
-	####################################################
-}
 
 function 1.1.6_Set_Sticky_Bit_on_All_World_Writable_Directories ()
 {
@@ -245,7 +199,7 @@ function 1.1.3_home_mount_options ()
 			_result="1"
 			_mode=""
 		else 
-			grep /home /etc/fstab |  egrep 'nodev'
+			grep /home /etc/fstab |  egrep 'nodev' > /dev/null 2>&1
 			if [ ${?} != "0" ] 
 				then 
 				_result="1"
@@ -305,7 +259,7 @@ function 1.1.4_dev_shm_mount_options
 			_result="1"
 			echo "tmpfs /dev/shm tmpfs rw,seclabel,noexec,nosuid,nodev 0 0"
 		else 
-			grep "/dev/shm" /etc/fstab |  egrep 'rw,seclabel,noexec,nosuid,nodev'
+			grep "/dev/shm" /etc/fstab |  egrep 'rw,seclabel,noexec,nosuid,nodev' > /dev/null 2>&1
 			if [ ${?} != "0" ] 
 				then 
 				_result="1"
@@ -1224,6 +1178,48 @@ function 3.1_Set_Daemon_umask ()
 	####################################################
 }
 
+
+function 3.1.1_Remove_X_Windows ()
+{
+	#|# Description :  3.1 Set Daemon umask
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST
+	_result="1" && systemctl get-default | grep multi-user.target > /dev/null 2>&1 && _result="0"
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					systemctl set-default multi-user.target
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
 function 3.2_Disable_Avahi_Server ()
 {
 	#|# Description :  3.2 Disable Avahi Server
@@ -1793,6 +1789,444 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 	####################################################
 }
 
+
+
+function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode ()
+{
+	#|# Description :  3.11_Remove_SNMP_Server
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="1" && ss -autn4 | grep "\:25"  | awk '{ print $5 }' | grep "127.0.0.1:25" > /dev/null 2>&1 && _result="0"
+	ss -autn6 | grep "\:25" > /dev/null 2>&1 && _result="1"
+		## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					File_Backup "/etc/postfix/main.cf"
+					_OriginalLine="$(cat /etc/postfix/main.cf | grep "inet_interfaces" | egrep -v \# |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_NewLine="inet_interfaces\ =\ localhost"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/postfix/main.cf
+					_OriginalLine="$(cat /etc/postfix/main.cf | grep "inet_protocols" | egrep -v \# |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g" )"
+					_NewLine="inet_protocols\ =\ ipv4"
+					sed -i "s/${_OriginalLine}/${_NewLine}/g" /etc/postfix/main.cf
+					service postfix restart  > /dev/null 2>&1 
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+function 4.1.1_Disable_IP_Forwarding ()
+{
+	#|# Description :  4.1.1 Disable IP Forwarding
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv4.ip_forward)"
+	if [ "${_State}" != "net.ipv4.ip_forward = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.all.forwarding)"   
+	if [ "${_State}" != "net.ipv4.conf.all.forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.default.forwarding)"
+	if [ "${_State}" != "net.ipv4.conf.default.forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.all.forwarding)"   
+	if [ "${_State}" != "net.ipv6.conf.all.forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.default.forwarding)"
+	if [ "${_State}" != "net.ipv6.conf.default.forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.all.mc_forwarding)" 
+	if [ "${_State}" != "net.ipv4.conf.default.mc_forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.default.mc_forwarding)"
+	if [ "${_State}" != "net.ipv4.ip_forward = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.all.mc_forwarding)" 
+	if [ "${_State}" != "net.ipv6.conf.all.mc_forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.default.mc_forwarding)"
+	if [ "${_State}" != "net.ipv6.conf.default.mc_forwarding = 0" ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv4.ip_forward = 0				 " >  /etc/sysctl.d/net-ipv4-ip_forward
+					echo "net.ipv4.conf.all.forwarding = 0       " >> /etc/sysctl.d/net-ipv4-ip_forward
+					echo "net.ipv4.conf.default.forwarding = 0   " >> /etc/sysctl.d/net-ipv4-ip_forward
+					echo "net.ipv6.conf.all.forwarding = 0       " >> /etc/sysctl.d/net-ipv4-ip_forward
+					echo "net.ipv6.conf.default.forwarding = 0   " >> /etc/sysctl.d/net-ipv4-ip_forward 
+					echo "net.ipv4.conf.all.mc_forwarding = 0    " >  /etc/sysctl.d/net-ipv4-mc-ip_forward 
+					echo "net.ipv4.conf.default.mc_forwarding = 0" >> /etc/sysctl.d/net-ipv4-mc-ip_forward 
+					echo "net.ipv6.conf.all.mc_forwardin g= 0    " >> /etc/sysctl.d/net-ipv4-mc-ip_forward 
+					echo "net.ipv6.conf.default.mc_forwarding=  0" >> /etc/sysctl.d/net-ipv4-mc-ip_forward 
+					/sbin/sysctl -w net.ipv4.ip_forward=0 
+					/sbin/sysctl -w net.ipv4.conf.all.forwarding=0   
+					/sbin/sysctl -w net.ipv4.conf.default.forwarding=0
+					/sbin/sysctl -w net.ipv6.conf.all.forwarding=0    
+					/sbin/sysctl -w net.ipv6.conf.default.forwarding=0 
+					/sbin/sysctl -w net.ipv4.conf.all.mc_forwarding=0  
+					/sbin/sysctl -w net.ipv4.conf.default.mc_forwarding=0
+					/sbin/sysctl -w net.ipv6.conf.all.mc_forwarding=0    
+					/sbin/sysctl -w net.ipv6.conf.default.mc_forwarding=0 
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 4.1.2_Disable_Send_Packet_Redirects ()
+{
+	#|# Description :  4.1.2 Disable Send Packet Redirects
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv4.conf.all.send_redirects)"
+	if [ "${_State}" != "net.ipv4.conf.all.send_redirects  = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.default.send_redirects)"   
+	if [ "${_State}" != "net.ipv4.conf.default.send_redirects = 0" ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv4.conf.all.send_redirects = 0			 " >  /etc/sysctl.d/net-ipv4-send_redirects
+					echo "net.ipv4.conf.default.send_redirects = 0       " >> /etc/sysctl.d/net-ipv4-send_redirects
+					/sbin/sysctl -w net.ipv4.conf.all.send_redirects=0 
+					/sbin/sysctl -w net.ipv4.conf.default.send_redirects=0   
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+function 4.2.1_Disable_Source_Routed_Packet_Acceptance ()
+{
+	#|# Description :  4.2.1 Disable Source Routed Packet Acceptance
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv4.conf.all.accept_source_route)"
+	if [ "${_State}" != "net.ipv4.conf.all.accept_source_route  = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv4.conf.default.accept_source_route)"   
+	if [ "${_State}" != "net.ipv4.conf.default.accept_source_route = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.all.accept_source_route)"
+	if [ "${_State}" != "net.ipv6.conf.all.accept_source_route  = 0" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.default.accept_source_route)"   
+	if [ "${_State}" != "net.ipv6.conf.default.accept_source_route = 0" ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv4.conf.all.accept_source_route = 0			  " >  /etc/sysctl.d/net-ipv4-accept_source_route
+					echo "net.ipv4.conf.default.accept_source_route = 0       " >> /etc/sysctl.d/net-ipv4-accept_source_route
+					echo "net.ipv6.conf.all.accept_source_route = 0			  " >  /etc/sysctl.d/net-ipv6-accept_source_route
+					echo "net.ipv6.conf.default.accept_source_route = 0       " >> /etc/sysctl.d/net-ipv6-accept_source_route
+					/sbin/sysctl -w net.ipv4.conf.all.accept_source_route=0 
+					/sbin/sysctl -w net.ipv4.conf.default.accept_source_route=0   
+					/sbin/sysctl -w net.ipv6.conf.all.accept_source_route=0 
+					/sbin/sysctl -w net.ipv6.conf.default.accept_source_route=0   
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+function 4.2.2_Change_Number_of_Unicast_IPV6_Addresses_assigned ()
+{
+	#|# Description :  4.2.2 Change Number of Unicast IPV6 Addresses assigned
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv6.conf.all.max_addresses)"
+	if [ "${_State}" != "net.ipv6.conf.all.max_addresses = 16" ] 
+		then 
+			_result="1"
+	fi 
+	_State="$(/sbin/sysctl net.ipv6.conf.default.max_addresses)"   
+	if [ "${_State}" != "net.ipv6.conf.default.max_addresses = 16" ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv6.conf.all.max_addresses = 16   			  " >  /etc/sysctl.d/net.ipv6.conf.all.max_addresses
+					echo "net.ipv6.conf.default.max_addresses = 16		      " >> /etc/sysctl.d/net.ipv6.conf.all.max_addresses
+					/sbin/sysctl -w net.ipv6.conf.all.max_addresses=16   
+					/sbin/sysctl -w net.ipv6.conf.default.max_addresses=16 
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
+function 4.2.3_Change_Amount_of_Duplicate_Address_Detection ()
+{
+	#|# Description :  4.2.3 Change Amount of Duplicate Address Detection
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv6.conf.all.da_transmits)"
+	if [ "${_State}" != "net.ipv6.conf.all.da_transmits = 0 " ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv6.conf.all.da_transmits = 0    			  " >  /etc/sysctl.d/net.ipv6.conf.all.da_transmits
+					/sbin/sysctl -w net.ipv6.conf.all.da_transmits=0
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+function 4.2.4_Change_Number_of_Router_Solicitations
+{
+	#|# Description :  4.2.4 Change Number of Router Solicitations
+	#|# Var to set  : 
+	#|# 				_mode                       : use this var to set the action mode between report/apply
+	#|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+	#|# Base usage  :  Function_Name "apply or repport"
+	#|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	
+	## TEST
+	_result="0"
+	_State="$(/sbin/sysctl net.ipv6.conf.all.router_solicitations)"
+	if [ "${_State}" != "net.ipv6.conf.all.router_solicitations = 0 " ] 
+		then 
+			_result="1"
+	fi 
+	## end test
+	if [ ${_result} = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					echo "net.ipv6.conf.all.router_solicitations = 0    			  " >  /etc/sysctl.d/net.ipv6.conf.all.da_transmits
+					/sbin/sysctl -w net.ipv6.conf.all.router_solicitations=0
+					## END apply
+					${_callback} "Report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
 function 4.4_Enable_Firewalld ()
 {
 	#|# Description :  4.4_Enable_Firewalld
@@ -1867,7 +2301,7 @@ function 4.5_Uncommon_Network_Protocols ()
 				then 
 					## APPLY
 					grep -r "sctp"  /etc/modprobe.conf /etc/modprobe.d/* |
-					File_Backup "/etc/sysctl.conf"
+					File_Backup "/etc/modprobe.d/UNP.conf"
 					echo "install dccp /bin/true" >> /etc/modprobe.d/UNP.conf
 					echo "install sctp /bin/true" >> /etc/modprobe.d/UNP.conf
 					echo "install rds /bin/true"  >> /etc/modprobe.d/UNP.conf
@@ -1958,7 +2392,7 @@ function 5.1.1_Install_the_rsyslog_package ()
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST
-	MSG_DISPLAY "Info" "Rule : "
+	 
 
 	_result="1" && yum list installed rsyslog -q > /dev/null 2>&1 && _result="0"
 	## end test
