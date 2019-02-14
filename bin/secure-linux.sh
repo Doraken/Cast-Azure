@@ -210,6 +210,14 @@ if [ "${CNF_SRC}" = "1" ]
 fi
 SRC_AUTO
 echo ""
+echo "<!DOCTYPE html>"  > /tmp/report.html
+echo "<html>"  >> /tmp/report.html
+echo "  <head>"  >> /tmp/report.html
+echo "    <title>Security enforcment status </title>"  >> /tmp/report.html
+echo "  </head>"  >> /tmp/report.html
+echo " <body>"  >> /tmp/report.html
+echo "<tr><td>Num chapter</td><td>SECURITY ELEMENT</td><td>STATUS</td></tr>"  >> /tmp/report.html
+
 MSG_DISPLAY "Info" "Appliying level 1" "0"
 echo "" 
 for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_1.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
@@ -273,11 +281,10 @@ for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_8.lib | grep ^fun
 		
 		${Secure} "apply"
 done 
-for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
-	do 
-		
-		${Secure} "apply"
-done 
+
+
+echo "</body>">> /tmp/report.html
+echo "</html>">> /tmp/report.html
 
 
 ############### Stack_TRACE_BUILDER ################

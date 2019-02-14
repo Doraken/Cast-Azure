@@ -97,7 +97,7 @@ MSG_DISPLAY "Info" "Sourcing librairy : [ START ] "
 for Libs_to_SRC in ${Lib_to_SRC}
     do
        MSG_DISPLAY "StMessage"  "Sourcing librairy : ${Libs_to_SRC} " "1"
-      . ${Libs_to_SRC} 1>> ${Base_Dir_Scripts_LOG}/soucing.log 2>&1 
+      . ${Libs_to_SRC} >> ${Base_Dir_Scripts_LOG}/soucing.log 2>&1 
        generic_control_sourcing "${Libs_to_SRC}"
 done
 
