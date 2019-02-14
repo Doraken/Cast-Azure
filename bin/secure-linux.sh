@@ -127,105 +127,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ############################## End of CAST framwork extract ###################
 
 
-function Set_IPV6off ()
-{
-#|# Description         : This function is used to build to kill IPV6.
-#|# 
-#|# Var to set           : None.
-#|#
-#|# Send Back            : IPV6 disabling
-#|#
-#|# Send Back           : Message and file or exit level
-################################################################################
-############ STACK_TRACE_BUILDER #####################
-Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
-######################################################
-    sysctl -w net.ipv6.conf.all.disable_ipv6=1
-    CTRL_Result_func "${?}" "applying action IPV6  Live configuration " "Failled" "8" "" ""
-    sysctl -w net.ipv6.conf.default.disable_ipv6=1
-    CTRL_Result_func "${?}" "applying action IPV6 Live configuration " "Failled" "8" "" ""
-    File_Backup "/etc/sysctl.conf"
-    echo "options ipv6 disable=1                               
-    # IPv6 support in the kernel, set to 0 by default    
-    net.ipv6.conf.all.disable_ipv6 = 1                   
-    net.ipv6.conf.default.disable_ipv6 = 1               " >  /etc/sysctl.conf
-    CTRL_Result_func "${?}" "applying action IPV6 configuration in file : /etc/sysctl.conf " "Failled" "8" "" ""
-    sysctl -p
-############### Stack_TRACE_BUILDER ################
-Function_PATH="$( dirname ${Function_PATH} )"
-#################################################### 
-}
-function Set_sshdconfig ()
-{
-#|# Description : This function is used to update SSH configuration 
-#|#
-#|# Var to set  : None.
-#|#
-#|# Base usage  : Set_sshdconfig
-#|#
-#|# Send Back   : updated sshd config and service restart
-################################################################################
-############ STACK_TRACE_BUILDER #####################
-Function_PATH="${Function_PATH}/${FUNCNAME[0]}" 
-######################################################
-File_Backup "/etc/ssh/sshd_config"
-sed -i s/\#Port\ 22/Port\ 22/g                                         /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh port configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#ListenAddress/ListenAddress/g /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh ListenAddress configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#SyslogFacility\ AUTH/SyslogFacility\ AUTH/g                 /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh SyslogFacility configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#LogLevel\ INFO/LogLevel\ INFO/g                             /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh LogLevel configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#LoginGraceTime\ 2m/LoginGraceTime\ 2m/g                  /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh LoginGraceTime configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#PermitRootLogin\ yes/PermitRootLogin\ no/g                  /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh PermitRootLogin configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-#sed -i s/\#StrictModes\ yes/StrictModes\ yes/g                      /etc/ssh/sshd_config 
-#CTRL_Result_func "${?}" "applying ssh StrictModes configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#MaxAuthTries\ 6/MaxAuthTries\ 6/g                          /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh MaxAuthTries configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#MaxSessions\ 10/MaxSessions\ 10/g                         /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh MaxSessions configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#PubkeyAuthentication\ yes/PubkeyAuthentication\ yes/g     /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh PubkeyAuthentication configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
-sed -i s/\#Banner\ none/Banner\ \\/etc\\/Banner/g                     /etc/ssh/sshd_config 
-CTRL_Result_func "${?}" "applying ssh port configuration : /etc/ssh/sshd_config " "Failled" "8" "" ""
 
-echo "
-   ____   ____  _____  __  __   ___    ____   ___      
-  / __/  / __/ / ___/ / / / /  / _ \  / __/  / _ \     
- _\ \   / _/  / /__  / /_/ /  / , _/ / _/   / // /     
-/___/  /___/  \___/  \____/  /_/|_| /___/  /____/      
-                                                       
-        ____   ____   ___   _   __   ____   ___        
-       / __/  / __/  / _ \ | | / /  / __/  / _ \       
-      _\ \   / _/   / , _/ | |/ /  / _/   / , _/       
-     /___/  /___/  /_/|_|  |___/  /___/  /_/|_|        
-                                                       
-            _   __       ___     ___                   
-           | | / /      <  /    / _ \                  
-           | |/ /       / /  _ / // /                  
-           |___/       /_/  (_)\___/                   
-                                                       
-                                                            
-ALERT! You are entering into a secured area! Your IP, Login Time,
-Username has been noted and has been sent to the server administrator!
-This service is restricted to authorized users only. All activities on
-this system are logged.
-Unauthorized access will be fully investigated and reported to the 
-appropriate law enforcement agencies.
-    
-" >     /etc/Banner 
-CTRL_Result_func "${?}" "applying action sshdbanner configuration " "Failled" "8" "" ""
-chmod +r /etc/Banner
-CTRL_Result_func "${?}" "Making sshd banner readable for all" "Failled" "8" "" ""
-ServMan "sshd" "stop" "8"
-ServMan "sshd" "start" "8"
-############### Stack_TRACE_BUILDER ################
-Function_PATH="$( dirname ${Function_PATH} )"
-#################################################### 
-}
 
 function FS-check () 
 {
@@ -253,50 +155,6 @@ Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
 }
     
-function fs_secure_tmp () 
-{
-_TMP_FS_OPT="noexec,nodev,nosuid"
-
-
-grep -e "^/tmp" /etc/fstab | grep /var/tmp 
-/tmp /var/tmp none rw,noexec,nosuid,nodev,bin 0 0 
-# mount | grep $(awk ‘{if ($2 == “/tmp”) print $1}’ /etc/fstab ) 
-
-
-
-}
-
-function fs_secure_home () 
-{
-_HOME_FS_OPT="nodev,nosuid"
-
-
-
-}
-
-function Network_config ()
-{
-
-echo "net.ipv4.conf.all.send_redirects = 0" 
-echo "net.ipv4.conf.default.send_redirects = 0"
-
-
-}
-
-
-
-
-function set_default_start_target () 
-{
-MSG_DISPLAY "Info" "Rule : 3.1.1     Remove X Windows"
-
-MSG_DISPLAY "Info" "Rule : 3.2       Disable Avahi Server"
-systemctl stop avahi-daemon
-systemctl disable avahi-daemon 
-
-
-}
-
 
 function Set_Boot_Loader_Password
 {
@@ -309,80 +167,6 @@ grub2-mkconfig >>  ${logfile}
 CTRL_Result_func "${?}" "grub configuration update" "Failled" "0" "" ""
 
 }
-
-function sys_Core_change
-{
-MSG_DISPLAY "Info" "Rule : 1.7.1     Restrict Core Dumps"
-MSG_DISPLAY "Info" "Rule : 1.7.2     Enable Randomized Virtual Memory Region Placement"
-
-File_Backup "/etc/security/limits.conf"
-File_Backup "/etc/sysctl.conf"
-
-echo "* hard core 0"                                  >> /etc/security/limits.conf
-echo "fs.suid_dumpable = 0"                           >> /etc/sysctl.conf
-echo "kernel.randomize_va_space = 2"                  >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.1.1     Disable IP Forwarding "
-echo "net.ipv4.ip_forward = 0"                        >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.1.2     Disable Send Packet Redirects"
-echo "net.ipv4.conf.all.send_redirects = 0"           >> /etc/sysctl.conf
-echo "net.ipv4.conf.default.send_redirects = 0"       >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.1     Disable Source Routed Packet Acceptance"
-echo "net.ipv4.conf.all.accept_source_route = 0"      >> /etc/sysctl.conf 
-echo "net.ipv4.conf.default.accept_source_route = 0"  >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.5     Disable ICMP Redirect Acceptance"
-echo "net.ipv4.conf.all.accept_redirects = 0"         >> /etc/sysctl.conf
-echo "net.ipv4.conf.default.accept_redirects = 0"     >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.6     Disable Secure ICMP Redirect Acceptance"
-echo "net.ipv4.conf.all.secure_redirects = 0"         >> /etc/sysctl.conf
-echo "net.ipv4.conf.default.secure_redirects = 0"     >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.7     Log Suspicious Packets"
-echo "net.ipv4.conf.all.log_martians = 1"             >> /etc/sysctl.conf
-echo "net.ipv4.conf.default.log_martians = 1 "        >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.8     Enable Ignore Broadcast Requests"
-echo "net.ipv4.icmp_echo_ignore_broadcasts = 1"       >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.9     Enable Bad Error Message Protection" 
-echo "net.ipv4.icmp_ignore_bogus_error_responses = 1" >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.10    Enable RFC-recommended Source Route Validation"
-echo "net.ipv4.conf.all.rp_filter = 1"                >> /etc/sysctl.conf
-echo "net.ipv4.conf.default.rp_filter = 1"            >> /etc/sysctl.conf
-MSG_DISPLAY "Info" "Rule : 4.2.11    Enable TCP SYN Cookies"
-echo "net.ipv4.tcp_syncookies = 1"                    >> /etc/sysctl.conf
-
-MSG_DISPLAY "Info" "Rule : 4.5       Uncommon Network Protocols"
-echo "install dccp /bin/true" >> /etc/modprobe.d/UNP.conf
-echo "install sctp /bin/true" >> /etc/modprobe.d/UNP.conf
-echo "install rds /bin/true"  >> /etc/modprobe.d/UNP.conf
-echo "install tipc /bin/true" >> /etc/modprobe.d/UNP.conf
-
-
-
-
-
-}
-
-
-
- 
-
-
-function fs_secure_unused () 
-{
-
-## Refer to 1.1.7    Disable mounting certain type of filesystems
-_inibit_file="/etc/modprobe.d/uncommonfs.conf"
-
-MSG_DISPLAY "Info" "disabing FS [ cramfs,freevxfs,jffs2,hfs,hfsplus,squashfs,udf ] :   [ starting ] "
-echo "install cramfs /bin/true"   > ${_inibit_file}
-echo "install freevxfs /bin/true" >> ${_inibit_file} 
-echo "install jffs2 /bin/true"    >> ${_inibit_file} 
-echo "install hfs /bin/true"      >> ${_inibit_file} 
-echo "install hfsplus /bin/true"  >> ${_inibit_file} 
-echo "install squashfs /bin/true" >> ${_inibit_file} 
-echo "install udf /bin/true"      >> ${_inibit_file}
-MSG_DISPLAY "Info" "disabing FS [ cramfs,freevxfs,jffs2,hfs,hfsplus,squashfs,udf ] :   [ end ] "
-
-}
-
 
 function Redhat_secure_yum_key_check_sub 
 {
@@ -405,18 +189,6 @@ fi
 }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
 function main () 
 {
 ############### Stack_TRACE_BUILDER ################
@@ -437,7 +209,70 @@ if [ "${CNF_SRC}" = "1" ]
        exit 1
 fi
 SRC_AUTO
-touch /etc/modprobe.conf
+echo ""
+MSG_DISPLAY "Info" "Appliying level 1" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_1.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 2" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_2.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+
+MSG_DISPLAY "Info" "Appliying level 3" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_3.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 4" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_4.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 5" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_5.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 6" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_6.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 7" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_7.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
+echo ""
+MSG_DISPLAY "Info" "Appliying level 8" "0"
+echo "" 
+for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_8.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
+	do 
+		
+		${Secure} "apply"
+done 
 for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security.lib | grep ^function | egrep -v \# | grep "\\." | awk '{ print $2 }' ) 
 	do 
 		

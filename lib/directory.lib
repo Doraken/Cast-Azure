@@ -66,18 +66,20 @@ MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
 Base_param_Dir_To_Create="${1}"
 
 Dir_null_or_slash ${Base_param_Dir_To_Create}
-MSG_DISPLAY "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
+#MSG_DISPLAY "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
 if [ -d "${Base_param_Dir_To_Create}" ]
    then 
-       MSG_DISPLAY "EdSMessage" "Present"
+	T=1
+  #     MSG_DISPLAY "EdSMessage" "Present"
     else 
         mkdir -p ${Base_param_Dir_To_Create}
         Return_code=$?
         if [ "${Return_code}" = "0" ]
            then
-               MSG_DISPLAY "EdSMessage" "CREATED"
+				t=1
+   #            MSG_DISPLAY "EdSMessage" "CREATED"
            else
-               MSG_DISPLAY "EdEMessage" "Can't be created"
+    #           MSG_DISPLAY "EdEMessage" "Can't be created"
                MSG_DISPLAY "ErrorN" " can't create directory : [ ${Base_param_Dir_To_Create} ]" "1"
          fi
 fi

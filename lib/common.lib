@@ -368,8 +368,18 @@ function Report_result ()
 	_element_report_num="${1}"
 	_element_report_txt="${2}"
 	_element_state="${3}"
-	MSG_DISPLAY "Info" "Apply of : ${_element_report_num}  ${_element_report_txt} ${_element_state}" "0"
-	 echo "<tr><td>${_element_report_num}</td><td>${_element_report_txt}</td><td>${_element_state}</td></tr>"  >> /tmp/report
+
+	
+	if [ "${_element_state}" = "TEST PASSED" ] 
+		then 
+			#MSG_DISPLAY "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
+			#MSG_DISPLAY "EdSMessage" "${_element_state}"
+			t=0
+		else
+			MSG_DISPLAY "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
+			MSG_DISPLAY "EdEMessage" "${_element_state}"
+	fi
+	 echo "<tr><td>${_element_report_num}</td><td>${_element_report_txt}</td><td>${_element_state}</td></tr>"  >> /tmp/report.html
 
 	############### Stack_TRACE_BUILDER ################
 	Function_PATH="$( dirname ${Function_PATH} )"
