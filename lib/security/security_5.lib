@@ -458,8 +458,8 @@ function 5.2.3_Enable_Auditing_for_Processes_That_Start_Prior_to_auditd  ()
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	_element_state="can t be applied"
 	## TEST
-		MSG_DISPLAY "Info" "Apply of : ${_Num_Rule}  ${_Txt_Rule} ${_element_state}" "0"
-	 echo "<tr><td>${_Txt_Rule}</td><td>${_Txt_Rule}</td><td>${_element_state}</td></tr>" >> /tmp/report.html
+   	Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	 
 	############### Stack_TRACE_BUILDER ################
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################

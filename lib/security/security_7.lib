@@ -51,7 +51,7 @@ function 7.2.1_Set_Password_Expiration_Days ()
 				then 
 					## APPLY
 					_Object="PASS_MAX_DAYS"
-					_OriginalLine="$(cat ${_FromFile} | "^${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
+					_OriginalLine="$(cat ${_FromFile} | grep "^${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
 					sed -i "s/${_OriginalLine}/PASS_MAX_DAYS\ 99\ /g" ${_FromFile}
 					## END apply
 					${_callback} "Report"
@@ -100,7 +100,7 @@ function 7.2.2_Set_Password_Change_Minimum_Number_of_Days ()
 				then 
 					## APPLY
 					_Object="PASS_MIN_DAYS"
-					_OriginalLine="$(cat ${_FromFile} | "${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
+					_OriginalLine="$(cat ${_FromFile} | grep "${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
 					sed -i "s/${_OriginalLine}/PASS_MIN_DAYS\ 0\ /g" ${_FromFile}
 					## END apply
 					${_callback} "Report"
@@ -149,7 +149,7 @@ function 7.2.3_Set_Password_Expiring_Warning_Days ()
 				then 
 					## APPLY
 					_Object="PASS_WARN_AGE"
-					_OriginalLine="$(cat ${_FromFile} | "${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
+					_OriginalLine="$(cat ${_FromFile} | grep "${_Object}"  |  sed -e "s/\ /\\\ /g" | sed -e "s/\//\\\\\//g"  | sed -e "s/\#/\\\\#/g" )"
 					sed -i "s/${_OriginalLine}/PASS_WARN_AGE\ 7\ /g" ${_FromFile}
 					for User in $(cat /etc/passwd | awk -F\: '{ print $1 }') 
 						do 

@@ -216,6 +216,7 @@ echo "  <head>"  >> /tmp/report.html
 echo "    <title>Security enforcment status </title>"  >> /tmp/report.html
 echo "  </head>"  >> /tmp/report.html
 echo " <body>"  >> /tmp/report.html
+echo "<table  border="1" >">> /tmp/report.html
 echo "<tr><td>Num chapter</td><td>SECURITY ELEMENT</td><td>STATUS</td></tr>"  >> /tmp/report.html
 
 MSG_DISPLAY "Info" "Appliying level 1" "0"
@@ -282,7 +283,7 @@ for Secure in $( cat ${Base_Dir_Scripts_Lib}/security/security_8.lib | grep ^fun
 		${Secure} "apply"
 done 
 
-
+echo "</table>">> /tmp/report.html
 echo "</body>">> /tmp/report.html
 echo "</html>">> /tmp/report.html
 
