@@ -129,7 +129,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 
 
 
-function FS-check () 
+function FS_check () 
 {
 #|# Description         : This function is used to build to kill IPV6
 #|#
