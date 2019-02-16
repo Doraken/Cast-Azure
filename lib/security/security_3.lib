@@ -691,7 +691,7 @@ function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode ()
 	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
 	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
-	
+	yum_Install_Package "postfix"
 	## TEST
 	_result="1" && ss -autn4 | grep "\:25"  | awk '{ print $5 }' | grep "127.0.0.1:25" > /dev/null 2>&1 && _result="0"
 	ss -autn6 | grep "\:25" > /dev/null 2>&1 && _result="1"
