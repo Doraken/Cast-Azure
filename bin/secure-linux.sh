@@ -8,7 +8,7 @@
 # Extract from CAST framwork property of Arnaud Crampet 
 ###############################################################################
 Function_PATH="/$0"
-Conf_Generics="../conf/config.cnf"
+Conf_Generics="/srv/admin/scripts/conf/config.cnf"
 Conf_Specifics=""
 Return_Path="$(pwd)" 
 Debug_state="9"
