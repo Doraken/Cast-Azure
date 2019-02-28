@@ -26,133 +26,20 @@ function 8_Warning_Banners ()
 	######################################################
 	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
-	echo "
-#   _____                                  _
-#  /  ___|                                | |
-#  \ \`--.  ___ _ __ ___ _   _ _ __ ___  __| |
-#   \`--. \/ _ \ '__/ __| | | | '__/ _ \/ _\` |
-#  /\__/ /  __/ | | (__| |_| | | |  __/ (_| |
-#  \____/ \___|_|  \___|\__,_|_|  \___|\__,_|
-#
-#
-#    _____ ___________  _   _ ___________
-#   /  ___|  ___| ___ \| | | |  ___| ___ \
-#   \ \`--.| |__ | |_/  | | | | |__ | |_/ /
-#    \`--. \  __||    / | | | | |__||    /
-#   /\__/ / |___| |\ \ \ \_/ / |___| |\ \
-#   \____/\____/\_| \_| \___/\____/\_| \_|
-#
-#
-#    _   _   __   _____
-#   | | | | /  | |  _  |
-#   | | | | \`| | | |/' |
-#   | | | |  | | |  /| |
-#   \ \_/ / _| |_\ |_/ /
-#    \___/  \___(_)___/
-#
-#
-**********************************************************************
-|                                                                    |
-| ATTENTION                                                          |
-| =========                                                          |
-| Quiconque accèderait ou tenterait d'accéder au S.I. sans y être    |
-| autorise risque deux ans d'emprisonnement et 30.000 Euros          |
-| d'amende. (Nouveau code Penal - Article 323-1)                     |
-|                                                                    |
-| Anyone accessing or attempting to access this system without       |
-| explicit authorization risks either two years in prison and a fine |
-| of 30.000 Euros (French Law . Article 323-1)                       |
-| __________________________________________________________________ |
- " > /etc/modt
-
+	${Base_Dir_Scripts_Data_Templates}
+	
+	File_move_or_copy "${Base_Dir_Scripts_Data_Templates}/configs/banner.txt" "/etc/modt" "COPY" "1"
+    File_move_or_copy "${Base_Dir_Scripts_Data_Templates}/configs/banner.txt" "/etc/issue" "COPY" "1"
+	File_move_or_copy "${Base_Dir_Scripts_Data_Templates}/configs/banner.txt" "/etc/issue.net" "COPY" "1"
+	chmod 644 /etc/modt
+	chmod 644 /etc/issue
+	chmod 644 /etc/issue.net
  
-	echo "
-#   _____                                  _
-#  /  ___|                                | |
-#  \ \`--.  ___ _ __ ___ _   _ _ __ ___  __| |
-#   \`--. \/ _ \ '__/ __| | | | '__/ _ \/ _\` |
-#  /\__/ /  __/ | | (__| |_| | | |  __/ (_| |
-#  \____/ \___|_|  \___|\__,_|_|  \___|\__,_|
-#
-#
-#    _____ ___________  _   _ ___________
-#   /  ___|  ___| ___ \| | | |  ___| ___ \
-#   \ \`--.| |__ | |_/  | | | | |__ | |_/ /
-#    \`--. \  __||    / | | | | |__||    /
-#   /\__/ / |___| |\ \ \ \_/ / |___| |\ \
-#   \____/\____/\_| \_| \___/\____/\_| \_|
-#
-#
-#    _   _   __   _____
-#   | | | | /  | |  _  |
-#   | | | | \`| | | |/' |
-#   | | | |  | | |  /| |
-#   \ \_/ / _| |_\ |_/ /
-#    \___/  \___(_)___/
-#
-#
-**********************************************************************
-|                                                                    |
-| ATTENTION                                                          |
-| =========                                                          |
-| Quiconque accèderait ou tenterait d'accéder au S.I. sans y être    |
-| autorise risque deux ans d'emprisonnement et 30.000 Euros          |
-| d'amende. (Nouveau code Penal - Article 323-1)                     |
-|                                                                    |
-| Anyone accessing or attempting to access this system without       |
-| explicit authorization risks either two years in prison and a fine |
-| of 30.000 Euros (French Law . Article 323-1)                       |
-| __________________________________________________________________ |
- " >  /etc/issue
+	chown root:root /etc/modt
+	chown root:root /etc/issue
+	chown root:root /etc/issue.net
  
-	echo "
-#   _____                                  _
-#  /  ___|                                | |
-#  \ \`--.  ___ _ __ ___ _   _ _ __ ___  __| |
-#   \`--. \/ _ \ '__/ __| | | | '__/ _ \/ _\` |
-#  /\__/ /  __/ | | (__| |_| | | |  __/ (_| |
-#  \____/ \___|_|  \___|\__,_|_|  \___|\__,_|
-#
-#
-#    _____ ___________  _   _ ___________
-#   /  ___|  ___| ___ \| | | |  ___| ___ \
-#   \ \`--.| |__ | |_/  | | | | |__ | |_/ /
-#    \`--. \  __||    / | | | | |__||    /
-#   /\__/ / |___| |\ \ \ \_/ / |___| |\ \
-#   \____/\____/\_| \_| \___/\____/\_| \_|
-#
-#
-#    _   _   __   _____
-#   | | | | /  | |  _  |
-#   | | | | \`| | | |/' |
-#   | | | |  | | |  /| |
-#   \ \_/ / _| |_\ |_/ /
-#    \___/  \___(_)___/
-#
-#
-**********************************************************************
-|                                                                    |
-| ATTENTION                                                          |
-| =========                                                          |
-| Quiconque accèderait ou tenterait d'accéder au S.I. sans y être    |
-| autorise risque deux ans d'emprisonnement et 30.000 Euros          |
-| d'amende. (Nouveau code Penal - Article 323-1)                     |
-|                                                                    |
-| Anyone accessing or attempting to access this system without       |
-| explicit authorization risks either two years in prison and a fine |
-| of 30.000 Euros (French Law . Article 323-1)                       |
-| __________________________________________________________________ |
- " >  /etc/issue.net
- 
- chmod 644 /etc/modt
- chmod 644 /etc/issue
- chmod 644 /etc/issue.net
- 
- chown root:root /etc/modt
- chown root:root /etc/issue
- chown root:root /etc/issue.net
- 
- MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"

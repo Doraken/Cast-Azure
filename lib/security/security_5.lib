@@ -149,41 +149,41 @@ function 5.1.3_Configure_etc_rsyslog.conf ()
 					 echo "#### MODULES #### " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# The imjournal module bellow is now used as a message source instead of imuxsock. " >> /etc/rsyslog.conf
-					 echo "$ModLoad imuxsock # provides support for local system logging (e.g. via logger command) " >> /etc/rsyslog.conf
-					 echo "$ModLoad imjournal # provides access to the systemd journal " >> /etc/rsyslog.conf
-					 echo "#$ModLoad imklog # reads kernel messages (the same are read from journald) " >> /etc/rsyslog.conf
-					 echo "#$ModLoad immark # provides --MARK-- message capability " >> /etc/rsyslog.conf
+					 echo "\$ModLoad imuxsock # provides support for local system logging (e.g. via logger command) " >> /etc/rsyslog.conf
+					 echo "\$ModLoad imjournal # provides access to the systemd journal " >> /etc/rsyslog.conf
+					 echo "#\$ModLoad imklog # reads kernel messages (the same are read from journald) " >> /etc/rsyslog.conf
+					 echo "#\$ModLoad immark # provides --MARK-- message capability " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Provides UDP syslog reception " >> /etc/rsyslog.conf
-					 echo "#$ModLoad imudp " >> /etc/rsyslog.conf
-					 echo "#$UDPServerRun 514 " >> /etc/rsyslog.conf
+					 echo "#\$ModLoad imudp " >> /etc/rsyslog.conf
+					 echo "#\$UDPServerRun 514 " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Provides TCP syslog reception " >> /etc/rsyslog.conf
-					 echo "#$ModLoad imtcp " >> /etc/rsyslog.conf
-					 echo "#$InputTCPServerRun 514 " >> /etc/rsyslog.conf
+					 echo "#\$ModLoad imtcp " >> /etc/rsyslog.conf
+					 echo "#\$InputTCPServerRun 514 " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "#### GLOBAL DIRECTIVES #### " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Where to place auxiliary files " >> /etc/rsyslog.conf
-					 echo "$WorkDirectory /var/lib/rsyslog " >> /etc/rsyslog.conf
+					 echo "\$WorkDirectory /var/lib/rsyslog " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Use default timestamp format " >> /etc/rsyslog.conf
-					 echo "$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat " >> /etc/rsyslog.conf
+					 echo "\$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# File syncing capability is disabled by default. This feature is usually not required, " >> /etc/rsyslog.conf
 					 echo "# not useful and an extreme performance hit " >> /etc/rsyslog.conf
-					 echo "#$ActionFileEnableSync on " >> /etc/rsyslog.conf
+					 echo "#\$ActionFileEnableSync on " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Include all config files in /etc/rsyslog.d/ " >> /etc/rsyslog.conf
-					 echo "$IncludeConfig /etc/rsyslog.d/*.conf " >> /etc/rsyslog.conf
+					 echo "\$IncludeConfig /etc/rsyslog.d/*.conf " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# Turn off message reception via local log socket; " >> /etc/rsyslog.conf
 					 echo "# local messages are retrieved through imjournal now. " >> /etc/rsyslog.conf
-					 echo "$OmitLocalLogging on " >> /etc/rsyslog.conf
+					 echo "\$OmitLocalLogging on " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "# File to store the position in the journal " >> /etc/rsyslog.conf
-					 echo "$IMJournalStateFile imjournal.state " >> /etc/rsyslog.conf
+					 echo "\$IMJournalStateFile imjournal.state " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo " " >> /etc/rsyslog.conf
 					 echo "#### RULES #### " >> /etc/rsyslog.conf
@@ -234,11 +234,11 @@ function 5.1.3_Configure_etc_rsyslog.conf ()
 					 echo "# " >> /etc/rsyslog.conf
 					 echo "# An on-disk queue is created for this action. If the remote host is " >> /etc/rsyslog.conf
 					 echo "# down, messages are spooled to disk and sent when it is up again. " >> /etc/rsyslog.conf
-					 echo "#$ActionQueueFileName fwdRule1 # unique name prefix for spool files " >> /etc/rsyslog.conf
-					 echo "#$ActionQueueMaxDiskSpace 1g # 1gb space limit (use as much as possible) " >> /etc/rsyslog.conf
-					 echo "#$ActionQueueSaveOnShutdown on # save messages to disk on shutdown " >> /etc/rsyslog.conf
-					 echo "#$ActionQueueType LinkedList # run asynchronously " >> /etc/rsyslog.conf
-					 echo "#$ActionResumeRetryCount -1 # infinite retries if host is down " >> /etc/rsyslog.conf
+					 echo "#\$ActionQueueFileName fwdRule1 # unique name prefix for spool files " >> /etc/rsyslog.conf
+					 echo "#\$ActionQueueMaxDiskSpace 1g # 1gb space limit (use as much as possible) " >> /etc/rsyslog.conf
+					 echo "#\$ActionQueueSaveOnShutdown on # save messages to disk on shutdown " >> /etc/rsyslog.conf
+					 echo "#\$ActionQueueType LinkedList # run asynchronously " >> /etc/rsyslog.conf
+					 echo "#\$ActionResumeRetryCount -1 # infinite retries if host is down " >> /etc/rsyslog.conf
 					 echo "# remote host is: name/ip:port, e.g. 192.168.0.1:514, port optional " >> /etc/rsyslog.conf
 					 echo "#*.* @@remote-host:514 " >> /etc/rsyslog.conf
 					 echo "# ### end of the forwarding rule ### " >> /etc/rsyslog.conf
