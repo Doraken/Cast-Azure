@@ -44,7 +44,7 @@ function 1.1.1_Separate_Filesystems ()
 			fi
 	done 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -83,20 +83,20 @@ function 1.1.2_tmp_mount_options ()
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
 	_result="0"
-	grep /tmp /etc/fstab > /dev/null 2&>1 
-	if [ ${?} != "0" ] 
+	grep /tmp /etc/fstab > /dev/null 2>&1 
+	if [ "${?}" != "0" ] 
 		then 
 			_result="1"
 			_mode=""
 		else 
-			grep /tmp /etc/fstab |  egrep 'nodev|nosuid|noexec' > /dev/null  2&>1 
-			if [ ${?} != "0" ] 
+			grep /tmp /etc/fstab |  egrep 'nodev|nosuid|noexec' > /dev/null  2>&1 
+			if [ "${?}" != "0" ] 
 				then 
 				_result="1"
 			fi 
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -141,19 +141,19 @@ function 1.1.3_home_mount_options ()
 	## TEST 
 	_result="0"
 	grep /home /etc/fstab > /dev/null 2>1
-	if [ ${?} != "0" ] 
+	if [ "${?}" != "0" ] 
 		then 
 			_result="1"
 			_mode=""
 		else 
 			grep /home /etc/fstab |  egrep 'nodev' > /dev/null 2>&1
-			if [ ${?} != "0" ] 
+			if [ "${?}" != "0" ] 
 				then 
 				_result="1"
 			fi 
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -171,9 +171,6 @@ function 1.1.3_home_mount_options ()
 		else
 			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
 	fi
-	############### Stack_TRACE_BUILDER ################
-	Function_PATH="$( dirname ${Function_PATH} )"
-	####################################################
 	############### Stack_TRACE_BUILDER ################
 	Function_PATH="$( dirname ${Function_PATH} )"
 	####################################################
@@ -200,26 +197,26 @@ function 1.1.4_dev_shm_mount_options
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
 	_result="0"
-	grep "/dev/shm" /etc/fstab > /dev/null 2&>1
-	if [ ${?} != "0" ] 
+	grep "/dev/shm" /etc/fstab > /dev/null 2>&1
+	if [ "${?}" != "0" ] 
 		then 
 			_result="1"
 		else 
 			grep "/dev/shm" /etc/fstab |  egrep 'rw,seclabel,noexec,nosuid,nodev' > /dev/null 2>&1
-			if [ ${?} != "0" ] 
+			if [ "${?}" != "0" ] 
 				then 
 				_result="1"
 			fi 
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
 					File_Backup "/etc/fstab"
-					grep "/dev/shm" /etc/fstab > /dev/null 2&>1
-					if [ ${?} != "0" ] 
+					grep "/dev/shm" /etc/fstab > /dev/null 2>&1
+					if [ "${?}" != "0" ] 
 						then 
 							echo "tmpfs /dev/shm tmpfs rw,seclabel,noexec,nosuid,nodev 0 0" >> /etc/fstab
 						else 
@@ -261,19 +258,19 @@ function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp ()
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 	## TEST 
 	_result="0"
-	grep /var/tmp /etc/fstab > /dev/null 2&>1
-	if [ ${?} != "0" ] 
+	grep /var/tmp /etc/fstab > /dev/null 2>&1
+	if [ "${?}" != "0" ] 
 		then 
 			_result="1"
 		else 
-			grep /var/tmp /etc/fstab | grep "/tmp" | grep  "/var/tmp" | grep "none"  | grep "bind" > /dev/null 2&>1
-			if [ ${?} != "0" ] 
+			grep /var/tmp /etc/fstab | grep "/tmp" | grep  "/var/tmp" | grep "none"  | grep "bind" > /dev/null 2>&1
+			if [ "${?}" != "0" ] 
 				then 
 					_result="1"
 			fi 
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -333,7 +330,7 @@ function 1.1.7_Disable_mounting_certain_type_of_filesystems ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -392,7 +389,7 @@ function 1.2_Use_the_Latest_OS_Release
 	## TEST 
 	_result="1" && cat /etc/redhat-release | grep 7.6 > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -440,7 +437,7 @@ function 1.3.2_Verify_that_gpgcheck_is_Globally_Activated
 	## TEST 
 	_result="1" && cat /etc/yum.conf | grep "gpgcheck=1" > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -487,7 +484,7 @@ function 1.3.3_Disable_the_rhnsd_Daemon
 	## TEST 
 	chkconfig  2>>  /dev/null |grep rhnsd | grep on  >> /dev/null
 	## end test
-	if [ ${?} = "1" ] 
+	if [ "${?}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then
@@ -533,7 +530,7 @@ function 1.4.1_Install_AIDE  ()
 	## TEST 
 	_result="1" && yum list installed aide  -q > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -578,7 +575,7 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
 
 	crontab -u root -l | grep aide | grep check >> /dev/null 
-	if [ ${?} = "1" ] 
+	if [ "${?}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -624,7 +621,7 @@ function 1.5.1_Set_the_SELinux_State
 	## TEST 
 	_result="1" && grep "SELINUX=enforcing" /etc/selinux/config  > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -673,7 +670,7 @@ function 1.5.2_Set_the_SELinux_Policy
 	## TEST 
 	_result="1" && grep "SELINUXTYPE=targeted" /etc/selinux/config  > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -721,7 +718,7 @@ function 1.5.3_Remove_SETroubleshoot ()
 	## TEST 
 	_result="0" && yum list installed SETroubleshoot -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -768,7 +765,7 @@ function 1.5.4_Remove_MCS_Translation_Service ()
 	## TEST 
 	_result="0" && yum list installed mcstrans -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -825,14 +822,14 @@ function 1.6.1_Set_User_Group_Owner_and_permissions_on_etc_grub_conf ()
 	
 	
 			
-	if [ ${?} = "0" ]
+	if [ "${?}" = "0" ]
 		then 
 			_result="0"
 		else 
 			_result="1"
 	fi 
 		## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

@@ -1,0 +1,726 @@
+function 1.1.1.1_inhibit_CRAMFS () 
+ {
+modprobe -n -v cramfs
+Attended : install /bin/true
+ # lsmod | grep cramfs
+atended Empty ouput 
+ 
+Remediation:
+Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install cramfs /bin/true
+Run the following command to unload the cramfs module: # rmmod cramfs
+ 
+ 
+ }
+ 
+
+function 1.1.7_Disable_mounting_certain_type_of_filesystems ()
+{
+    #|# Description :  1.1.7 Disable mounting certain type of filesystems
+    #|# Var to set  : 
+    #|# 				_mode                       : use this var to set the action mode between report/apply
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+    #|# Base usage  :  Function_Name "apply or repport"
+    #|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	
+	_mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+		
+	_Dspl_ref="$( echo ${FUNCNAME[0]} | sed -e 's/_/\ /g')"
+	_Num_Rule="$( echo ${_Dspl_ref} | awk '{ print $1 }' )"
+	_Txt_Rule="$( echo ${_Dspl_ref} | sed 's/[0-9]*//g' )"
+	## TEST 
+	_FromFile="/etc/modprobe.d/cis.conf"
+
+	_Object="install cramfs /bin/true" 
+	checkObjfromFile "${_Object}" "${_FromFile}"	
+
+	
+	## end test
+	if [ "${_result}" = "1" ] 
+		then 
+			if [ "${_mode}" = "apply" ] 
+				then 
+					## APPLY
+					_Object="install cramfs /bin/true" 
+					PutObjToFile "${_Object}" "${_FromFile}"	
+					## END apply
+					${_callback} "report"
+				else
+					Report_result "${_Num_Rule}" "${_Txt_Rule}" "FAILLED"
+			fi 
+		else
+			Report_result "${_Num_Rule}" "${_Txt_Rule}" "TEST PASSED"
+	fi
+	############### Stack_TRACE_BUILDER ################
+	Function_PATH="$( dirname ${Function_PATH} )"
+	####################################################
+}
+
+
+
+function 1.1.1.2_Ensure_mounting_of_freevxfs_filesystems_is_disabled ()
+ { 	
+    #|# Description : 1.1.1.2 Ensure mounting of freevxfs filesystems is disabled	
+    #|# Var to set  : 
+    #|# 				_mode                       : use this var to set the action mode between report/apply
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+    #|# Base usage  :  Function_Name "apply or repport"
+    #|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+
+
+
+
+
+    Run the following commands and verify the output is as indicated: # modprobe -n -v freevxfs install /bin/true # lsmod | grep freevxfs <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install freevxfs /bin/true
+    Run the following command to unload the freevxfs module: # rmmod freevxfs
+ 
+ }
+ 
+ 
+ 
+ 
+
+function 1.1.1.3 Ensure mounting of jffs2 filesystems is disabled ()
+  {
+    #|#  Description:
+	#|#     #|#The jffs2 (journaling flash filesystem 2) filesystem type is a log-structured filesystem used in flash memory devices.
+    #|# Rationale:
+	#|#     #|#Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.  	 	
+    #|# Var to set  : 	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create        
+    #|# Base usage  :  Function_Name "apply or repport"
+    #|# Send Back   :  Repport or repport and securing actions
+	############ STACK_TRACE_BUILDER #####################
+	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+  
+    Run the following commands and verify the output is as indicated: # modprobe -n -v jffs2 install /bin/true # lsmod | grep jffs2 <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install jffs2 /bin/true
+    Run the following command to unload the jffs2 module: # rmmod jffs2
+}
+
+function 1.1.1.4 Ensure mounting of hfs filesystems is disabled ()
+{  
+    #|#  Description:
+	#|#     #|# The hfs filesystem type is a hierarchical filesystem that allows you to mount Mac OS filesystems.
+    #|# Rationale:
+	#|#     #|# Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it. 	
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following commands and verify the output is as indicated: # modprobe -n -v hfs install /bin/true # lsmod | grep hfs <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install hfs /bin/true
+    Run the following command to unload the hfs module: # rmmod hfs
+}  
+
+function 1.1.1.5 Ensure mounting of hfsplus filesystems is disabled ()
+{  
+    #|#  Description:
+    #|# The hfsplus filesystem type is a hierarchical filesystem designed to replace hfs that allows you to mount Mac OS filesystems.
+    #|# Rationale:
+    #|# Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.	 	
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following commands and verify the output is as indicated: # modprobe -n -v hfsplus install /bin/true # lsmod | grep hfsplus <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install hfsplus /bin/true
+    Run the following command to unload the hfsplus module: # rmmod hfsplus
+}  
+
+function 1.1.1.6 Ensure mounting of squashfs filesystems is disabled ()
+{
+    #|#  Description:
+    #|# The squashfs filesystem type is a compressed read-only Linux filesystem embedded in small footprint systems (similar to cramfs ). A squashfs image can be used without having to first decompress the image.
+    #|# Rationale:
+    #|# Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+    _callback="${FUNCNAME[0]}"
+    Run the following commands and verify the output is as indicated: # modprobe -n -v squashfs install /bin/true # lsmod | grep squashfs <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install squashfs /bin/true
+    Run the following command to unload the squashfs module: # rmmod squashfs
+}  
+
+function 1.1.1.7 Ensure mounting of udf filesystems is disabled ()
+{  
+    #|#  Description:
+    #|# The udf filesystem type is the universal disk format used to implement ISO/IEC 13346 and ECMA-167 specifications. This is an open vendor filesystem type for data storage on a broad range of media. This filesystem type is necessary to support writing DVDs and newer optical disc formats.
+    #|# Rationale:
+    #|# Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following commands and verify the output is as indicated: # modprobe -n -v udf install /bin/true # lsmod | grep udf <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install udf /bin/true
+    Run the following command to unload the udf module: # rmmod udf
+}  
+
+function 1.1.1.8 Ensure mounting of FAT filesystems is disabled ()
+{  
+    #|#  Description:
+    #|# The FAT filesystem format is primarily used on older windows systems and portable USB drives or flash modules. It comes in three types FAT12 , FAT16 , and FAT32 all of which are supported by the vfat kernel module.
+    #|# Rationale:
+    #|# Removing support for unneeded filesystem types reduces the local attack surface of the system. If this filesystem type is not needed, disable it.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following commands and verify the output is as indicated: # modprobe -n -v vfat install /bin/true # lsmod | grep vfat <No output>
+    Remediation:
+    Edit or create the file /etc/modprobe.d/CIS.conf and add the following line: install vfat /bin/true
+    Run the following command to unload the vfat module: # rmmod vfat
+    Impact:
+    FAT filesystems are often used on portable USB sticks and other flash media are commonly used to transfer files between workstations, removing VFAT support may prevent the ability to transfer files in this way.
+}  
+
+function 1.1.2 Ensure separate partition exists for /tmp ()
+{ 
+    #|#  Description:
+    #|# The /tmp directory is a world-writable directory used for temporary storage by all users and some applications.
+    #|# Rationale:
+    #|# Since the /tmp directory is intended to be world-writable, there is a risk of resource exhaustion if it is not bound
+    #|#  to a separate partition. In addition, making /tmp its own file system allows an administrator to set the noexec option     
+    #|#  on the mount, making /tmp useless for an attacker to install executable code. It would also prevent an attacker from establishing 
+    #|#  a hardlink to a system setuid program and wait for it to be updated. Once the program was updated, the hardlink would be broken and 
+    #|#  the attacker would have his own copy of the program. If the program happened to have a security vulnerability,
+    #|#  the attacker could continue to exploit the known flaw.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following command and verify output shows /tmp is mounted: # mount | grep /tmp tmpfs on /tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+    Remediation:
+    For new installations, during installation create a custom partition setup and specify a separate partition for /tmp .
+    For systems that were previously installed, create a new partition for /tmp if not using tmpfs . Run the following commands 
+    to enable systemd /tmp mounting: systemctl unmask tmp.mount systemctl enable tmp.mount 
+    Edit /etc/systemd/system/local-fs.target.wants/tmp.mount to configure the /tmp mount: [Mount] What=tmpfs Where=/tmp Type=tmpfs Options=mode=1777,strictatime,noexec,nodev,nosuid
+    Impact:
+    Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing,
+    or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+}  
+
+function 1.1.3 Ensure nodev option set on /tmp partition ()
+{ 
+    #|#  Description:
+    #|# The nodev mount option specifies that the filesystem cannot contain special devices.
+    #|# Rationale:
+    #|# Since the /tmp filesystem is not intended to support devices, set this option to ensure that users cannot attempt to create block or character special devices in /tmp .	 	
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+If a /tmp partition exists run the following command and verify that the nodev option is set on /tmp: # mount | grep /tmp tmpfs on /tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+Remediation:
+Edit /etc/systemd/system/local-fs.target.wants/tmp.mount to add nodev to the /tmp mount options: [Mount] Options=mode=1777,strictatime,noexec,nodev,nosuid
+Run the following command to remount /tmp : # mount -o remount,nodev /tmp
+}  
+
+function 1.1.4 Ensure nosuid option set on /tmp partition ()
+ { 
+    #|#  Description:
+	#|# 	#|# The nosuid mount option specifies that the filesystem cannot contain setuid files.
+    #|# Rationale:
+	#|# Since the /tmp filesystem is only intended for temporary file storage, set this option to ensure that users cannot create setuid files in /tmp .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+If a /tmp partition exists run the following command and verify that the nosuid option is set on /tmp: # mount | grep /tmp tmpfs on /tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+Remediation:
+Edit /etc/systemd/system/local-fs.target.wants/tmp.mount to add nosuid to the /tmp mount options: [Mount] Options=mode=1777,strictatime,noexec,nodev,nosuid
+Run the following command to remount /tmp : # mount -o remount,nosuid /tmp
+}  
+
+function 1.1.5 Ensure noexec option set on /tmp partition ()
+{  
+    #|#  Description:
+	#|# The noexec mount option specifies that the filesystem cannot contain executable binaries.
+    #|# Rationale:
+	#|# Since the /tmp filesystem is only intended for temporary file storage, set this option to ensure that users cannot run executable binaries from /tmp .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	If a /tmp partition exists run the following command and verify that the noexec option is set on /tmp: # mount | grep /tmp tmpfs on /tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+	Remediation:
+	Edit /etc/systemd/system/local-fs.target.wants/tmp.mount to add noexec to the /tmp mount options: [Mount] Options=mode=1777,strictatime,noexec,nodev,nosuid
+	Run the following command to remount /tmp : # mount -o remount,noexec /tmp
+}  
+
+function 1.1.6 Ensure separate partition exists for /var ()
+{  
+    #|#  Description:
+	#|# The /var directory is used by daemons and other system services to temporarily store dynamic data. Some directories created by these processes may be world-writable.
+    #|# Rationale:
+	#|# Since the /var directory may contain world-writable files and directories, there is a risk of resource exhaustion if it is not bound to a separate partition.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	Run the following command and verify output shows /var is mounted: # mount | grep /var /dev/xvdg1 on /var type ext4 (rw,relatime,data=ordered)
+	Remediation:
+	For new installations, during installation create a custom partition setup and specify a separate partition for /var . For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.
+	Impact:
+	Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+}  
+
+function 1.1.7 Ensure separate partition exists for /var/tmp ()
+{  
+    #|#  Description:
+	#|# The /var/tmp directory is a world-writable directory used for temporary storage by all users and some applications.
+    #|# Rationale:
+	#|# Since the /var/tmp directory is intended to be world-writable, there is a risk of resource exhaustion if it is not bound to a separate partition. In addition, making /var/tmp its own file system allows an administrator to set the noexec option on the mount, making /var/tmp useless for an attacker to install executable code. It would also prevent an attacker from establishing a hardlink to a system setuid program and wait for it to be updated. Once the program was updated, the hardlink would be broken and the attacker would have his own copy of the program. If the program happened to have a security vulnerability, the attacker could continue to exploit the known flaw.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	Run the following command and verify output shows /var/tmp is mounted: # mount | grep /var/tmp <device> on /var/tmp type ext4 (rw,nosuid,nodev,noexec,relatime)
+	Remediation:
+	For new installations, during installation create a custom partition setup and specify a separate partition for /var/tmp . For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.
+	Impact:
+	Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional 
+	tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+}  
+
+function 1.1.8 Ensure nodev option set on /var/tmp partition ()
+{  
+    #|#  Description:
+	#|# The nodev mount option specifies that the filesystem cannot contain special devices.
+    #|# Rationale:
+	#|# Since the /var/tmp filesystem is not intended to support devices, set this option to ensure that users cannot attempt to create block or character special devices in /var/tmp .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	If a /var/tmp partition exists run the following command and verify that the nodev option is set on /var/tmp . # mount | grep /var/tmp tmpfs on /var/tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+	Remediation:
+	Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /var/tmp partition. See the fstab(5) manual page for more information. Run the following command to remount /var/tmp : # mount -o remount,nodev /var/tmp
+}  
+
+function 1.1.9 Ensure nosuid option set on /var/tmp partition ()
+{  
+    #|#  Description:
+	#|# The nosuid mount option specifies that the filesystem cannot contain setuid files.
+    #|# Rationale:
+	#|# Since the /var/tmp filesystem is only intended for temporary file storage, set this option to ensure that users cannot create setuid files in /var/tmp .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	If a /var/tmp partition exists run the following command and verify that the nosuid option is set on /var/tmp . # mount | grep /var/tmp tmpfs on /var/tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+	Remediation:
+	Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the /var/tmp partition. See the fstab(5) manual page for more information. Run the following command to remount /var/tmp : # mount -o remount,nosuid /var/tmp
+}  
+
+function 1.1.10 Ensure noexec option set on /var/tmp partition ()
+{  
+    #|#  Description:
+	#|# The noexec mount option specifies that the filesystem cannot contain executable binaries.
+    #|# Rationale:
+	#|# Since the /var/tmp filesystem is only intended for temporary file storage, set this option to ensure that users cannot run executable binaries from /var/tmp .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+	If a /var/tmp partition exists run the following command and verify that the noexec option is set on /var/tmp . # mount | grep /var/tmp tmpfs on /var/tmp type tmpfs (rw,nosuid,nodev,noexec,relatime)
+	Remediation:
+	Edit the /etc/fstab file and add noexec to the fourth field (mounting options) for the /var/tmp partition. See the fstab(5) manual page for more information. Run the following command to remount /var/tmp : # mount -o remount,noexec /var/tmp
+	  
+	2 Inventory of Authorized and Unauthorized Software Inventory of Authorized and Unauthorized Software
+}  
+
+function 1.1.11 Ensure separate partition exists for /var/log ()
+{  
+    #|#  Description:
+	#|# The /var/log directory is used by system services to store log data .
+    #|# Rationale:
+	#|# There are two important reasons to ensure that system logs are stored on a separate partition: protection against resource exhaustion (since logs can grow quite large) and protection of audit data.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify output shows /var/log is mounted: # mount | grep /var/log /dev/xvdh1 on /var/log type ext4 (rw,relatime,data=ordered)
+Remediation:
+For new installations, during installation create a custom partition setup and specify a separate partition for /var/log . For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.
+Impact:
+Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+References:
+1. AJ Lewis, "LVM HOWTO", http://tldp.org/HOWTO/LVM-HOWTO/
+}  
+
+function 1.1.12 Ensure separate partition exists for /var/log/audit ()
+{  
+    #|#  Description:
+	#|# The auditing daemon, auditd , stores log data in the /var/log/audit directory.
+    #|# Rationale:
+	#|# There are two important reasons to ensure that data gathered by auditd is stored on a separate partition: protection against resource exhaustion (since the audit.log file can grow quite large) and protection of audit data. The audit daemon calculates how much free space is left and performs actions based on the results. If other processes (such as syslog ) consume space in the same partition as auditd , it may not perform as desired.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify output shows /var/log/audit is mounted: # mount | grep /var/log/audit /dev/xvdi1 on /var/log/audit type ext4 (rw,relatime,data=ordered)
+Remediation:
+For new installations, during installation create a custom partition setup and specify a separate partition for /var/log/audit . For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.
+Impact:
+Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+References:
+1. AJ Lewis, "LVM HOWTO", http://tldp.org/HOWTO/LVM-HOWTO/
+}  
+
+function 1.1.13 Ensure separate partition exists for /home ()
+{  
+    #|#  Description:
+	#|# The /home directory is used to support disk storage needs of local users.
+    #|# Rationale:
+	#|# If the system is intended to support local users, create a separate partition for the /home directory to protect against resource exhaustion and restrict the type of files that can be stored under /home .
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify output shows /home is mounted: # mount | grep /home /dev/xvdf1 on /home type ext4 (rw,nodev,relatime,data=ordered)
+Remediation:
+For new installations, during installation create a custom partition setup and specify a separate partition for /home . For systems that were previously installed, create a new partition and configure /etc/fstab as appropriate.
+Impact:
+Resizing filesystems is a common activity in cloud-hosted servers. Separate filesystem partitions may prevent successful resizing, or may require the installation of additional tools solely for the purpose of resizing operations. The use of these additional tools may introduce their own security considerations.
+References:
+1. AJ Lewis, "LVM HOWTO", http://tldp.org/HOWTO/LVM-HOWTO/
+}  
+
+function 1.1.14 Ensure nodev option set on /home partition ()
+{  
+    #|#  Description:
+	#|# The nodev mount option specifies that the filesystem cannot contain special devices.
+    #|# Rationale:
+	#|# Since the user partitions are not intended to support devices, set this option to ensure that users cannot attempt to create block or character special devices.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+If a /home partition exists run the following command and verify that the nodev option is set on /home . # mount | grep /home /dev/xvdf1 on /home type ext4 (rw,nodev,relatime,data=ordered)
+Remediation:
+Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /home partition. See the fstab(5) manual page for more information. # mount -o remount,nodev /home
+Notes:
+The actions in this recommendation refer to the /homepartition, which is the default user partition that is defined. If you have created other user partitions, it is recommended that the Remediation and Audit steps be applied to these partitions as well.
+}  
+
+function 1.1.15 Ensure nodev option set on /dev/shm partition ()
+{  
+    #|#  Description:
+	#|# The nodev mount option specifies that the filesystem cannot contain special devices.
+    #|# Rationale:
+	#|# Since the /dev/shm filesystem is not intended to support devices, set this option to ensure that users cannot attempt to create special devices in /dev/shm partitions.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the nodev option is set on /dev/shm . # mount | grep /dev/shm tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,noexec,relatime)
+Remediation:
+Edit the /etc/fstab file and add nodev to the fourth field (mounting options) for the /dev/shm partition. See the fstab(5) manual page for more information. Run the following command to remount /dev/shm : # mount -o remount,nodev /dev/shm
+Notes:
+ /dev/shm is not specified in /etc/fstab despite being mounted by default. The following line will implement the recommended /dev/shm mount options in /etc/fstab: tmpfs /dev/shm tmpfs defaults,nodev,nosuid,noexec 0 0
+}  
+
+function 1.1.16 Ensure nosuid option set on /dev/shm partition ()
+{  
+    #|#  Description:
+	#|# The nosuid mount option specifies that the filesystem cannot contain setuid files.
+    #|# Rationale:
+	#|# Setting this option on a file system prevents users from introducing privileged programs onto the system and allowing non-root users to execute them.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the no suid option is set on /dev/shm . # mount | grep /dev/shm tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,noexec,relatime)
+Remediation:
+Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) for the /dev/shm partition. See the fstab(5) manual page for more information. Run the following command to remount /dev/shm : # mount -o remount,nosuid /dev/shm
+Notes:
+ /dev/shm is not specified in /etc/fstab despite being mounted by default. The following line will implement the recommended /dev/shm mount options in /etc/fstab: tmpfs /dev/shm tmpfs defaults,nodev,nosuid,noexec 0 0
+}  
+
+function 1.1.17 Ensure noexec option set on /dev/shm partition ()
+{  
+    #|#     #|#  Description:
+	#|#     #|# The noexec mount option specifies that the filesystem cannot contain executable binaries.
+    #|#     #|# Rationale:
+	#|#     #|# Setting this option on a file system prevents users from executing programs from shared memory. This deters
+    #|#  users from introducing potentially malicious software on the system.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the noexec option is set on /dev/shm . # mount | grep /dev/shm tmpfs on /dev/shm type tmpfs (rw,nosuid,nodev,noexec,relatime)
+Remediation:
+Edit the /etc/fstab file and add noexec to the fourth field (mounting options) for the /dev/shm partition. See the fstab(5) manual page for more information. Run the following command to remount /dev/shm : # mount -o remount,noexec /dev/shm
+Notes:
+ /dev/shm is not specified in /etc/fstab despite being mounted by default. The following line will implement the recommended /dev/shm mount options in /etc/fstab: tmpfs /dev/shm tmpfs defaults,nodev,nosuid,noexec 0 0
+}  
+
+function 1.1.18 Ensure nodev option set on removable media partitions (Not Scored)
+{  
+    #|#     #|#  Description:
+	#|#     #|# The nodev mount option specifies that the filesystem cannot contain special devices.
+    #|#     #|# Rationale:
+	#|#     #|# Removable media containing character and block special devices could be
+    #|#  used to circumvent security controls by allowing non-root users to access
+    #|#  sensitive device files such as /dev/kmem or the raw disk partitions.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the nodev option is set on all removable media partitions. # mount
+Remediation:
+Edit the /etc/fstab file and add nodev to the fourth field (mounting options) of all removable media partitions. Look for entries that have mount points that contain words such as floppy or cdrom. See the fstab(5) manual page for more information.
+}  
+
+function 1.1.19 Ensure nosuid option set on removable media partitions (Not Scored)
+{  
+    #|#     #|#  Description:
+	#|#     #|# The nosuid mount option specifies that the filesystem cannot contain setuid files.
+    #|#     #|# Rationale:
+	#|#     #|# Setting this option on a file system prevents users from introducing privileged programs onto the system and allowing non-root users to execute them.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the nosuid option is set on all removable media partitions. # mount
+Remediation:
+Edit the /etc/fstab file and add nosuid to the fourth field (mounting options) of all removable media partitions. Look for entries that have mount points that contain words such as floppy or cdrom. See the fstab(5) manual page for more information.
+}  
+
+function 1.1.20 Ensure noexec option set on removable media partitions (Not Scored)
+{  
+    #|#  Description:
+    #|# The noexec mount option specifies that the filesystem cannot contain executable binaries.
+    #|# Rationale:
+    #|# Setting this option on a file system prevents users from executing programs from the 
+    #|#  removable media. This deters users from being able to introduce potentially malicious software on the system.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+Run the following command and verify that the noexec option is set on all removable media partitions. # mount
+Remediation:
+Edit the /etc/fstab file and add noexec to the fourth field (mounting options) of all removable media partitions. Look for entries that have mount points that contain words such as floppy or cdrom. See the fstab(5) manual page for more information.
+}  
+
+function 1.1.21 Ensure sticky bit is set on all world-writable directories ()
+{  
+    #|#  Description:
+    #|# Setting the sticky bit on world writable directories prevents users from deleting or renaming files in that directory that are not owned by them.
+    #|# Rationale:
+    #|# This feature prevents the ability to delete or rename files in world writable directories (such as /tmp ) that are owned by another user.
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+    Run the following command to verify no world writable directories exist without the sticky bit set: # df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d \( -perm -0002 -a ! -perm -1000 \) 2>/dev/null
+    No output should be returned.
+    Remediation:
+    Run the following command to set the sticky bit on all world writable directories: # df --local -P | awk {'if (NR!=1) print $6'} | xargs -I '{}' find '{}' -xdev -type d -perm -0002 2>/dev/null | xargs chmod a+t
+    Notes:
+    Some distributions may not support the --local option to df.
+}  
+
+function 1.1.22 Disable Automounting ()
+{  
+     #|#  Description:
+    #|# autofs allows automatic mounting of devices, typically including CD/DVDs and USB drives.
+    #|# Rationale:
+    #|# With automounting enabled anyone with physical access could attach a USB drive or disc and have its contents available in system even if they lacked permissions to mount it themselves.
+ 	 	
+    #|# Var to set  :  	 	
+    #|# 				_mode                       : use this var to set the action mode between report/apply 	 	
+    #|# 				${1}                        : use this var to set Base_param_Dir_To_Create         	 	
+    #|# Base usage  :  Function_Name "apply or repport" 	 	
+    #|# Send Back   :  Repport or repport and securing actions 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
+	######################################################
+	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+
+    _mode="${1}" 
+	_callback="${FUNCNAME[0]}"
+# Run the following command and verify result is not "enabled": # systemctl is-enabled autofs disabled
+# Remediation:
+# Run the following command to disable autofs : # systemctl disable autofs
+# Impact:
+# The use portable hard drives is very common for workstation users. If your organization allows the use of portable storage or media on workstations and physical access controls to workstations is considered adequate there is little value add in turning off automounting.
+# Notes:
+# This control should align with the tolerance of the use of portable drives and optical media in the organization. On a server requiring an admin to manually mount media can be part of defense-in-depth to reduce the risk of unapproved software or information being introduced or proprietary software or information being exfiltrated. If admins commonly 
+# use flash drives and Server access has sufficient physical controls, requiring manual mounting may not increase security.
+}

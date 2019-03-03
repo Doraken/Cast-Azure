@@ -35,7 +35,7 @@ function 6.1.1_Enable_cronie_anacron_Daemon ()
 	## TEST
 	_result="1" && yum list installed rsyslog -q > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -86,7 +86,7 @@ function 6.1.2_Enable_crond_Daemon  ()
 	fi	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -135,7 +135,7 @@ function 6.1.3_Set_User_Group_Owner_and_Permission_on_etc_cronie_anacrontab ()
 	fi	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -187,7 +187,7 @@ function 6.2.3_Set_Permissions_on_etc_ssh_sshd_config ()
 			_result="1"
 	fi	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -235,7 +235,7 @@ function 6.2.4_Disable_SSH_X11_Forwarding ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -284,7 +284,7 @@ function 6.2.5_Set_SSH_MaxAuthTries_to_4_or_Less ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -334,7 +334,7 @@ function 6.2.6_Set_SSH_IgnoreRhosts_to_Yes ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -385,7 +385,7 @@ function 6.2.7_Set_SSH_HostbasedAuthentication_to_No ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -435,7 +435,7 @@ function 6.2.8_Disable_SSH_Root_Login ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -484,7 +484,7 @@ function 6.2.9_Set_SSH_PermitEmptyPasswords_to_No ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -533,7 +533,7 @@ function 6.2.10_Do_Not_Allow_Users_to_Set_Environment_Options ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -582,7 +582,7 @@ function 6.2.11_Use_Only_Approved_Cipher_in_Counter_Mode ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -640,7 +640,7 @@ function 6.3.1_Set_Password_Creation_Requirement_Parameters_Using_pam_cracklib (
 	_Object="lcredit = -1"
 	checkObjfromFile "${_Object}" "${_FromFile}"  
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -702,12 +702,12 @@ function 6.3.3_Upgrade_Password_Hashing_Algorithm_to_SHA-512 ()
 	_result="1" && authconfig --test | grep hashing | grep sha512 > /dev/null 2>1 &&  _result="0"
 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
 					## APPLY
-					authconfig --passalgo=sha512 --update > /dev/null 2&>1
+					authconfig --passalgo=sha512 --update > /dev/null 2>&1
 					## END apply
 					${_callback} "Report"
 				else
@@ -750,7 +750,7 @@ function 6.3.5_Restrict_Access_to_the_su_Command ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

@@ -45,7 +45,7 @@ function 7.2.1_Set_Password_Expiration_Days ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -94,7 +94,7 @@ function 7.2.2_Set_Password_Change_Minimum_Number_of_Days ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -143,7 +143,7 @@ function 7.2.3_Set_Password_Expiring_Warning_Days ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -153,7 +153,7 @@ function 7.2.3_Set_Password_Expiring_Warning_Days ()
 					sed -i "s/${_OriginalLine}/PASS_WARN_AGE\ 7\ /g" ${_FromFile}
 					for User in $(cat /etc/passwd | awk -F\: '{ print $1 }') 
 						do 
-							chage --warndays 7 ${User} > /dev/null 2&>1
+							chage --warndays 7 ${User} > /dev/null 2>&1
 					done
 					## END apply
 					${_callback} "Report"
@@ -197,7 +197,7 @@ function 7.5_Lock_Inactive_User_Accounts ()
 			_result="0"
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

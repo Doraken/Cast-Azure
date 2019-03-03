@@ -82,7 +82,7 @@ function 4.1.1_Disable_IP_Forwarding ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -151,7 +151,7 @@ function 4.1.2_Disable_Send_Packet_Redirects ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -216,7 +216,7 @@ function 4.2.1_Disable_Source_Routed_Packet_Acceptance ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -290,7 +290,7 @@ function 4.2.2_Disable_Router_Advertisements_and_Autoconfiguration ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -352,7 +352,7 @@ function 4.2.3_Change_Number_of_Unicast_IPV6_Addresses_assigned ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -402,7 +402,7 @@ function 4.2.4_Change_Amount_of_Duplicate_Address_Detection ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -450,7 +450,7 @@ function 4.2.5_Change_Number_of_Router_Solicitations  ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -513,7 +513,7 @@ function 4.2.6_Disable_ICMP_Redirect_Acceptance  ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -572,7 +572,7 @@ function 4.2.7_Disable_Secure_ICMP_Redirect_Acceptance ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -627,7 +627,7 @@ function 4.2.8_Log_Suspicious_Packets ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -677,7 +677,7 @@ function 4.2.9_Enable_Ignore_Broadcast_Requests  ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -725,7 +725,7 @@ function 4.2.10_Enable_Bad_Error_Message_Protection  ()
 			_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -778,7 +778,7 @@ function 4.2.11_Enable_RFC_recommended_Source_Route_Validation  ()
 	_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -828,7 +828,7 @@ function 4.2.12_Enable_TCP_SYN_Cookies  ()
 	_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -881,7 +881,7 @@ function 4.3_Disable_IPv6 ()
 	_result="1"
 	fi 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -925,7 +925,7 @@ function 4.4_Enable_Firewalld ()
 	## TEST
 	_result="0" && systemctl list-units --type=service | grep firewalld | awk '{ print $2 "_" $3 "_" $4 }' | grep "loaded active running"  > /dev/null 2>&1   && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -990,7 +990,7 @@ function 4.5_Uncommon_Network_Protocols ()
 	fi
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

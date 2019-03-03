@@ -38,7 +38,7 @@ function 5.1.1_Install_the_rsyslog_package ()
 
 	_result="1" && yum list installed rsyslog -q > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -79,7 +79,7 @@ function 5.1.2_Activate_the_rsyslog_service ()
 	## TEST
 	_result="1" && systemctl list-units --type=service | grep rsyslog | awk '{ print $2 "_" $3 "_" $4 }' | grep "loaded_active_running"  > /dev/null 2>&1   && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -135,7 +135,7 @@ function 5.1.3_Configure_etc_rsyslog.conf ()
 	 checkObjfromFile "${_Object}" "${_FromFile}"
 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -279,7 +279,7 @@ function 5.2.1_Enable_auditd_Service ()
 	## TEST
 	_result="1" && systemctl list-units --type=service | grep auditd | awk '{ print $2 "_" $3 "_" $4 }' | grep "loaded_active_running"  > /dev/null 2>&1   && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -321,7 +321,7 @@ function 5.2.2.1_Configure_Audit_Log_Storage_Size ()
 	## TEST
 	_result="1" && cat /etc/audit/auditd.conf  | grep "max_log_file = 30" | egrep -v \# > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -370,7 +370,7 @@ function 5.2.2.2_Configure_actions_on_Audit_Log_Full ()
 	## TEST
 	_result="1" && grep "^space_left_action" /etc/audit/auditd.conf | egrep -v \# > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -417,7 +417,7 @@ function 5.2.2.3_Keep_All_Auditing_Information ()
 			_result="1"
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -497,7 +497,7 @@ function 5.2.4_Record_Events_That_Modify_Date_and_Time_Information ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -559,7 +559,7 @@ function 5.2.5_Record_Events_That_Modify_User_Group_Information ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -624,7 +624,7 @@ function 5.2.6_Record_Events_That_Modify_the_System_s_Network_Environment ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -680,7 +680,7 @@ function 5.2.7_Record_Events_That_Modify_the_System_s_Mandatory_Access_Controls 
 			_result="1"
 	fi
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -736,7 +736,7 @@ function 5.2.8_Collect_Login_and_Logout_Events ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -793,7 +793,7 @@ function 5.2.9_Collect_Session_Initiation_Information ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -850,7 +850,7 @@ function 5.2.10_Collect_Discretionary_Access_Control_Permission_Modification_Eve
 
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -905,7 +905,7 @@ function 5.2.11_Collect_Unsuccessful_Unauthorized_Access_Attempts_to_Files ()
 	_Object="-a always,exit -F arch=b64 -S setxattr,lsetxattr,fsetxattr,removexattr,lremovexattr,fremovexattr -F auid>=1000 -F auid!=4294967295 -F key=perm_mod"
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -957,7 +957,7 @@ function 5.2.12_Collect_Successful_File_System_Mounts ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -1005,7 +1005,7 @@ function 5.2.13_Collect_File_Deletion_Events_by_User ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -1057,7 +1057,7 @@ function 5.2.14_Collect_Changes_to_System_Administration_Scope_sudoers ()
 	
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -1108,7 +1108,7 @@ function 5.2.15_Collect_System_Administrator_Actions_sudolog ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -1163,7 +1163,7 @@ function 5.2.16_Collect_Kernel_Module_Loading_and_Unloading ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -1223,7 +1223,7 @@ function 5.3_Configure_logrotate ()
 	checkObjfromFile "${_Object}" "${_FromFile}"
 	
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

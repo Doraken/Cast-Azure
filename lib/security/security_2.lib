@@ -41,7 +41,7 @@ function 2.1.1_Remove_telnet_server_and_clients ()
 	_result="0" && yum list installed telnet-server -q > /dev/null 2>&1 && _result="1"
 	yum list installed telnet -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -91,7 +91,7 @@ function 2.1.2_Remove_rsh ()
 	yum list installed rsh -q > /dev/null 2>&1 && _result="1"
 
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -141,7 +141,7 @@ function 2.1.3_Remove_NIS ()
 	_result="0" && yum list installed ypserv -q > /dev/null 2>&1 && _result="1"
 	yum list installed ypbind -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -190,7 +190,7 @@ function 2.1.4_Remove_tftp ()
 	_result="0" && yum list installed tftp-server -q > /dev/null 2>&1 && _result="1"
 	 yum list installed tftp -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -240,7 +240,7 @@ function 2.1.5_Remove_talk ()
 	_result="0" && yum list installed talk-server -q > /dev/null 2>&1 && _result="1"
 	yum list installed talk -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -288,7 +288,7 @@ function 2.1.6_Remove_xinetd ()
 	## TEST 
 	_result="0" && yum list installed xinetd -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 

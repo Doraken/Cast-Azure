@@ -42,7 +42,7 @@ function 3.1_Set_Daemon_umask ()
 			_result="1"
 	fi 
 		## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -84,7 +84,7 @@ function 3.1.1_Remove_X_Windows ()
 	## TEST
 	_result="1" && systemctl get-default | grep multi-user.target > /dev/null 2>&1 && _result="0"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -126,7 +126,7 @@ function 3.2_Disable_Avahi_Server ()
 	## TEST 
 	_result="0" && yum list installed avahi -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -168,7 +168,7 @@ function 3.2.1_Disable_Print_Server_CUPS ()
 	## TEST 
 	_result="0" && yum list installed cups -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -210,7 +210,7 @@ function 3.3_Remove_DHCP_Server ()
 	## TEST 
 	_result="0" && yum list installed dhcp -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -252,7 +252,7 @@ function 3.4_Remove_LDAP ()
 	_result="0" && yum list installed openldap-servers -q > /dev/null 2>&1 && _result="1"
 	yum list installed openldap-clients -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -299,7 +299,7 @@ function 3.5_Disable_NFS_and_RPC ()
 	yum list installed target-cli -q > /dev/null 2>&1 && _result="1"
 	yum list installed targetd -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -345,7 +345,7 @@ function 3.6_Remove_DNS_Server ()
 	## TEST 
 	_result="0" && yum list installed bind -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -386,7 +386,7 @@ function 3.7_Remove_FTP_Server ()
 	## TEST 
 	_result="0" && yum list installed vsftpd -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -427,7 +427,7 @@ function 3.6_Remove_HTTP_Server ()
 	## TEST 
 	_result="0" && yum list installed httpd -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -468,7 +468,7 @@ function 3.8_Remove_Dovecot_IMAP_and_POP3_services ()
 	## TEST 
 	_result="0" && yum list installed dovecot -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -509,7 +509,7 @@ function 3.9_Remove_Samba ()
 	## TEST 
 	_result="0" && yum list installed samba -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -550,7 +550,7 @@ function 3.10_Remove_HTTP_Proxy_Server ()
 	## TEST 
 	_result="0" && yum list installed squid -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -591,7 +591,7 @@ function 3.11_Remove_SNMP_Server ()
 	## TEST
 	_result="0" && yum list installed net-snmp -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -641,7 +641,7 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 	fi	
 	yum list installed chrony -q > /dev/null 2>&1 && _result="1"
 	## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
@@ -696,7 +696,7 @@ function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode ()
 	_result="1" && ss -autn4 | grep "\:25"  | awk '{ print $5 }' | grep "127.0.0.1:25" > /dev/null 2>&1 && _result="0"
 	ss -autn6 | grep "\:25" > /dev/null 2>&1 && _result="1"
 		## end test
-	if [ ${_result} = "1" ] 
+	if [ "${_result}" = "1" ] 
 		then 
 			if [ "${_mode}" = "apply" ] 
 				then 
