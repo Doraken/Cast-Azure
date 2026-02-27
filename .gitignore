@@ -1,2 +1,55 @@
-
+# Editor and IDE
 .vscode/settings.json
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+.venv
+pip-log.txt
+pip-delete-this-directory.txt
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+logs/
+/tmp/report.html
+
+# Backups
+*.bak
+*.backup
+*.old
+
+# Sensitive data
+*.key
+*.pem
+*.crt
+*.p12
+secrets/
+.secrets/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temporary files
+*.tmp
+/tmp/
+temp/
+
+# Pre-commit
+.pre-commit-config.yaml.bak

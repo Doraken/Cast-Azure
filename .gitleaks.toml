@@ -1,0 +1,77 @@
+# Gitleaks configuration for ansible_02_sys_fs
+
+title = "Gitleaks Configuration"
+
+[[rules]]
+id = "generic-api-key"
+description = "Generic API Key"
+regex = '''(?i)(api[_-]?key|apikey)['"\\s:=]*[a-zA-Z0-9_-]{20,}'''
+tags = ["key", "api"]
+
+[[rules]]
+id = "aws-access-key"
+description = "AWS Access Key"
+regex = '''AKIA[0-9A-Z]{16}'''
+tags = ["key", "AWS"]
+
+[[rules]]
+id = "aws-secret-key"
+description = "AWS Secret Key"
+regex = '''(?i)aws(.{0,20})?['"\\s][0-9a-zA-Z/+]{40}['"\\s]'''
+tags = ["key", "AWS"]
+
+[[rules]]
+id = "github-token"
+description = "GitHub Token"
+regex = '''gh[pousr]_[0-9a-zA-Z]{36}'''
+tags = ["key", "GitHub"]
+
+[[rules]]
+id = "private-key"
+description = "Private Key"
+regex = '''-----BEGIN (RSA|DSA|EC|OPENSSH) PRIVATE KEY-----'''
+tags = ["key", "private"]
+
+[[rules]]
+id = "slack-token"
+description = "Slack Token"
+regex = '''xox[baprs]-([0-9a-zA-Z]{10,48})'''
+tags = ["key", "Slack"]
+
+[[rules]]
+id = "generic-secret"
+description = "Generic Secret"
+regex = '''(?i)(secret|password|passwd|pwd)['"\\s:=]*[a-zA-Z0-9_-]{8,}'''
+tags = ["secret"]
+
+[[rules]]
+id = "jwt-token"
+description = "JWT Token"
+regex = '''eyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.?[A-Za-z0-9_-]*'''
+tags = ["jwt"]
+
+[[rules]]
+id = "google-api-key"
+description = "Google API Key"
+regex = '''AIza[0-9A-Za-z_-]{35}'''
+tags = ["key", "Google"]
+
+[[rules]]
+id = "heroku-api-key"
+description = "Heroku API Key"
+regex = '''[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}'''
+tags = ["key", "Heroku"]
+
+[allowlist]
+description = "Allowlist for false positives"
+regexes = [
+    '''(example|sample|test|dummy|placeholder)''',
+    '''YOUR_.*_HERE''',
+    '''<.*>''',
+    '''\{\{.*\}\}''',
+]
+paths = [
+    '''\.secrets\.baseline$''',
+    '''\.gitleaks\.toml$''',
+    '''(.*?)(png|jpg|gif|doc|pdf|bin|svg|ico)$''',
+]
