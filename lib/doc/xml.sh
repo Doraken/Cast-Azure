@@ -13,7 +13,7 @@
 ####
 # INFO 
 
-function XML_Get_Model 
+function get_xml_model 
 {
 #|# XML_Model_To_Use                : Use this var to set which XML base model to use to generate XML CODE
 #|# ${1}                            : Use this var to set XML_Model_To_Use
@@ -60,7 +60,7 @@ for XML_MODEL_ARRAY in ${XML_BASE_ARRAY[@]}
    	     	if  [ ! "${OK_feed}" = "1" ]
    	     	    then 
    	     	        case ${Possible_feed} in 
-                         ${Actual_XML_Array}) XML_Get_Model_Sub_feeder_POS
+                         ${Actual_XML_Array}) get_xml_model_Sub_feeder_POS
                                               OK_feed="1"
    	     	                                  Feeded_done="1"
                                               ;;
@@ -75,7 +75,7 @@ for XML_MODEL_ARRAY in ${XML_BASE_ARRAY[@]}
          then 
          	 set_message "Debug5" "Need to close [ NOT NEEDED ]"
          else
-             XML_Get_Model_Sub_feeder_NOPOS
+             get_xml_model_Sub_feeder_NOPOS
       fi  
       OK_feed=""
       
@@ -92,9 +92,9 @@ Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
 }
 
-function XML_Get_Model_Sub_feeder_POS
+function get_xml_model_Sub_feeder_POS
 {
-#|# Sub function of XML_Get_Model_Sub_feeder Do not call directly
+#|# Sub function of get_xml_model_Sub_feeder Do not call directly
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
@@ -117,9 +117,9 @@ Function_PATH="$( dirname ${Function_PATH} )"
 }
 
 
-function XML_Get_Model_Sub_feeder_NOPOS
+function get_xml_model_Sub_feeder_NOPOS
 {
-#|# Sub function of XML_Get_Model_Sub_feeder Do not call directly
+#|# Sub function of get_xml_model_Sub_feeder Do not call directly
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
