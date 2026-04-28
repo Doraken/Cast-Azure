@@ -233,7 +233,7 @@ function My_Function
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ]"
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ]"
 
 # Implémentation de la fonction
 # ...

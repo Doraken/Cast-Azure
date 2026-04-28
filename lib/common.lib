@@ -15,74 +15,9 @@
 
 
 
-function CTRL_Result_func ()
-{
-#|# Description : This function is used to check result of a past action and choose action
-#|#
-#|# Var to set  :
-#|#                 CRF_Result_Action             : Use this var to set The las action returne code         ( Mandatory )
-#|#                 CRF_Generic_Base_MSG          : use this var to set base message of control             ( Mandatory )
-#|#                 CRF_Generic_Base_MSG_ERR      : Use this var to set additional iformation on error      ( Mandatory )
-#|#                 CRF_Result_ERR_Level          : Use this var to set the level of test severity on fail  ( Mandatory )
-#|#                 CRF_Action_ONFAIL             : Use this var to set and action to do after CTRL fail    (  OPTIONAL )
-#|#                 CRF_Action_ONOK               : Use this var to set and action to do after CTRL is OK   (  OPTIONAL )
-#|#                 CRF_Action_NoMsg              : Use this var to set inhibition of message on control    (  OPTIONAL )
-#|#                 ${1}                          : Use this var to set [ CRF_Result_Action ]
-#|#                 ${2}                          : Use this var to set [ CRF_Generic_Base_MSG ]
-#|#                 ${3}                          : Use this var to set [ CRF_Generic_Base_MSG_ERR ]
-#|#                 ${4}                          : Use this var to set [ CRF_Result_ERR_Level ]
-#|#                 ${5}                          : Use this var to set [ CRF_Action_ONFAIL ]
-#|#                 ${6}                          : Use this var to set [ CRF_Action_ONOK ]
-#|#                 ${7}                          : Use this var to set [ CRF_Action_NoMsg ]
-#|#
-#|# Base usage  : CTRL_Result_func "${?}" "Generic_Base_Param_MSG" "Generic_Base_Param_MSG_ERR" "Result_ERR_Level" "On fail action" "on success action"
-#|#
-#|# Send Back   : Message / Exit / function
-############ STACK_TRACE_BUILDER #####################
-Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
-######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
-CRF_Result_Action="${1}"
-CRF_Generic_Base_MSG="${2}"
-CRF_Generic_Base_MSG_ERR="${3}"
-CRF_Result_ERR_Level="${4}"
-CRF_Action_ONFAIL="${5}"
-CRF_Action_ONOK="${6}"
-CRF_Action_NoMsg="${7}"
 
-if [ "${CRF_Result_Action}" = "0" ]
-   then
-		if [ "${CRF_Action_NoMsg}" != "nomsg" ] 
-			then 
-				MSG_DISPLAY "Info" "${CRF_Generic_Base_MSG}  [ OK  ] "
-		fi 
-        if ! [ -z "${CRF_Action_ONOK}" ]
-              then
-                  _Ido="${CRF_Action_ONOK}"
-                  CRF_Action_ONOK=""
-                  ${_Ido}
-        fi
-   else
-		if [ "${CRF_Action_NoMsg}" != "nomsg" ] 
-			then 
-				MSG_DISPLAY "ErrorN" "${CRF_Generic_Base_MSG} ${CRF_Generic_Base_MSG_ERR} [ ERROR  ] " "${CRF_Result_ERR_Level}"
-		fi
-        if ! [ -z "${CRF_Action_ONFAIL}" ]
-              then
-                     _Ido="${CRF_Action_ONFAIL}"
-                     CRF_Action_ONFAIL=""    
-                   ${_Ido}
-        fi
-fi
-Generic_Base_Param_MSG_ERR=""
-CRF_Generic_Base_MSG=""
-############### Stack_TRACE_BUILDER ################
-Function_PATH="$( dirname ${Function_PATH} )"
-####################################################
-}
-
-function Empty_Var_Control ()
+function do_empty_var_control()
 {
 #|# Description : This function is used to check if a var is empty
 #|#
@@ -92,49 +27,49 @@ function Empty_Var_Control ()
 #|#                 EVC_Type_Of_ERR       : Use this var to set the severity of an empty vars                    ( Mandatory )
 #|#                 EVC_Level_Of_ERR      : Use this var to set the severity level of an empty vars              ( Mandatory )
 #|#                 EVC_MSG_add           : Use this var to set complementary message                            ( OPTIONAL )
-#|#                 EVC_Action_ONFAIL     : Use this var to set anb action to do after CTRL fail                 ( OPTIONAL )
+#|#                 EVC__on_fail_action     : Use this var to set anb action to do after CTRL fail                 ( OPTIONAL )
 #|#                 EVC_Action_ONOK       : Use this var to set anb action to do after CTRL is OK                ( OPTIONAL )
 #|#                 ${1}                  : Used to set [ Base_Var_to_test ]
 #|#                 ${2}                  : Used to set [ Base_Var_Name_To_Test ]
 #|#                 ${3}                  : Used to set [ Type_Of_ERR ]
 #|#                 ${4}                  : Used to set [ Level_Of_ERR ]
 #|#                 ${5}                  : Used to set [ EVC_MSG_add ]
-#|#                 ${6}                  : Used to set [ Action_ONFAIL ]
+#|#                 ${6}                  : Used to set [ _on_fail_action ]
 #|#                 ${7}                  : Used to set [ Action_ONOK ]
 #|#
-#|# Base usage  : Empty_Var_Control "My_VAR" "My_Var_Name" "ERR_type" "Level_Of_ERR" [ "MSG_add" "Action_ONFAIL" "Action_ONOK" ]
+#|# Base usage  : do_empty_var_control "My_VAR" "My_Var_Name" "ERR_type" "Level_Of_ERR" [ "MSG_add" "_on_fail_action" "Action_ONOK" ]
 #|#
 #|# Send Back   : Send back result of check
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
 EVC_Var_To_Test="${1}"
 EVC_Var_Name_To_Test="${2}"
 EVC_Type_Of_ERR="${3}"
 EVC_Level_Of_ERR="${4}"
 EVC_MSG_add="${5}"
-EVC_Action_ONFAIL="${6}"
+EVC__on_fail_action="${6}"
 EVC_Action_ONOK="${7}"
 
 if [ -z "${EVC_Var_To_Test}" ]
    then
-           MSG_DISPLAY "${EVC_Type_Of_ERR}" " Error ON VAR ${EVC_Var_Name_To_Test}  : [ Not Set ] ${MSG_Complement}" "${EVC_Level_Of_ERR}"
-           if ! [ -z "${EVC_Action_ONFAIL}" ]
+           set_message "${EVC_Type_Of_ERR}" " Error ON VAR ${EVC_Var_Name_To_Test}  : [ Not Set ] ${MSG_Complement}" "${EVC_Level_Of_ERR}"
+           if ! [ -z "${EVC__on_fail_action}" ]
               then
-                   ${EVC_Action_ONFAIL}
+                   ${EVC__on_fail_action}
            fi
 
    else
-       MSG_DISPLAY "Debug6" " Value of ${EVC_Var_Name_To_Test}  : [ Value is ${EVC_Var_To_Test} ]"
+       set_message "Debug6" " Value of ${EVC_Var_Name_To_Test}  : [ Value is ${EVC_Var_To_Test} ]"
        if ! [ -z "${EVC_Action_ONOK}" ]
           then
               ${EVC_Action_ONOK}
        fi
 fi
 
-Action_ONFAIL=""
+_on_fail_action=""
 Action_ONOK=""
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
@@ -154,10 +89,10 @@ function User_Hit_a_key
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
  
-MSG_DISPLAY "Message" "Please  : press enter to continue "
+set_message "Message" "Please  : press enter to continue "
 read dummy
 
 ############### Stack_TRACE_BUILDER ################
@@ -165,7 +100,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function MSG_DISPLAY
+function set_message
 {
 #|# Description : This function is used for every messaging and error service
 #|#
@@ -177,7 +112,7 @@ function MSG_DISPLAY
 #|#                 ${2}        : Use this var to set [ MD_Msg_To_Display ]
 #|#                 ${3}        : Use this var to set [ Level_Code ]
 #|#
-#|# Base usage  : MSG_DISPLAY "MD_Type_Msg" "MD_Msg_To_Display" "Level_Code"
+#|# Base usage  : set_message "MD_Type_Msg" "MD_Msg_To_Display" "Level_Code"
 #|#
 #|# Send Back   : Message or exit level
 ################################################################################
@@ -232,7 +167,7 @@ Emptying_MSGS_vars
 }
 
 
-function Sub_MSG_ERRORN ()
+function Sub_MSG_ERRORN()
 {
 #|# Description : This function is used to print Error messages
 #|#
@@ -290,19 +225,7 @@ function Set_spliter_line_MSG
 
 
 
-function Interleave_MSG
-{
-#|# Description : This function is used to add visual spliter to the screen
-#|#
-#|# Var to set  :  None
-#|#
-#|# Base usage  : Interleave_MSG
-#|#
-#|# Send Back   : a blank line folowed vby a separator line and an  another blank line
-printf "\e[0m" ""                                                                                 
-printf "\e[0m" "###############################################################################"   
-printf "\e[0m" ""                                                                                  
-}
+
 
 function Spacer_MSG
 {
@@ -335,7 +258,7 @@ Err_Msg=""
 ############################### Networking 
 
 
-function Get_SrvIp () 
+function Get_SrvIp() 
 {
 #|# Description : This function is used to get server ip ( IPV4 )
 #|#
@@ -353,7 +276,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 #################################################### 
 }
 
-function Report_result ()
+function Report_result()
 {
 	#|# Description :  this function will repport application of the rulle on success 
 	#|#
@@ -368,16 +291,16 @@ function Report_result ()
 	_element_report_num="${1}"
 	_element_report_txt="${2}"
 	_element_state="${3}"
-	MSG_DISPLAY "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
+	set_message "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
 	
 	if [ "${_element_state}" = "TEST PASSED" ] 
 		then 
 			
-			MSG_DISPLAY "EdSMessage" "${_element_state}"
+			set_message "EdSMessage" "${_element_state}"
 
 		else
-			MSG_DISPLAY "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
-			MSG_DISPLAY "EdEMessage" "${_element_state}"
+			set_message "StMessage"  "Apply of : ${_element_report_num}  ${_element_report_txt} "
+			set_message "EdEMessage" "${_element_state}"
 	fi
 	 echo "<tr><td>${_element_report_num}</td><td>${_element_report_txt}</td><td>${_element_state}</td></tr>"  >> /tmp/report.html
 

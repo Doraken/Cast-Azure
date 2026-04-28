@@ -12,7 +12,7 @@
 ####
 # INFO
 
-function Document_Print_function_man_page
+function document_Print_function_man_page
 {
 #|# Var to set  : None
 #|#
@@ -25,10 +25,10 @@ function Document_Print_function_man_page
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
-MSG_DISPLAY "Debug6" " Value of Base_Catalog_function : [ ${Base_Catalog_function} ]"
-MSG_DISPLAY "Debug6" " Value of New_Lib_Name          : [ ${New_Lib_Name} ]"
+set_message "Debug6" " Value of Base_Catalog_function : [ ${Base_Catalog_function} ]"
+set_message "Debug6" " Value of New_Lib_Name          : [ ${New_Lib_Name} ]"
 for New_Lib_Name in $(for Tvar in $( cat ../data/catalogue/function.cat | awk -F ";" '{ echo $2 }') ; do  basename ${Tvar} ; done | sort -u)
     do
       for function_geted in $( cat ${Base_Catalog_function} | grep ${New_Lib_Name} | awk -F ";" '{ echo $4 }' )

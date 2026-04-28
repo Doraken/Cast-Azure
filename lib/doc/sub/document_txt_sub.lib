@@ -12,7 +12,7 @@
 ####
 # INFO
 
-function Document_Print_global_Print_txt
+function document_Print_global_Print_txt
 {
 #|# Var to set  : None
 #|#
@@ -24,7 +24,7 @@ function Document_Print_global_Print_txt
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 for Libraries_geted in $( cat ${Base_Catalog_function} | awk -F ";" '{ echo $2 }' | sort -u )
       do
@@ -38,7 +38,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Document_Print_function_txt
+function document_Print_function_txt
 {
 #|# Var to set  : None
 #|#
@@ -51,7 +51,7 @@ function Document_Print_function_txt
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 for function_geted in $( cat ${Base_Catalog_function} | grep ${New_Lib_Name} | awk -F ";" '{ echo $4 }' )
     do
@@ -71,7 +71,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Document_Print_Dependences_txt
+function document_Print_Dependences_txt
 {
 #|# Var to set  : None
 #|#
@@ -84,7 +84,7 @@ function Document_Print_Dependences_txt
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 Internal_Geted_line="${1}"
 for Dependences_Geted in  $( cat ${Base_Catalog_function_depend} | grep "\;${function_geted}\;" |  awk -F ";" '{ echo $8 ";"  $6  }')
@@ -115,9 +115,9 @@ function Dummy_function
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
-MSG_DISPLAY "Info" "this is a model function"
+set_message "Info" "this is a model function"
 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"

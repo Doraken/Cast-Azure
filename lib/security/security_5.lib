@@ -14,7 +14,7 @@
 #      this lib is for RED-HAT based system
 Report_result="/tmp/report"
 
-function 5.1.1_Install_the_rsyslog_package ()
+function 5.1.1_Install_the_rsyslog_package()
 {
 	#|# Description :  5.1.1 Install the rsyslog package
 	#|# Var to set  : 
@@ -25,7 +25,7 @@ function 5.1.1_Install_the_rsyslog_package ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -57,7 +57,7 @@ function 5.1.1_Install_the_rsyslog_package ()
 	####################################################
 }
 
-function 5.1.2_Activate_the_rsyslog_service ()
+function 5.1.2_Activate_the_rsyslog_service()
 {
 	#|# Description :  5.1.1 Install the rsyslog package
 	#|# Var to set  : 
@@ -68,7 +68,7 @@ function 5.1.2_Activate_the_rsyslog_service ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -99,7 +99,7 @@ function 5.1.2_Activate_the_rsyslog_service ()
 	####################################################
 }
 
-function 5.1.3_Configure_etc_rsyslog.conf ()
+function 5.1.3_Configure_etc_rsyslog.conf()
 {
 	#|# Description :  5.1.3 Configure etc rsyslog.conf
 	#|# Var to set  : 
@@ -110,7 +110,7 @@ function 5.1.3_Configure_etc_rsyslog.conf ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -257,7 +257,7 @@ function 5.1.3_Configure_etc_rsyslog.conf ()
 	####################################################
 }
 
-function 5.2.1_Enable_auditd_Service ()
+function 5.2.1_Enable_auditd_Service()
 {
 	#|# Description :  5.1.1 Install the rsyslog package
 	#|# Var to set  : 
@@ -268,7 +268,7 @@ function 5.2.1_Enable_auditd_Service ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -299,7 +299,7 @@ function 5.2.1_Enable_auditd_Service ()
 	####################################################
 }
 
-function 5.2.2.1_Configure_Audit_Log_Storage_Size ()
+function 5.2.2.1_Configure_Audit_Log_Storage_Size()
 {
 	#|# Description :  5.2.2.1 Configure Audit Log Storage Size
 	#|# Var to set  : 
@@ -310,7 +310,7 @@ function 5.2.2.1_Configure_Audit_Log_Storage_Size ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -348,7 +348,7 @@ function 5.2.2.1_Configure_Audit_Log_Storage_Size ()
 	####################################################
 }
 
-function 5.2.2.2_Configure_actions_on_Audit_Log_Full ()
+function 5.2.2.2_Configure_actions_on_Audit_Log_Full()
 {
 	#|# Description :  5.2.2.2	Configure actions on Audit Log Full
 	#|# Var to set  : 
@@ -359,7 +359,7 @@ function 5.2.2.2_Configure_actions_on_Audit_Log_Full ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -390,7 +390,7 @@ function 5.2.2.2_Configure_actions_on_Audit_Log_Full ()
 	####################################################
 }
 
-function 5.2.2.3_Keep_All_Auditing_Information ()
+function 5.2.2.3_Keep_All_Auditing_Information()
 {
 	#|# Description :  5.2.2.3 Keep All Auditing Information
 	#|# Var to set  : 
@@ -401,7 +401,7 @@ function 5.2.2.3_Keep_All_Auditing_Information ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -437,7 +437,7 @@ function 5.2.2.3_Keep_All_Auditing_Information ()
 	####################################################
 }
 
-function 5.2.3_Enable_Auditing_for_Processes_That_Start_Prior_to_auditd  ()
+function 5.2.3_Enable_Auditing_for_Processes_That_Start_Prior_to_auditd ()
 {
 	#|# Description :  5.2.3 Enable Auditing for Processes That Start Prior to auditd 
 	#|# Var to set  : 
@@ -448,7 +448,7 @@ function 5.2.3_Enable_Auditing_for_Processes_That_Start_Prior_to_auditd  ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -465,7 +465,7 @@ function 5.2.3_Enable_Auditing_for_Processes_That_Start_Prior_to_auditd  ()
 	####################################################
 }
 
-function 5.2.4_Record_Events_That_Modify_Date_and_Time_Information ()
+function 5.2.4_Record_Events_That_Modify_Date_and_Time_Information()
 {
 	#|# Description :  5.2.4 Record Events That Modify Date and Time Information
 	#|# Var to set  : 
@@ -476,7 +476,7 @@ function 5.2.4_Record_Events_That_Modify_Date_and_Time_Information ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -522,7 +522,7 @@ function 5.2.4_Record_Events_That_Modify_Date_and_Time_Information ()
 	####################################################
 }
 
-function 5.2.5_Record_Events_That_Modify_User_Group_Information ()
+function 5.2.5_Record_Events_That_Modify_User_Group_Information()
 {
 	#|# Description :  5.2.5 Record Events That Modify User Group Information
 	#|# Var to set  : 
@@ -533,7 +533,7 @@ function 5.2.5_Record_Events_That_Modify_User_Group_Information ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -589,7 +589,7 @@ function 5.2.5_Record_Events_That_Modify_User_Group_Information ()
 	####################################################
 }
 
-function 5.2.6_Record_Events_That_Modify_the_System_s_Network_Environment ()
+function 5.2.6_Record_Events_That_Modify_the_System_s_Network_Environment()
 {
 	#|# Description :  5.2.6 Record Events That Modify the System’s Network Environment
 	#|# Var to set  : 
@@ -600,7 +600,7 @@ function 5.2.6_Record_Events_That_Modify_the_System_s_Network_Environment ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -653,7 +653,7 @@ function 5.2.6_Record_Events_That_Modify_the_System_s_Network_Environment ()
 	####################################################
 }
 
-function 5.2.7_Record_Events_That_Modify_the_System_s_Mandatory_Access_Controls ()
+function 5.2.7_Record_Events_That_Modify_the_System_s_Mandatory_Access_Controls()
 {
 	#|# Description :  5.2.7 Record Events That Modify the System s Mandatory Access Controls
 	#|# Var to set  : 
@@ -664,7 +664,7 @@ function 5.2.7_Record_Events_That_Modify_the_System_s_Mandatory_Access_Controls 
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -704,7 +704,7 @@ function 5.2.7_Record_Events_That_Modify_the_System_s_Mandatory_Access_Controls 
 	####################################################
 }
 
-function 5.2.8_Collect_Login_and_Logout_Events ()
+function 5.2.8_Collect_Login_and_Logout_Events()
 {
 	#|# Description :  5.2.8 Collect Login and Logout Events
 	#|# Var to set  : 
@@ -715,7 +715,7 @@ function 5.2.8_Collect_Login_and_Logout_Events ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -761,7 +761,7 @@ function 5.2.8_Collect_Login_and_Logout_Events ()
 	####################################################
 }
 
-function 5.2.9_Collect_Session_Initiation_Information ()
+function 5.2.9_Collect_Session_Initiation_Information()
 {
 	#|# Description :  5.2.9	Collect Session Initiation Information
 	#|# Var to set  : 
@@ -772,7 +772,7 @@ function 5.2.9_Collect_Session_Initiation_Information ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -818,7 +818,7 @@ function 5.2.9_Collect_Session_Initiation_Information ()
 	####################################################
 }
 
-function 5.2.10_Collect_Discretionary_Access_Control_Permission_Modification_Events ()
+function 5.2.10_Collect_Discretionary_Access_Control_Permission_Modification_Events()
 {
 	#|# Description :  5.2.10 Collect Discretionary Access Control Permission Modification Events
 	#|# Var to set  : 
@@ -829,7 +829,7 @@ function 5.2.10_Collect_Discretionary_Access_Control_Permission_Modification_Eve
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -875,7 +875,7 @@ function 5.2.10_Collect_Discretionary_Access_Control_Permission_Modification_Eve
 	####################################################
 }
 
-function 5.2.11_Collect_Unsuccessful_Unauthorized_Access_Attempts_to_Files ()
+function 5.2.11_Collect_Unsuccessful_Unauthorized_Access_Attempts_to_Files()
 {
 	#|# Description :  5.2.11 Collect Unsuccessful Unauthorized Access Attempts to Files
 	#|# Var to set  : 
@@ -886,7 +886,7 @@ function 5.2.11_Collect_Unsuccessful_Unauthorized_Access_Attempts_to_Files ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -930,7 +930,7 @@ function 5.2.11_Collect_Unsuccessful_Unauthorized_Access_Attempts_to_Files ()
 	####################################################
 }
 
-function 5.2.12_Collect_Successful_File_System_Mounts ()
+function 5.2.12_Collect_Successful_File_System_Mounts()
 {
 	#|# Description :  5.2.12 Collect Successful File System Mounts
 	#|# Var to set  : 
@@ -941,7 +941,7 @@ function 5.2.12_Collect_Successful_File_System_Mounts ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -978,7 +978,7 @@ function 5.2.12_Collect_Successful_File_System_Mounts ()
 	####################################################
 }
 
-function 5.2.13_Collect_File_Deletion_Events_by_User ()
+function 5.2.13_Collect_File_Deletion_Events_by_User()
 {
 	#|# Description :  5.2.13 Collect File Deletion Events by User
 	#|# Var to set  : 
@@ -989,7 +989,7 @@ function 5.2.13_Collect_File_Deletion_Events_by_User ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -1026,7 +1026,7 @@ function 5.2.13_Collect_File_Deletion_Events_by_User ()
 	####################################################
 }
 
-function 5.2.14_Collect_Changes_to_System_Administration_Scope_sudoers ()
+function 5.2.14_Collect_Changes_to_System_Administration_Scope_sudoers()
 {
 	#|# Description :  5.2.13 Collect File Deletion Events by User
 	#|# Var to set  : 
@@ -1037,7 +1037,7 @@ function 5.2.14_Collect_Changes_to_System_Administration_Scope_sudoers ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -1081,7 +1081,7 @@ function 5.2.14_Collect_Changes_to_System_Administration_Scope_sudoers ()
 	####################################################
 }
 
-function 5.2.15_Collect_System_Administrator_Actions_sudolog ()
+function 5.2.15_Collect_System_Administrator_Actions_sudolog()
 {
 	#|# Description :  5.2.15 Collect System Administrator Actions (sudolog)
 	#|# Var to set  : 
@@ -1092,7 +1092,7 @@ function 5.2.15_Collect_System_Administrator_Actions_sudolog ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -1136,7 +1136,7 @@ function 5.2.15_Collect_System_Administrator_Actions_sudolog ()
 	####################################################
 }
 
-function 5.2.16_Collect_Kernel_Module_Loading_and_Unloading ()
+function 5.2.16_Collect_Kernel_Module_Loading_and_Unloading()
 {
 	#|# Description :  5.2.16 Collect Kernel Module Loading and Unloading
 	#|# Var to set  : 
@@ -1147,7 +1147,7 @@ function 5.2.16_Collect_Kernel_Module_Loading_and_Unloading ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -1184,7 +1184,7 @@ function 5.2.16_Collect_Kernel_Module_Loading_and_Unloading ()
 	####################################################
 }
 
-function 5.3_Configure_logrotate ()
+function 5.3_Configure_logrotate()
 {
 	#|# Description :  5.3	Configure logrotate
 	#|# Var to set  : 
@@ -1195,7 +1195,7 @@ function 5.3_Configure_logrotate ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"

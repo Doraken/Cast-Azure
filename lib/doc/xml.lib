@@ -22,7 +22,7 @@ function XML_Get_Model
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 XML_Model_To_Use="${1}"
 XML_ARRAY_DATA="${2}"
 
@@ -31,17 +31,17 @@ XML_ARRAY_DATA="${2}"
 eval eval set -A XML_ARRAY_DATA $(echo "\$\{${XML_ARRAY_DATA}\[\@\]\}")
 for List in ${XML_ARRAY_DATA[@]}
     do
-      MSG_DISPLAY "Debug5" "XML Array def [ ${List} ]"
+      set_message "Debug5" "XML Array def [ ${List} ]"
 done 
        
 if [ ${XML_Conf_init} = "0" ]
    then 
-       MSG_DISPLAY "Debug5" "XML base definition file Sourced [ Sourcing ]"
+       set_message "Debug5" "XML base definition file Sourced [ Sourcing ]"
    	   File_Ctrl_Sourcing "xml_base_def.def" "${Base_Dir_Scripts_Data_Xml_DEF}"
-       MSG_DISPLAY "Debug5" "XML base definition file Sourced [ OK ]"
+       set_message "Debug5" "XML base definition file Sourced [ OK ]"
        XML_Conf_init="1"
    else
-       MSG_DISPLAY "Debug5" "XML base definition file Sourced [ already OK ]"
+       set_message "Debug5" "XML base definition file Sourced [ already OK ]"
 fi      
 ${XML_Model_To_Use}
 
@@ -52,11 +52,11 @@ for XML_MODEL_ARRAY in ${XML_BASE_ARRAY[@]}
    do 
    	  system_counter
       Actual_XML_Array="${External_Return_Counter}"
-   	  MSG_DISPLAY "Debug5" "XML model array Number [ ${External_Return_Counter} ]" 
+   	  set_message "Debug5" "XML model array Number [ ${External_Return_Counter} ]" 
    	  
    	  for Possible_feed in ${XML_fill_in_array[@]}
    	     do 
-   	     	MSG_DISPLAY "Debug5" "Possible_feed [ ${Possible_feed} ]" 
+   	     	set_message "Debug5" "Possible_feed [ ${Possible_feed} ]" 
    	     	if  [ ! "${OK_feed}" = "1" ]
    	     	    then 
    	     	        case ${Possible_feed} in 
@@ -68,12 +68,12 @@ for XML_MODEL_ARRAY in ${XML_BASE_ARRAY[@]}
                                               ;;
                      esac
                 else 
-                    MSG_DISPLAY "Debug5" "Dummy Cycle [ x ]" 
+                    set_message "Debug5" "Dummy Cycle [ x ]" 
              fi 
       done
       if [ "${OK_feed}" = "1" ] 
          then 
-         	 MSG_DISPLAY "Debug5" "Need to close [ NOT NEEDED ]"
+         	 set_message "Debug5" "Need to close [ NOT NEEDED ]"
          else
              XML_Get_Model_Sub_feeder_NOPOS
       fi  
@@ -98,7 +98,7 @@ function XML_Get_Model_Sub_feeder_POS
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 if [ "${Base_Spacer_do}" = "1" ]
    then
    	   Base_Spacer_do="1"
@@ -123,7 +123,7 @@ function XML_Get_Model_Sub_feeder_NOPOS
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 CLOSE_XML="</${XML_MODEL_ARRAY}> ${CLOSE_XML}"
 echo "${Base_Spacer}<${XML_MODEL_ARRAY}>"

@@ -13,7 +13,7 @@
 # INFO
 
 
-function Document_Print_global_Print_xml
+function document_Print_global_Print_xml
 {
 #|# Var to set  : None
 #|#
@@ -25,7 +25,7 @@ function Document_Print_global_Print_xml
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 for Libraries_geted in $( cat ${Base_Catalog_function} | awk -F ";" '{ echo $2 }' | sort -u )
       do
@@ -43,7 +43,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Document_Print_function_xml
+function document_Print_function_xml
 {
 #|# Var to set  : None
 #|#
@@ -56,10 +56,10 @@ function Document_Print_function_xml
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
-MSG_DISPLAY "Debug6" " Value of Base_Catalog_function : [ ${Base_Catalog_function} ]"
-MSG_DISPLAY "Debug6" " Value of New_Lib_Name          : [ ${New_Lib_Name} ]"
+set_message "Debug6" " Value of Base_Catalog_function : [ ${Base_Catalog_function} ]"
+set_message "Debug6" " Value of New_Lib_Name          : [ ${New_Lib_Name} ]"
 
 for function_geted in $( cat ${Base_Catalog_function} | grep ${New_Lib_Name} | awk -F ";" '{ echo $4 }' )
     do
@@ -76,7 +76,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Document_Print_Dependences_xml
+function document_Print_Dependences_xml
 {
 #|# Var to set  : None
 #|#
@@ -89,7 +89,7 @@ function Document_Print_Dependences_xml
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 Internal_Geted_line="${1}"
 echo "<DependOn>" >> ${Document_doc_xml}

@@ -4,18 +4,18 @@
          <PRE><H2>SYNOPSIS</H2></PRE>
  <B>                                 
      Var to set :
-     LVMDEX_Name_lv : Use this var to set Logical volume name to check ( Mandatory )
-     LVMDEX_VG_NAME : Use this var to set Volume group name of the lv ( Mandatory )
-     LVMDEX_err_level : Use this var to set error level of the check ( Mandatory )
-     LVMDEX_On_Fail_Action : Use this var to set on chek fail action ( Optional )
-     LVMDEX_On_ok_Action : Use this var to set on check ok action ( Optional )
-     ${1} : Use this var to set [ LVMDEX_Name_lv ]
-     ${2} : Use this var to set [ LVMDEX_VG_NAME ]
-     ${3} : Use this var to set [ LVMDEX_err_level ]
-     ${4} : Use this var to set [ LVMDEX_On_Fail_Action ]
-     ${5} : Use this var to set [ LVMDEX_On_ok_Action ]
+     _lv_name : Use this var to set Logical volume name to check ( Mandatory )
+     _vg_name : Use this var to set Volume group name of the lv ( Mandatory )
+     _err_level : Use this var to set error level of the check ( Mandatory )
+     _on_fail_action : Use this var to set on chek fail action ( Optional )
+     _on_success_action : Use this var to set on check ok action ( Optional )
+     ${1} : Use this var to set [ _lv_name ]
+     ${2} : Use this var to set [ _vg_name ]
+     ${3} : Use this var to set [ _err_level ]
+     ${4} : Use this var to set [ _on_fail_action ]
+     ${5} : Use this var to set [ _on_success_action ]
     
-     Base usage : LVM_Device_delete "LVMDEX_Name_lv" "LVMDEX_VG_NAME" "LVMDEX_err_level" "LVMDEX_On_Fail_Action" "LVMDEX_On_ok_Action"
+     Base usage : LVM_Device_delete "_lv_name" "_vg_name" "_err_level" "_on_fail_action" "_on_success_action"
     
      Description : This function is used to check existance of a lvm logical volume
     

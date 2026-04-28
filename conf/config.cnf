@@ -93,21 +93,21 @@ function SRC_AUTO
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
 . ${Base_Dir_Scripts_Lib}/common.lib
-MSG_DISPLAY "Info" "Sourcing librairy : [ START ] "
+set_message "Info" "Sourcing librairy : [ START ] "
 for Libs_to_SRC in ${Lib_to_SRC}
     do
-       MSG_DISPLAY "StMessage"  "Sourcing librairy : ${Libs_to_SRC} " "1"
+       set_message "StMessage"  "Sourcing librairy : ${Libs_to_SRC} " "1"
       . ${Libs_to_SRC} >> ${Base_Dir_Scripts_LOG}/soucing.log 2>&1 
        generic_control_sourcing "${Libs_to_SRC}"
 done
 
-MSG_DISPLAY "Info" "Sourcing librairy : [ End ] "
+set_message "Info" "Sourcing librairy : [ End ] "
 
 if [ -z "${Conf_Specifics}" ]
 	then
-		MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+		set_message "Info" "Specifics configuration file : [ NONE ] "
 	else
-		MSG_DISPLAY "Info" "Specifics configuration file : [ ${Conf_Specifics} ] "
+		set_message "Info" "Specifics configuration file : [ ${Conf_Specifics} ] "
 		File_Ctrl_Exist "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}" "Dont_Create_File" "2"
 		. ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics}
 		generic_control_sourcing "${Conf_Specifics}"
@@ -145,9 +145,9 @@ Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 GCS_BASE_SOURCED_FILE="${1}"
 if [ "${Sourced_OK}" = "1" ]
    then
-       MSG_DISPLAY "EdSMessage" "" "1"
+       set_message "EdSMessage" "" "1"
    else
-       MSG_DISPLAY "EdEMessage" "" "1"
+       set_message "EdEMessage" "" "1"
        exit 1
 fi
 Sourced_OK="0"

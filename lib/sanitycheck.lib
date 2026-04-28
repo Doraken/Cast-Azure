@@ -24,17 +24,17 @@ function SANITY_CHECK_Base_env_directory_check
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
-MSG_DISPLAY "Info" "Directory Sanity check [ STARTING ] "
+set_message "Info" "Directory Sanity check [ STARTING ] "
 if [ "${SANITY_CHECK_Base_env_directory_check_exec}" = "1" ]
    then
-   	   MSG_DISPLAY "Debug7" "Sanity check for generic tmp already done"
+   	   set_message "Debug7" "Sanity check for generic tmp already done"
    else
        for Dirs in $( cat ${Conf_Generics} | grep "DIR_To_CHECK" | awk -F\= '{ print $2 }' | awk '{ print $1 }' )
           do
           	Dirs=$( eval echo ${Dirs} )
-			Directory_CRT   "${Dirs}"
+			set_new_directory   "${Dirs}"
         done
 fi
 
@@ -57,23 +57,23 @@ function SANITY_CHECK_Base_env_directory_check_specs
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 if [ -z "${Conf_Specifics}" ]
     then
-		MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+		set_message "Info" "Specifics configuration file : [ NONE ] "
 		else
 			echo "${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} ---"
 			cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 
               for Dirs in $( cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
                   do     Dirs=$( eval echo ${Dirs} )
-                         MSG_DISPLAY "Info" "checking base directory  : [ ${Dirs} ] "
+                         set_message "Info" "checking base directory  : [ ${Dirs} ] "
                          Dirs=$( eval echo ${Dirs}) 
-                         Directory_CRT   "${Dirs}"
+                         set_new_directory   "${Dirs}"
                          pause
                    done
         fi
-MSG_DISPLAY "Info" "Directory Sanity check [ END ] "
+set_message "Info" "Directory Sanity check [ END ] "
 
 SANITY_CHECK_Base_env_directory_check_exec="1"
 Spacer_MSG
@@ -95,33 +95,33 @@ function SANITY_CHECK_Base_root_exec_check
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${function_Name}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 Spacer_MSG
 
-MSG_DISPLAY "Info" "User Sanity check [ STARTING ] "
+set_message "Info" "User Sanity check [ STARTING ] "
 My_Current_User=$( id | awk -F "[\(\)]" '{ echo $2 }' 2> /dev/null )
 if [ "${My_Current_User}" = "root" ]
    then
-       MSG_DISPLAY "Info" "Your are currently running C&D toolBox with \"root\" account "
+       set_message "Info" "Your are currently running C&D toolBox with \"root\" account "
    	   PS3="Do you want to exit ? [ it's better to exit ] "
        select Result in "Continue" "EXIT"
               do
                 case ${Result} in
-	                 "Continue") MSG_DISPLAY "Warning1" "User select to user root account"
+	                 "Continue") set_message "Warning1" "User select to user root account"
 	                      My_Ident="$(who i am | awk '{ echo $1 }')"
-	                      MSG_DISPLAY "LoggerN"  " $( date ) CND scripting user whith root account by [ ${My_Ident} ] " "1"
+	                      set_message "LoggerN"  " $( date ) CND scripting user whith root account by [ ${My_Ident} ] " "1"
 	                      ;;
-	                  "EXIT") MSG_DISPLAY "ErrorN" "User select to exit" "1"
+	                  "EXIT") set_message "ErrorN" "User select to exit" "1"
 	                      ;;
-	                  *) MSG_DISPLAY "ErrorN" "Bad input exit [ ${Result} ] " "1"
+	                  *) set_message "ErrorN" "Bad input exit [ ${Result} ] " "1"
 	                      ;;
                  esac
         done
       else
-       MSG_DISPLAY "Info" "you are currently running C&D toolBox with [ ${My_Current_User} ] "
-       MSG_DISPLAY "LoggerN"  "C&D toolBox launched with [ ${My_Current_User} ] at $( date ) "  "1"
+       set_message "Info" "you are currently running C&D toolBox with [ ${My_Current_User} ] "
+       set_message "LoggerN"  "C&D toolBox launched with [ ${My_Current_User} ] at $( date ) "  "1"
 fi
-MSG_DISPLAY "Info" "User Sanity check [ END ] "
+set_message "Info" "User Sanity check [ END ] "
 
 Spacer_MSG
 ############### Stack_TRACE_BUILDER ################
@@ -141,11 +141,11 @@ function SANITY_CHECK_Check_TMP_Directory
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 Spacer_MSG
 if [ "${SANITY_CHECK_Check_TMP_Directory_exec}" = "1" ]
    then
-   	   MSG_DISPLAY "Debug7" "Sanity check for generic tmp already done"
+   	   set_message "Debug7" "Sanity check for generic tmp already done"
    else
        for Dirs in $( cat ${Conf_Generics} | grep "DIR_To_CHECK_TMP" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
            do Dirs=$( eval echo ${Dirs} )
@@ -154,13 +154,13 @@ if [ "${SANITY_CHECK_Check_TMP_Directory_exec}" = "1" ]
               then
                   IS_Writable "${Dirs}" "1"
                else
-                   MSG_DISPLAY "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
+                   set_message "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
             fi
         done
 fi
 if [ -z "${Conf_Specifics}" ]
    then
-       MSG_DISPLAY "Info" "Specifics configuration file : [ NONE ] "
+       set_message "Info" "Specifics configuration file : [ NONE ] "
           else
 				for Dirs in $( cat ${Base_Dir_Scripts_CNF_spec}/${Conf_Specifics} | grep "DIR_To_CHECK_TMP" | awk '{ echo $1 }' | awk -F\= '{echo "\$\{"$1"\}" }' 2> /dev/null )
 					do Dirs=$( eval echo ${Dirs} )
@@ -169,7 +169,7 @@ if [ -z "${Conf_Specifics}" ]
 						then
 							IS_Writable "${Dirs}" "1"
 						else
-							MSG_DISPLAY "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
+							set_message "Debug6" "Directory ${Dirs} is : [ Not a temporary Directory ] "
 					fi
                 done
 fi
@@ -185,23 +185,23 @@ function SANITY_CHECK_Check_Language
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 Spacer_MSG
 
 if [ "${LANG}" = "${Base_Script_Language}" ]
    then
-   	   MSG_DISPLAY "Debug6" "System language  : [ ${LANG} ] "
+   	   set_message "Debug6" "System language  : [ ${LANG} ] "
    else
-       MSG_DISPLAY "Debug6" "System language  : [ ${LANG} ] "
-       MSG_DISPLAY "Debug5" " ACTION : [ Overriding system default language  ] "
+       set_message "Debug6" "System language  : [ ${LANG} ] "
+       set_message "Debug5" " ACTION : [ Overriding system default language  ] "
        LANG="${Base_Script_Language}"
        export LANG
        if [ "${LANG}" = "${Base_Script_Language}" ]
           then
-   	          MSG_DISPLAY "Debug5" "Overrided System language  : [ ${LANG} ] "
+   	          set_message "Debug5" "Overrided System language  : [ ${LANG} ] "
           else
-              MSG_DISPLAY "Debug5" "Overrid System language  : [ ERROR ] "
-              MSG_DISPLAY "Debug5" "Somme problem on messaging display may appear  "
+              set_message "Debug5" "Overrid System language  : [ ERROR ] "
+              set_message "Debug5" "Somme problem on messaging display may appear  "
        fi
 fi
 ############### Stack_TRACE_BUILDER ################

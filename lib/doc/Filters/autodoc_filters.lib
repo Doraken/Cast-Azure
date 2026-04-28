@@ -39,15 +39,15 @@ function autodoc_filter_line_BASE_PATH
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
 
-MSG_DISPLAY "Info" "Filtering file : [ ${Base_Catalog_function} ] "
+set_message "Info" "Filtering file : [ ${Base_Catalog_function} ] "
 
 Filter_Base_Path_in_Cat "${Base_Catalog_function}"
 
-MSG_DISPLAY "Info" "Filtering file : [ ${Base_Catalog_function_depend} ] "
+set_message "Info" "Filtering file : [ ${Base_Catalog_function_depend} ] "
 
 Filter_Base_Path_in_Cat "${Base_Catalog_function_depend}"
 
-MSG_DISPLAY "Info" "Filtering file : [ ${Base_Catalog_function_docs} ] "
+set_message "Info" "Filtering file : [ ${Base_Catalog_function_docs} ] "
 
 Filter_Base_Path_in_Cat "${Base_Catalog_function_docs}"
 
@@ -70,7 +70,7 @@ Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 BASE_FILE_TO_FILTER="${1}"
 Protected_PATH="$( echo ${Base_Dir_Scripts} |   sed  -e  's/\//\\\//g')"
 
-MSG_DISPLAY "Debug5" "Protected Path var is set to : [ ${Protected_PATH} ]"
+set_message "Debug5" "Protected Path var is set to : [ ${Protected_PATH} ]"
 
 eval sed -e 's/${Protected_PATH}//g' ${BASE_FILE_TO_FILTER} > ${BASE_FILE_TO_FILTER}.new
 cat ${BASE_FILE_TO_FILTER}.new > ${BASE_FILE_TO_FILTER}
@@ -86,7 +86,7 @@ function document_filter_dep_tmp_cat
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 egrep -v ";Item;;$"     ${Base_Catalog_function_TMP_dep} > ${Base_Dir_Scripts_Tmp}/filter_cat.tmp && cat    ${Base_Dir_Scripts_Tmp}/filter_cat.tmp  > ${Base_Catalog_function_TMP_dep}
 egrep -v ";Item;$"      ${Base_Catalog_function_TMP_dep} > ${Base_Dir_Scripts_Tmp}/filter_cat.tmp && cat    ${Base_Dir_Scripts_Tmp}/filter_cat.tmp  > ${Base_Catalog_function_TMP_dep}

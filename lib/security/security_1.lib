@@ -13,7 +13,7 @@
 # INFO 
 #      this lib is for RED-HAT based system
 
-function 1.1.1_Separate_Filesystems ()
+function 1.1.1_Separate_Filesystems()
 {
 	#|# Description :  1.1.1	Separate Filesystems
 	#|# Var to set  : 
@@ -24,7 +24,7 @@ function 1.1.1_Separate_Filesystems ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -62,7 +62,7 @@ function 1.1.1_Separate_Filesystems ()
 	####################################################
 }
 
-function 1.1.2_tmp_mount_options ()
+function 1.1.2_tmp_mount_options()
 {
 	#|# Description :  1.1.2 /tmp mount options
 	#|# Var to set  : 
@@ -73,7 +73,7 @@ function 1.1.2_tmp_mount_options ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -119,7 +119,7 @@ function 1.1.2_tmp_mount_options ()
 	####################################################
 }
 
-function 1.1.3_home_mount_options ()
+function 1.1.3_home_mount_options()
 {
 	#|# Description :  1.1.3 home mount options
 	#|# Var to set  : 
@@ -130,7 +130,7 @@ function 1.1.3_home_mount_options ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -187,7 +187,7 @@ function 1.1.4_dev_shm_mount_options
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "  
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "  
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -237,7 +237,7 @@ function 1.1.4_dev_shm_mount_options
 	####################################################
 }
 
-function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp ()
+function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp()
 {
 	#|# Description :  1.1.5 Bind Mount the /var/tmp directory to /tmp
 	#|# Var to set  : 
@@ -248,7 +248,7 @@ function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -292,7 +292,7 @@ function 1.1.5_Bind_Mount_the_var_tmp_directory_to_tmp ()
 	####################################################
 }
 
-function 1.1.7_Disable_mounting_certain_type_of_filesystems ()
+function 1.1.7_Disable_mounting_certain_type_of_filesystems()
 {
 	#|# Description :  1.1.7 Disable mounting certain type of filesystems
 	#|# Var to set  : 
@@ -303,7 +303,7 @@ function 1.1.7_Disable_mounting_certain_type_of_filesystems ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -376,7 +376,7 @@ function 1.2_Use_the_Latest_OS_Release
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -424,7 +424,7 @@ function 1.3.2_Verify_that_gpgcheck_is_Globally_Activated
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -473,7 +473,7 @@ function 1.3.3_Disable_the_rhnsd_Daemon
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -504,7 +504,7 @@ function 1.3.3_Disable_the_rhnsd_Daemon
 	####################################################
 }
 
-function 1.4.1_Install_AIDE  ()
+function 1.4.1_Install_AIDE ()
 {
 	#|# Description :  1.4.1 Install AIDE 
 	#|#
@@ -518,7 +518,7 @@ function 1.4.1_Install_AIDE  ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -551,7 +551,7 @@ function 1.4.1_Install_AIDE  ()
 	####################################################
 }
 
-function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
+function 1.4.2_Implement_Periodic_Execution_of_File_Integrity()
 {
 	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
 	#|#
@@ -565,7 +565,7 @@ function 1.4.2_Implement_Periodic_Execution_of_File_Integrity ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -608,7 +608,7 @@ function 1.5.1_Set_the_SELinux_State
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -657,7 +657,7 @@ function 1.5.2_Set_the_SELinux_Policy
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -692,7 +692,7 @@ function 1.5.2_Set_the_SELinux_Policy
 	####################################################
 }
 
-function 1.5.3_Remove_SETroubleshoot ()
+function 1.5.3_Remove_SETroubleshoot()
 {
 	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
 	#|#
@@ -706,7 +706,7 @@ function 1.5.3_Remove_SETroubleshoot ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -739,7 +739,7 @@ function 1.5.3_Remove_SETroubleshoot ()
 	####################################################
 }
 
-function 1.5.4_Remove_MCS_Translation_Service ()
+function 1.5.4_Remove_MCS_Translation_Service()
 {
 	#|# Description :  1.4.2 Implement Periodic Execution of File Integrity
 	#|#
@@ -753,7 +753,7 @@ function 1.5.4_Remove_MCS_Translation_Service ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -786,7 +786,7 @@ function 1.5.4_Remove_MCS_Translation_Service ()
 	####################################################
 }
 
-function 1.6.1_Set_User_Group_Owner_and_permissions_on_etc_grub_conf ()
+function 1.6.1_Set_User_Group_Owner_and_permissions_on_etc_grub_conf()
 {
 	#|# Description :  1.6.1 Set User/Group Owner and permissions on /etc/grub2.conf
 	#|# Var to set  : 
@@ -797,7 +797,7 @@ function 1.6.1_Set_User_Group_Owner_and_permissions_on_etc_grub_conf ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"

@@ -19,7 +19,7 @@ function document_get_all_function_names
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 File_Remove "${Base_Catalog_function}" "" "" "0"
 File_Remove "${Base_Catalog_function_depend}" "" "" "0"
 File_Remove "${Base_Catalog_function_docs}" "" "" "0"
@@ -27,8 +27,8 @@ File_Remove "${Base_Catalog_function_TMP_dep}" "" "" "0"
 
 for libs in ${Lib_to_SRC}
     do
-       MSG_DISPLAY "Info" "Found Library file : [ ${libs} ]"
-       File_Read "document_get_function_core" < ${libs}
+       set_message "Info" "Found Library file : [ ${libs} ]"
+       do_file_read "document_get_function_core" < ${libs}
 done
 document_get_deps
 #document_Catalogue_refiner
@@ -42,7 +42,7 @@ function document_get_function_core
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-#MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+#set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 geted_item="${1}"
 Part_Item="$( echo "${geted_item}" | awk '{ echo $1 }' )"
 
@@ -53,9 +53,9 @@ case ${Part_Item} in
      	               echo "Found function declaration : [ ${function_name} ] "
      	               echo "librairy;${libs};function;${function_name}" >> ${Base_Catalog_function}
      	               ;;
-                   \{) MSG_DISPLAY "Debug5" "Start of function : [ ${function_name} ]"
+                   \{) set_message "Debug5" "Start of function : [ ${function_name} ]"
                        ;;
-                   \}) MSG_DISPLAY "Debug5" "End of function : [ ${function_name} ]"
+                   \}) set_message "Debug5" "End of function : [ ${function_name} ]"
                        function_name=""
                        ;;
                \#\|\#) if [ ! -z "${function_name}" ]
@@ -65,7 +65,7 @@ case ${Part_Item} in
                            echo "librairy;${libs};function;${function_name};Document;${geted_item}" >> ${Base_Catalog_function_docs}
                         fi
                         ;;
-    Empty_Var_Control)  DGFC_EMPT_CTRL_CALL="$(echo "${geted_item}" | awk '{ $6 }')"
+    do_empty_var_control)  DGFC_EMPT_CTRL_CALL="$(echo "${geted_item}" | awk '{ $6 }')"
                         if [ ! -z "${DGFC_EMPT_CTRL_CALL}" ]
                            then
                                 echo "Line of ${function_name} : [ ${geted_item} ] "
@@ -100,7 +100,7 @@ function document_get_deps
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
 document_filter_dep_tmp_cat
 
@@ -115,9 +115,9 @@ for DGD_get_line in $( cat ${Base_Catalog_function} | sort -u )
      DGD_Lib_name="$( echo ${DGD_get_line} | awk -F ";" '{ echo $2 }' )"
 
      PRINT_MSG=" Curent function : [ ${DGD_function_name} ]"
-     MSG_DISPLAY "Debug5" "${PRINT_MSG}"
+     set_message "Debug5" "${PRINT_MSG}"
      PRINT_MSG=" Current Lib     : [ ${DGD_Lib_name} ]"
-     MSG_DISPLAY "Debug5" "${PRINT_MSG}"
+     set_message "Debug5" "${PRINT_MSG}"
      PRINT_MSG=" function Number : [ ${External_Return_Counter} of ${Number_Of_Func}  ] "
      for DGD_Check_Item in $( cat ${Base_Catalog_function_TMP_dep} | grep "${DGD_Lib_name}" | grep "function;${DGD_function_name}" | awk -F ";" '{ echo $6 }' )
          do
@@ -135,7 +135,7 @@ for DGD_get_line in $( cat ${Base_Catalog_function} | sort -u )
                                Depend_On_Item="$(eval cat ${Base_Catalog_function} | grep -w ${DGB_DEP} )"
                                printable_function_name="\"${function_name}\""
                                printable_Depend_On_Item="\"${Depend_On_Item}\""
-                               MSG_DISPLAY "Debug4" "function ${printable_function_name} Depend on : [ ${printable_Depend_On_Item} ] "
+                               set_message "Debug4" "function ${printable_function_name} Depend on : [ ${printable_Depend_On_Item} ] "
                                FONT_set_Basic_Font
                                Depend_On_Item="dependonlib;$(echo ${Depend_On_Item} | awk -F\; '{ echo $2}');dependonfunction;$(echo ${Depend_On_Item} | awk -F\; '{ echo $4 }')"
                                echo "         ${Depend_On_Item}         "
@@ -153,14 +153,14 @@ Function_PATH="$( dirname ${Function_PATH} )"
 }
 
 
-function Document_get_called_function
+function document_get_called_function
 {
 #|# Internal_item_checked                              : Use this var to set the item to check if it s a function call
 #|# ${1}                                               : Use this var to set Internal_item_checked
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 Internal_item_checked=${1}
 
 if [ -z "${Iterate_Document_get_called_function}" ]
@@ -181,7 +181,7 @@ case ${Internal_item_checked} in
                                      Depend_On_Item="$(cat ${Base_Catalog_function} | grep -w "${Internal_item_checked}")"
                                      printable_function_name="\"${function_name}\""
                                      printable_Depend_On_Item="\"${Depend_On_Item}\""
-                                     MSG_DISPLAY "Debug4" "function ${printable_function_name} Depend on : [ ${printable_Depend_On_Item} ] "
+                                     set_message "Debug4" "function ${printable_function_name} Depend on : [ ${printable_Depend_On_Item} ] "
                                      FONT_set_Basic_Font
                                      Depend_On_Item="$(echo ${Depend_On_Item} | awk -F\; '{ echo "dependonlib;" $2 ";dependonfunction;" $4 }')"
                                      echo "librairy;${libs};funtion;${functions_name};${Depend_On_Item}" >> ${Base_Catalog_function_depend}
@@ -212,7 +212,7 @@ function document_Catalogue_refiner
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 SYSTEM_VAR_RANDOMIZER
 
 for items in $( cat ${Base_Dir_Scripts_CNF}/document.cnf | grep "Is_A_Catalog_FLAG" | awk -F "=" '{ echo "\$\{" $1 "\}" }')
@@ -240,7 +240,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Document_Parse_Cat_Funtions
+function document_Parse_Cat_Funtions
 {
 #|# Var to set  : None
 #|#             : Use this var to set
@@ -278,9 +278,9 @@ function document_Catalogue_to_XML
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 
-File_Read "autodoc_filter_line_Printer " < ${Base_Catalog_function_depend}
+do_file_read "autodoc_filter_line_Printer " < ${Base_Catalog_function_depend}
 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
@@ -292,10 +292,10 @@ function document_Get_function_By_file
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 Internal_Geted_line="${1}"
 
-File_Read "autodoc_filter_line_Printer " < ${Base_Catalog_function_depend}
+do_file_read "autodoc_filter_line_Printer " < ${Base_Catalog_function_depend}
 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
@@ -316,23 +316,23 @@ function document_Generate
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug10" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug10" "Current Stack : [ ${Function_PATH} ] "
 TOPrintFormat="${1}"
 
 
 autodoc_filter_line_BASE_PATH
 
 case ${TOPrintFormat} in
-	XML|xml) MSG_DISPLAY "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
+	XML|xml) set_message "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
 	         Document_Print_global_Print_xml
 	         ;;
-	TXT|txt) MSG_DISPLAY "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
+	TXT|txt) set_message "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
 	         Document_Print_global_Print_txt
 	         ;;
-	MANHTML|manhtml) MSG_DISPLAY "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
+	MANHTML|manhtml) set_message "Info" "Output format for documentation : [ ${TOPrintFormat} ] "
 	         Document_Print_function_man_page
 	         ;;
-          *) MSG_DISPLAY "ErrorN" "Unsupported Output format for documentation : [ ${TOPrintFormat} ] " "2"
+          *) set_message "ErrorN" "Unsupported Output format for documentation : [ ${TOPrintFormat} ] " "2"
              ;;
 esac
 

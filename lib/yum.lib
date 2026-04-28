@@ -30,17 +30,17 @@ function yum_Install_Package
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "
 
 YumPackageToInstall=${1}
-Empty_Var_Control "${YumPackageToInstall}" "YumPackageToInstall" "ErrorN" "2" "package name is a mandatory parameter "
+do_empty_var_control "${YumPackageToInstall}" "YumPackageToInstall" "ErrorN" "2" "package name is a mandatory parameter "
 yum_check_Package ${YumPackageToInstall}
 if [ "${YumPackageStatus}" = "NOT INSTALLED" ] 
 then 
     yum install ${YumPackageToInstall} -y> /dev/null 2>&1 
-    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "4" "" "" "nomsg"
+    do_error_control "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "4" "" "" "nomsg"
 else
-    MSG_DISPLAY "Debug" "Package ${YumPackageStatus} : [ INSTALLED ] "
+    set_message "Debug" "Package ${YumPackageStatus} : [ INSTALLED ] "
 fi
 
 ############### Stack_TRACE_BUILDER ################
@@ -62,16 +62,16 @@ function yum_UnInstall_Package
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "
 
 YumPackageToUnInstall=${1}
 yum_check_Package ${YumPackageToUnInstall}
 if [ "${YumPackageStatus}" = "INSTALLED" ] 
 then 
     yum erase  ${YumPackageToUnInstall} -y -q> /dev/null 2>&1
-    CTRL_Result_func "${?}" "status for package : [ ${YumPackageToUnInstall}] " "Can t uninstall" "4" "" "" "nomsg"
+    do_error_control "${?}" "status for package : [ ${YumPackageToUnInstall}] " "Can t uninstall" "4" "" "" "nomsg"
 else
-    MSG_DISPLAY "Debug" "Package ${YumPackageStatus} : [ NOT INSTALLED ] "
+    set_message "Debug" "Package ${YumPackageStatus} : [ NOT INSTALLED ] "
 fi
 yum update -y> /dev/null 2>&1 1> /dev/null 
 ############### Stack_TRACE_BUILDER ################
@@ -91,14 +91,14 @@ function yum_check_Package
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "
 
 YumPackageToCheck=${1}
 
 
-Empty_Var_Control "${YumPackageToCheck}" "YumPackageToCheck" "ErrorN" "2" "package name is a mandatory parameter "
+do_empty_var_control "${YumPackageToCheck}" "YumPackageToCheck" "ErrorN" "2" "package name is a mandatory parameter "
 yum list installed ${YumPackageToCheck} -q> /dev/null 2>&1
-CTRL_Result_func "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "0" "yum_check_Package_sub_u" "yum_check_Package_sub_i" "nomsg"
+do_error_control "${?}" "status for package : [ ${YumPackageToCheck}] " "Not Installed" "0" "yum_check_Package_sub_u" "yum_check_Package_sub_i" "nomsg"
 
 
 ############### Stack_TRACE_BUILDER ################
@@ -108,7 +108,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 
 function yum_check_Package_sub_i
 {
-#|# Description : This function is used with CTRL_Result_func as success or error result
+#|# Description : This function is used with do_error_control as success or error result
 #|#
 #|# Var to set  : None             
 #|#
@@ -118,7 +118,7 @@ function yum_check_Package_sub_i
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "
 
 YumPackageStatus="INSTALLED"
 
@@ -129,7 +129,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 
 function yum_check_Package_sub_u
 {
-#|# Description : This function is used with CTRL_Result_func as success or error result
+#|# Description : This function is used with do_error_control as success or error result
 #|#
 #|# Var to set  : None             
 #|#
@@ -139,7 +139,7 @@ function yum_check_Package_sub_u
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug6" "Current Stack : [ ${Function_PATH} ] "
 
 YumPackageStatus="NOT INSTALLED"
 

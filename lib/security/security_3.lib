@@ -14,7 +14,7 @@
 #      this lib is for RED-HAT based system
 Report_result="/tmp/report"
 
-function 3.1_Set_Daemon_umask ()
+function 3.1_Set_Daemon_umask()
 {
 	#|# Description :  3.1 Set Daemon umask
 	#|# Var to set  : 
@@ -25,7 +25,7 @@ function 3.1_Set_Daemon_umask ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -62,7 +62,7 @@ function 3.1_Set_Daemon_umask ()
 	####################################################
 }
 
-function 3.1.1_Remove_X_Windows ()
+function 3.1.1_Remove_X_Windows()
 {
 	#|# Description :  3.1 Set Daemon umask
 	#|# Var to set  : 
@@ -73,7 +73,7 @@ function 3.1.1_Remove_X_Windows ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -103,7 +103,7 @@ function 3.1.1_Remove_X_Windows ()
 	####################################################
 }
 
-function 3.2_Disable_Avahi_Server ()
+function 3.2_Disable_Avahi_Server()
 {
 	#|# Description :  3.2 Disable Avahi Server
 	#|# Var to set  : 
@@ -114,7 +114,7 @@ function 3.2_Disable_Avahi_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -145,7 +145,7 @@ function 3.2_Disable_Avahi_Server ()
 	####################################################
 }
 
-function 3.2.1_Disable_Print_Server_CUPS ()
+function 3.2.1_Disable_Print_Server_CUPS()
 {
 	#|# Description :  3.2.1 Disable Print Server -CUPS
 	#|# Var to set  : 
@@ -156,7 +156,7 @@ function 3.2.1_Disable_Print_Server_CUPS ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -187,7 +187,7 @@ function 3.2.1_Disable_Print_Server_CUPS ()
 	####################################################
 }
 
-function 3.3_Remove_DHCP_Server ()
+function 3.3_Remove_DHCP_Server()
 {
 	#|# Description :  3.3 Remove DHCP Server
 	#|# Var to set  : 
@@ -198,7 +198,7 @@ function 3.3_Remove_DHCP_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -229,7 +229,7 @@ function 3.3_Remove_DHCP_Server ()
 	####################################################
 }
 
-function 3.4_Remove_LDAP ()
+function 3.4_Remove_LDAP()
 {
 	#|# Description :  3.4       Remove LDAP
 	#|# Var to set  : 
@@ -240,7 +240,7 @@ function 3.4_Remove_LDAP ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -272,7 +272,7 @@ function 3.4_Remove_LDAP ()
 	####################################################
 }
 
-function 3.5_Disable_NFS_and_RPC ()
+function 3.5_Disable_NFS_and_RPC()
 {
 	#|# Description :  3.5 Disable NFS and RPC
 	#|# Var to set  : 
@@ -283,7 +283,7 @@ function 3.5_Disable_NFS_and_RPC ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -323,7 +323,7 @@ function 3.5_Disable_NFS_and_RPC ()
 	####################################################
 }
 
-function 3.6_Remove_DNS_Server ()
+function 3.6_Remove_DNS_Server()
 {
 	#|# Description :  3.6 Remove DNS Server
 	#|# Var to set  : 
@@ -334,7 +334,7 @@ function 3.6_Remove_DNS_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -364,7 +364,7 @@ function 3.6_Remove_DNS_Server ()
 	####################################################
 }
 
-function 3.7_Remove_FTP_Server ()
+function 3.7_Remove_FTP_Server()
 {
 	#|# Description :  3.7 Remove FTP Server
 	#|# Var to set  : 
@@ -375,7 +375,7 @@ function 3.7_Remove_FTP_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -405,7 +405,7 @@ function 3.7_Remove_FTP_Server ()
 	####################################################
 }
 
-function 3.6_Remove_HTTP_Server ()
+function 3.6_Remove_HTTP_Server()
 {
 	#|# Description :  3.6 Remove HTTP Server
 	#|# Var to set  : 
@@ -416,7 +416,7 @@ function 3.6_Remove_HTTP_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -446,7 +446,7 @@ function 3.6_Remove_HTTP_Server ()
 	####################################################
 }
 
-function 3.8_Remove_Dovecot_IMAP_and_POP3_services ()
+function 3.8_Remove_Dovecot_IMAP_and_POP3_services()
 {
 	#|# Description :  3.8 Remove Dovecot (IMAP and POP3 services)
 	#|# Var to set  : 
@@ -457,7 +457,7 @@ function 3.8_Remove_Dovecot_IMAP_and_POP3_services ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -487,7 +487,7 @@ function 3.8_Remove_Dovecot_IMAP_and_POP3_services ()
 	####################################################
 }
 
-function 3.9_Remove_Samba ()
+function 3.9_Remove_Samba()
 {
 	#|# Description :  3.9 Remove Samba
 	#|# Var to set  : 
@@ -498,7 +498,7 @@ function 3.9_Remove_Samba ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -528,7 +528,7 @@ function 3.9_Remove_Samba ()
 	####################################################
 }
 
-function 3.10_Remove_HTTP_Proxy_Server ()
+function 3.10_Remove_HTTP_Proxy_Server()
 {
 	#|# Description :  3.10 Remove HTTP Proxy Server
 	#|# Var to set  : 
@@ -539,7 +539,7 @@ function 3.10_Remove_HTTP_Proxy_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -569,7 +569,7 @@ function 3.10_Remove_HTTP_Proxy_Server ()
 	####################################################
 }
 
-function 3.11_Remove_SNMP_Server ()
+function 3.11_Remove_SNMP_Server()
 {
 	#|# Description :  3.11_Remove_SNMP_Server
 	#|# Var to set  : 
@@ -580,7 +580,7 @@ function 3.11_Remove_SNMP_Server ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -610,7 +610,7 @@ function 3.11_Remove_SNMP_Server ()
 	####################################################
 }
 
-function 3.12_Configure_Network_Time_Protocol_NTP ()
+function 3.12_Configure_Network_Time_Protocol_NTP()
 {
 	#|# Description :  3.11_Remove_SNMP_Server
 	#|# Var to set  : 
@@ -621,7 +621,7 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"
@@ -672,7 +672,7 @@ function 3.12_Configure_Network_Time_Protocol_NTP ()
 	####################################################
 }
 
-function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode ()
+function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode()
 {
 	#|# Description :  3.11_Remove_SNMP_Server
 	#|# Var to set  : 
@@ -683,7 +683,7 @@ function 3.13_Configure_Mail_Transfer_Agent_for_Local_Only_Mode ()
 	############ STACK_TRACE_BUILDER #####################
 	Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 	######################################################
-	MSG_DISPLAY "Debug6" "Current Stack : [ ${Function_PATH} ] " 
+	set_message "Debug6" "Current Stack : [ ${Function_PATH} ] " 
 	
 	_mode="${1}" 
 	_callback="${FUNCNAME[0]}"

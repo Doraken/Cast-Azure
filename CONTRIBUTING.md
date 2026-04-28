@@ -179,7 +179,7 @@ function mafonction() {
    ```bash
    # ✓ BON
    commande
-   CTRL_Result_func "${?}" "description" "Failled" "0" "" ""
+   do_error_control "${?}" "description" "Failled" "0" "" ""
    
    # ✗ MAUVAIS
    commande  # Pas de vérification
@@ -189,10 +189,10 @@ function mafonction() {
 
    ```bash
    # Utiliser les fonctions du framework
-   MSG_DISPLAY "Info" "Message d'information"
-   MSG_DISPLAY "ErrorN" "Message d'erreur" "1"
-   Directory_CRT "/chemin/repertoire"
-   CTRL_Result_func "${?}" "operation" "Failled" "0" "" ""
+   set_message "Info" "Message d'information"
+   set_message "ErrorN" "Message d'erreur" "1"
+   set_new_directory "/chemin/repertoire"
+   do_error_control "${?}" "operation" "Failled" "0" "" ""
    ```
 
 ### Modules de sécurité
@@ -213,7 +213,7 @@ Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
     local _mode="${1:-check}"
     local _rule_num="1.2.3"
     
-    MSG_DISPLAY "Info" "Rule : ${_rule_num} - Ma Règle"
+    set_message "Info" "Rule : ${_rule_num} - Ma Règle"
     
     case "${_mode}" in
         "check")

@@ -4,12 +4,12 @@
          <PRE><H2>SYNOPSIS</H2></PRE>
  <B>                                 
      Var to set :
-     LVMDD_Name_lv : Use this var to set ( Mandatory )
-     LVMDD_VG_NAME : Use this var to set ( Mandatory )
-     ${1} : Use this var to set [ LVMDD_Name_lv ]
-     ${2} : Use this var to set [ LVMDD_VG_NAME ]
+     _lv_name : Use this var to set ( Mandatory )
+     _vg_name : Use this var to set ( Mandatory )
+     ${1} : Use this var to set [ _lv_name ]
+     ${2} : Use this var to set [ _vg_name ]
     
-     Base usage : LVM_Device_delete "LVMDD_Name_lv" "LVMDD_VG_NAME"
+     Base usage : LVM_Device_delete "_lv_name" "_vg_name"
     
      Description : This function is used to delete lvm logical volume
     

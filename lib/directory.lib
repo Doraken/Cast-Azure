@@ -15,31 +15,31 @@
 
 
 
-function Dir_null_or_slash ()
+function do_check_dir_null_or_slash()
 {
-#|# Description : This function is used with CTRL_Result_func as success or error result
+#|# Description : This function is used with do_error_control as success or error result
 #|#
 #|# Var to set  : 
 #|#                 Path_To_test : Use this var to set the path to test 
 #|#                 ${1}         : use this var to set Path_To_test             
 #|#
-#|# Base usage  : Dir_null_or_slash  "My_directory_path"
+#|# Base usage  : Do_check_dir_null_or_slash  "My_directory_path"
 #|#
 #|# Send Back   : error check 
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
 Path_To_test=${1}
 
 if [ -z "${Path_To_test}" ] 
    then 
-          MSG_DISPLAY "ErrorN" " Error ON PATH  : [ Value is NULL ]" "1"
+          set_message "ErrorN" " Error ON PATH  : [ Value is NULL ]" "1"
    else 
        if [ "${Path_To_test}" = "/" ]
           then 
-                  MSG_DISPLAY "ErrorN" " Error ON PATH  : [ Value is / ]" "1"
+                  set_message "ErrorN" " Error ON PATH  : [ Value is / ]" "1"
       fi
 fi
 ############### Stack_TRACE_BUILDER ################
@@ -47,7 +47,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Directory_CRT ()
+function set_new_directory()
 {
 #|# Description : This function is used create a directory if is not present
 #|#
@@ -55,32 +55,32 @@ function Directory_CRT ()
 #|#                 Base_param_Dir_To_Create    : use this var to set which irectory to control and create
 #|#                 ${1}                        : use this var to set Base_param_Dir_To_Create        
 #|#
-#|# Base usage  : Directory_CRT "My_Directory"
+#|# Base usage  : set_new_directory "My_Directory"
 #|#
 #|# Send Back   : new directory 
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ] "
 
 Base_param_Dir_To_Create="${1}"
 
-Dir_null_or_slash ${Base_param_Dir_To_Create}
-#MSG_DISPLAY "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
+Do_check_dir_null_or_slash ${Base_param_Dir_To_Create}
+#set_message "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
 if [ -d "${Base_param_Dir_To_Create}" ]
    then 
 	T=1
-  #     MSG_DISPLAY "EdSMessage" "Present"
+  #     set_message "EdSMessage" "Present"
     else 
         mkdir -p ${Base_param_Dir_To_Create}
         Return_code=$?
         if [ "${Return_code}" = "0" ]
            then
 				t=1
-   #            MSG_DISPLAY "EdSMessage" "CREATED"
+   #            set_message "EdSMessage" "CREATED"
            else
-    #           MSG_DISPLAY "EdEMessage" "Can't be created"
-               MSG_DISPLAY "ErrorN" " can't create directory : [ ${Base_param_Dir_To_Create} ]" "1"
+    #           set_message "EdEMessage" "Can't be created"
+               set_message "ErrorN" " can't create directory : [ ${Base_param_Dir_To_Create} ]" "1"
          fi
 fi
 ############### Stack_TRACE_BUILDER ################
@@ -88,7 +88,7 @@ Function_PATH="$( dirname ${Function_PATH} )"
 ####################################################
 }
 
-function Directory_Exist ()
+function Directory_Exist()
 {
 #|# Description : This function is used to validate that a directory exist or not.
 #|#
@@ -102,15 +102,15 @@ function Directory_Exist ()
 ############ STACK_TRACE_BUILDER #####################
 Function_PATH="${Function_PATH}/${FUNCNAME[0]}"
 ######################################################
-MSG_DISPLAY "Debug4" "Current Stack : [ ${Function_PATH} ] "
+set_message "Debug4" "Current Stack : [ ${Function_PATH} ] "
 Base_Param_Dir_To_TEST="${1}"
-MSG_DISPLAY "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
+set_message "StMessage" "Checking  directory : [ ${Base_param_Dir_To_Create} ] "
 if [ -d "${Base_Param_Dir_To_TEST}" ]
    then 
-       MSG_DISPLAY "EdSMessage" "FOUND" 
+       set_message "EdSMessage" "FOUND" 
    else 
-       MSG_DISPLAY "EdSMessage" "Not FOUND" 
-       MSG_DISPLAY "ErrorN" " Directory : [ Not PRESENT ]" "1"
+       set_message "EdSMessage" "Not FOUND" 
+       set_message "ErrorN" " Directory : [ Not PRESENT ]" "1"
 fi 
 ############### Stack_TRACE_BUILDER ################
 Function_PATH="$( dirname ${Function_PATH} )"
